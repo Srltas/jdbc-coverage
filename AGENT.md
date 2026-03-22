@@ -87,9 +87,13 @@
 - [x] HTML report (kotlinx.html + Chart.js) — single self-contained file with donut/bar charts
 - [x] JDBC version breakdown in reports (console + HTML)
 
-### v0.3 — Comparison
-- [ ] Multi-driver source comparison
-- [ ] Result diff against previous analysis
+### v0.3 — Comparison ✅ Complete
+- [x] `diff` command: compare baseline JSON vs current source (or two JSON reports)
+- [x] `compare` command: side-by-side multi-driver source comparison
+- [x] Console output for diff (improved/regressed/still missing)
+- [x] Console output for comparison (coverage table + method matrix)
+- [x] JSON output for both diff and comparison reports
+- [x] Custom Jackson serializer for ImplementationStatus (enables JSON round-trip)
 
 ### v1.0 — Full Feature
 - [ ] JAR analysis (Reflection-based)
