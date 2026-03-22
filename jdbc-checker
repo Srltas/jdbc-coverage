@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+#
+# jdbc-checker — JDBC Compliance Checker CLI wrapper
+#
+# Usage:
+#   ./jdbc-checker analyze <source> [options]
+#   ./jdbc-checker diff <baseline.json> <current> [options]
+#   ./jdbc-checker compare <source1> <source2> [options]
+#   ./jdbc-checker extract-spec <jdk-source> [options]
+#
+# Run './jdbc-checker --help' for full usage information.
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+JAR_DIR="$SCRIPT_DIR/app/build/libs"
+JAR_NAME="jdbc-checker-1.0.0-all.jar"
+JAR_PATH="$JAR_DIR/$JAR_NAME"
+
+if [[ ! -f "$JAR_PATH" ]]; then
+    echo "Fat JAR not found: $JAR_PATH"
+    echo "Building..."
+    "$SCRIPT_DIR/gradlew" -p "$SCRIPT_DIR" fatJar -q
+fi
+
+exec java -jar "$JAR_PATH" "$@"

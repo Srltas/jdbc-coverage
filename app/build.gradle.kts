@@ -52,6 +52,8 @@ tasks.jar {
 }
 
 tasks.register<Jar>("fatJar") {
+    archiveBaseName = "jdbc-checker"
+    archiveVersion = "1.0.0"
     archiveClassifier = "all"
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
