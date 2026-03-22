@@ -43,9 +43,10 @@
 
 ### 4. Inheritance Chain Resolution
 - **Auto-discovery**: automatically finds classes that implement `java.sql.*` / `javax.sql.*`
-- When multiple classes implement the same interface, selects the **most concrete (leaf) class** in the hierarchy
+- Selection strategy: prefer classes that **directly declare `implements <Interface>`**, filter out wrapper/XA/pooling patterns, break ties by method count
 - `--entry-class` option available for manual override
 - Uses JavaParser Symbol Solver to resolve the full inheritance chain
+- Implementation detector walks up the parent class chain across files
 
 ### 5. Report Output
 - **Console**: per-interface coverage summary + list of unimplemented methods
@@ -72,19 +73,19 @@
 
 ## Roadmap
 
-### v0.1 — MVP
+### v0.1 — MVP ✅ Complete
 - [x] Gradle project initial structure
 - [x] JDBC spec auto-extractor (OpenJDK source → YAML)
-- [ ] Static analysis engine (Level 1 detection)
-- [ ] Inheritance chain auto-discovery and resolution
-- [ ] Console report output
-- [ ] JSON report output
-- [ ] Validation against real CUBRID JDBC source
+- [x] Static analysis engine (Level 1 detection)
+- [x] Inheritance chain auto-discovery and resolution
+- [x] Console report output
+- [x] JSON report output
+- [x] Validation against real CUBRID JDBC source (62.3% coverage, 480/771 methods)
 
-### v0.2 — Enhanced Analysis
-- [ ] Level 2 detailed detection
-- [ ] HTML report (kotlinx.html + Chart.js)
-- [ ] Analysis result caching
+### v0.2 — Enhanced Analysis ✅ Complete
+- [x] Level 2 detailed detection in console/JSON reports
+- [x] HTML report (kotlinx.html + Chart.js) — single self-contained file with donut/bar charts
+- [x] JDBC version breakdown in reports (console + HTML)
 
 ### v0.3 — Comparison
 - [ ] Multi-driver source comparison
