@@ -1,15 +1,27 @@
 package com.jdbcchecker.spec
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.jdbcchecker.model.JdbcVersion
 import com.jdbcchecker.model.MethodSignature
+import java.io.InputStream
+import java.nio.file.Files
+import java.nio.file.Path
+import kotlin.io.path.extension
+import kotlin.io.path.isRegularFile
+import kotlin.io.path.nameWithoutExtension
 
 /**
  * Loads JDBC specification method definitions from YAML files.
  *
- * Spec data is stored in resources/jdbc-spec/ directory,
- * organized by interface name (e.g., java.sql.Connection.yaml).
+ * Supports two modes:
+ * - Bundled resources: loads from resources/jdbc-spec/ (default)
+ * - External directory: loads from a specified directory path
  */
 class JdbcSpecLoader {
+
+    private val yamlMapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
 
     /**
      * Load all JDBC spec methods from bundled YAML resources.
@@ -19,7 +31,27 @@ class JdbcSpecLoader {
     }
 
     /**
-     * Load spec methods for a specific interface.
+     * Load all JDBC spec methods from an external directory.
+     */
+    fun loadAllFromDirectory(specDir: Path): List<MethodSignature> {
+        if (!Files.isDirectory(specDir)) {
+            System.err.println("Warning: Spec directory not found: $specDir")
+            return loadAll() // fallback to bundled resources
+        }
+
+        return Files.list(specDir)
+            .filter { it.isRegularFile() && it.extension == "yaml" }
+            .filter { !it.nameWithoutExtension.startsWith("_") }
+            .map { file ->
+                val interfaceName = file.nameWithoutExtension
+                Files.newInputStream(file).use { parseYaml(interfaceName, it) }
+            }
+            .flatMap { it.stream() }
+            .toList()
+    }
+
+    /**
+     * Load spec methods for a specific interface from bundled resources.
      */
     fun loadInterface(interfaceName: String): List<MethodSignature> {
         val resourcePath = "/jdbc-spec/$interfaceName.yaml"
@@ -29,9 +61,29 @@ class JdbcSpecLoader {
         return stream.use { parseYaml(interfaceName, it) }
     }
 
-    private fun parseYaml(interfaceName: String, input: java.io.InputStream): List<MethodSignature> {
-        // TODO: Implement YAML parsing with Jackson
-        return emptyList()
+    /**
+     * Parse a YAML spec file into MethodSignature objects.
+     */
+    internal fun parseYaml(interfaceName: String, input: InputStream): List<MethodSignature> {
+        val tree = yamlMapper.readTree(input) ?: return emptyList()
+        val methodsNode = tree.get("methods") ?: return emptyList()
+
+        return methodsNode.mapNotNull { methodNode ->
+            val name = methodNode.get("name")?.asText() ?: return@mapNotNull null
+            val params = methodNode.get("params")
+                ?.map { it.asText() }
+                ?: emptyList()
+            val returns = methodNode.get("returns")?.asText() ?: "void"
+            val since = methodNode.get("since")?.asText() ?: "1.0"
+
+            MethodSignature(
+                interfaceName = interfaceName,
+                methodName = name,
+                parameterTypes = params,
+                returnType = returns,
+                jdbcVersion = JdbcVersion.fromString(since) ?: JdbcVersion.V1_0,
+            )
+        }
     }
 
     companion object {
