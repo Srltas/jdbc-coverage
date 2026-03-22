@@ -1,0 +1,20 @@
+# Gradle
+.gradle
+build
+.kotlin
+
+# IDE
+.idea
+*.iml
+.vscode
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Runtime
+*.log
+*.tmp
+
+# Extracted JDK sources (regeneratable)
+jdk-sources/
