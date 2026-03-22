@@ -19,6 +19,7 @@ dependencies {
     // YAML/JSON
     implementation(libs.jackson.kotlin)
     implementation(libs.jackson.yaml)
+    implementation(libs.jackson.jsr310)
 
     // HTML report (v0.2)
     implementation(libs.kotlinx.html)
