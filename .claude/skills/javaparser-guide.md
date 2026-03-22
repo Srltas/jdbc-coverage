@@ -12,18 +12,17 @@ trigger: always
 
 ## Purpose
 
-JavaParser + Symbol Solver를 사용한 소스 코드 분석 패턴을 제공한다.
+Provide ready-to-use patterns for JavaParser + Symbol Solver-based source code analysis.
 
 ## Dependencies
 
 ```kotlin
 // build.gradle.kts
 dependencies {
+    // This single dependency includes both javaparser-core and symbol-solver
     implementation("com.github.javaparser:javaparser-symbol-solver-core:3.26.4")
 }
 ```
-
-이 하나의 의존성이 javaparser-core + symbol-solver를 모두 포함한다.
 
 ## Symbol Solver Setup
 
@@ -34,12 +33,10 @@ import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSol
 import com.github.javaparser.symbolsolver.resolution.typesolvers.JavaParserTypeSolver
 import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver
 
-fun createParser(sourcePaths: List<Path>): Unit {
+fun configureParser(sourcePaths: List<Path>) {
     val typeSolver = CombinedTypeSolver().apply {
-        // JDK types (java.sql.*, etc.)
-        add(ReflectionTypeSolver())
-        // Project source paths
-        sourcePaths.forEach { add(JavaParserTypeSolver(it)) }
+        add(ReflectionTypeSolver())             // JDK types (java.sql.*, etc.)
+        sourcePaths.forEach { add(JavaParserTypeSolver(it)) }  // Project sources
     }
 
     val symbolSolver = JavaSymbolSolver(typeSolver)
@@ -48,9 +45,9 @@ fun createParser(sourcePaths: List<Path>): Unit {
 ```
 
 ### TypeSolver Priority
-1. `ReflectionTypeSolver` — JDK 클래스 해석 (java.sql.Connection 등)
-2. `JavaParserTypeSolver` — 분석 대상 소스 해석
-3. `JarTypeSolver` — (향후) 외부 라이브러리 JAR 의존성 해석
+1. `ReflectionTypeSolver` — resolves JDK classes (java.sql.Connection, etc.)
+2. `JavaParserTypeSolver` — resolves classes in the source under analysis
+3. `JarTypeSolver` — (future) resolves external library JAR dependencies
 
 ## Common AST Patterns
 
@@ -64,7 +61,7 @@ fun findImplementors(cu: CompilationUnit, interfaceName: String): List<ClassOrIn
         }
 ```
 
-### Find with Symbol Solver (resolves full qualified names)
+### Find JDBC implementors using Symbol Solver (resolves fully qualified names)
 
 ```kotlin
 fun findJdbcImplementors(cu: CompilationUnit): List<ClassOrInterfaceDeclaration> =
@@ -72,28 +69,15 @@ fun findJdbcImplementors(cu: CompilationUnit): List<ClassOrInterfaceDeclaration>
         .filter { classDecl ->
             try {
                 val resolved = classDecl.resolve()
-                resolved.allInterfaces.any {
-                    it.qualifiedName.startsWith("java.sql.") ||
-                    it.qualifiedName.startsWith("javax.sql.")
+                // Use getAllAncestors() — allInterfaces is not available on ResolvedReferenceTypeDeclaration
+                resolved.getAllAncestors().any { ancestor ->
+                    ancestor.qualifiedName.startsWith("java.sql.") ||
+                    ancestor.qualifiedName.startsWith("javax.sql.")
                 }
             } catch (e: Exception) {
-                false // Symbol resolution failed — skip
+                false // Symbol resolution failed — skip silently
             }
         }
-```
-
-### Get all methods of a class (including inherited)
-
-```kotlin
-fun getAllMethods(classDecl: ClassOrInterfaceDeclaration): List<MethodDeclaration> {
-    // Direct methods only
-    val directMethods = classDecl.methods
-
-    // Including inherited (requires Symbol Solver)
-    val resolved = classDecl.resolve()
-    val allMethods = resolved.allMethods // includes inherited
-    return directMethods
-}
 ```
 
 ### Check method body content
@@ -103,27 +87,23 @@ fun analyzeMethodBody(method: MethodDeclaration): ImplementationStatus {
     val body = method.body.orElse(null) ?: return ImplementationStatus.NotFound
 
     val statements = body.statements
-    if (statements.isEmpty()) return ImplementationStatus.Stub
+    if (statements.isEmpty()) return ImplementationStatus.ReturnsDefault
 
-    // Single statement analysis
     if (statements.size == 1) {
         val stmt = statements[0]
         when {
             stmt.isThrowStmt -> {
-                val throwExpr = stmt.asThrowStmt().expression
+                val throwExpr = stmt.asThrowStmt().expression.toString()
                 return when {
-                    throwExpr.toString().contains("UnsupportedOperationException") ->
-                        ImplementationStatus.ThrowsUnsupported
-                    throwExpr.toString().contains("SQLException") ->
-                        ImplementationStatus.ThrowsSqlException
-                    else -> ImplementationStatus.Stub
+                    "UnsupportedOperationException" in throwExpr -> ImplementationStatus.ThrowsUnsupported
+                    "SQLException" in throwExpr -> ImplementationStatus.ThrowsSqlException
+                    else -> ImplementationStatus.ThrowsUnsupported
                 }
             }
             stmt.isReturnStmt -> {
                 val expr = stmt.asReturnStmt().expression.orElse(null)
-                if (expr == null || isDefaultValue(expr)) {
-                    return ImplementationStatus.ReturnsDefault
-                }
+                if (expr == null || isDefaultValue(expr)) return ImplementationStatus.ReturnsDefault
+                if (expr.isMethodCallExpr) return ImplementationStatus.Delegates
             }
         }
     }
@@ -135,8 +115,7 @@ fun isDefaultValue(expr: Expression): Boolean = when {
     expr.isNullLiteralExpr -> true
     expr.isBooleanLiteralExpr -> !expr.asBooleanLiteralExpr().value
     expr.isIntegerLiteralExpr -> expr.asIntegerLiteralExpr().value == "0"
-    expr.isLongLiteralExpr -> expr.asLongLiteralExpr().value == "0L"
-    expr.isDoubleLiteralExpr -> expr.asDoubleLiteralExpr().value == "0.0"
+    expr.isLongLiteralExpr -> expr.asLongLiteralExpr().value in listOf("0L", "0l", "0")
     expr.isStringLiteralExpr -> expr.asStringLiteralExpr().value.isEmpty()
     else -> false
 }
@@ -145,29 +124,18 @@ fun isDefaultValue(expr: Expression): Boolean = when {
 ### Method signature matching
 
 ```kotlin
-data class MethodSignature(
-    val name: String,
-    val parameterTypes: List<String>,
-)
-
-fun MethodDeclaration.toSignature(): MethodSignature =
-    MethodSignature(
-        name = nameAsString,
-        parameterTypes = parameters.map { it.type.asString() },
-    )
-
 fun matchesSpec(implMethod: MethodDeclaration, specMethod: MethodSignature): Boolean =
-    implMethod.nameAsString == specMethod.name &&
+    implMethod.nameAsString == specMethod.methodName &&
     implMethod.parameters.size == specMethod.parameterTypes.size &&
     implMethod.parameters.zip(specMethod.parameterTypes).all { (param, specType) ->
         param.type.asString() == specType ||
-        param.type.resolve().describe() == specType  // Fully qualified match
+        param.type.resolve().describe() == specType  // fully qualified fallback
     }
 ```
 
 ## Traversal Patterns
 
-### VoidVisitorAdapter (when you need side effects)
+### VoidVisitorAdapter (side-effect traversal)
 
 ```kotlin
 class MethodCollector : VoidVisitorAdapter<MutableList<MethodDeclaration>>() {
@@ -177,25 +145,24 @@ class MethodCollector : VoidVisitorAdapter<MutableList<MethodDeclaration>>() {
     }
 }
 
-// Usage
 val methods = mutableListOf<MethodDeclaration>()
 cu.accept(MethodCollector(), methods)
 ```
 
-### GenericVisitorAdapter (when you need return values)
+### GenericVisitorAdapter (value-returning traversal)
 
 ```kotlin
 class PublicMethodCounter : GenericVisitorAdapter<Int, Void?>() {
-    override fun visit(n: ClassOrInterfaceDeclaration, arg: Void?): Int {
-        return n.methods.count { it.isPublic }
-    }
+    override fun visit(n: ClassOrInterfaceDeclaration, arg: Void?): Int =
+        n.methods.count { it.isPublic }
 }
 ```
 
 ## Common Pitfalls
 
-1. **Symbol Solver can throw** — Always wrap `resolve()` calls in try-catch
-2. **Generic types** — `List<String>` vs `List` — use `type.resolve().describe()` for full type
-3. **Inner classes** — `findAll()` recurses into inner classes; filter with `isTopLevelType` if needed
-4. **Default methods** — Java 8+ interface default methods have a body; don't confuse with class methods
-5. **StaticJavaParser is global** — Symbol Solver configuration is static; set it once at startup
+1. **Symbol Solver throws exceptions** — always wrap `resolve()` in try-catch; fail silently with fallback logic
+2. **`allInterfaces` does not exist** — use `getAllAncestors()` on `ResolvedReferenceTypeDeclaration` instead
+3. **Generic types** — `List<String>` vs `List`; use `type.resolve().describe()` for fully qualified matching
+4. **Inner classes** — `findAll()` recurses into inner classes; filter with `isTopLevelType` if needed
+5. **Default interface methods** — Java 8+ interface default methods have a body; distinguish from class methods
+6. **StaticJavaParser is global** — Symbol Solver config is static; call `setSymbolResolver` once at startup only

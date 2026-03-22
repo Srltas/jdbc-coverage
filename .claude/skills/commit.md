@@ -14,42 +14,42 @@ trigger: always
 <type>: <short summary>
 ```
 
-- **Subject line only** — body는 정말 필요한 경우에만 추가
-- Subject는 **영어**, body는 한글 허용
-- Subject는 **소문자**로 시작, 마침표 없음
-- 최대 **50자** (subject)
+- **Subject line only** — add a body only when genuinely necessary
+- Subject must be in **English**, body may be in Korean if needed
+- Subject starts with **lowercase**, no trailing period
+- Maximum **50 characters** for the subject line
 
 ## Types
 
-| Type | When |
+| Type | When to use |
 |---|---|
-| `feat` | 새 기능, 새 모듈, 새 클래스 추가 |
-| `fix` | 버그 수정 |
-| `refactor` | 기능 변경 없이 코드 구조 개선 |
-| `docs` | 문서, 주석, README, AGENT.md 변경 |
-| `test` | 테스트 추가/수정 |
-| `chore` | 빌드 설정, 의존성, CI 설정 등 |
-| `style` | 포맷팅, 세미콜론 등 코드 의미 변경 없음 |
+| `feat` | New feature, new module, new class |
+| `fix` | Bug fix |
+| `refactor` | Code restructuring without behavior change |
+| `docs` | Documentation, comments, README, AGENT.md |
+| `test` | Adding or updating tests |
+| `chore` | Build config, dependencies, CI setup |
+| `style` | Formatting, whitespace — no logic change |
 
 ## Scope (Optional)
 
-복잡한 변경일 때만 scope 사용:
+Use scope only when the change is complex or targets a specific module:
 
 ```
 feat(resolver): add inheritance chain resolution
 fix(parser): handle generic type parameters
 ```
 
-주요 scope: `spec`, `parser`, `resolver`, `detector`, `report`, `cli`
+Primary scopes: `spec`, `parser`, `resolver`, `detector`, `report`, `cli`
 
 ## Rules
 
-1. **하나의 커밋 = 하나의 논리적 변경** — 여러 기능을 한 커밋에 넣지 않기
-2. **동작하는 상태에서 커밋** — 빌드가 깨진 상태로 커밋하지 않기
-3. **"what" 보다 "why"** — 코드를 보면 what은 알 수 있으므로, 왜 이 변경이 필요한지 담기
-4. Body가 필요한 경우 (드묾):
-   - breaking change가 있을 때
-   - 변경 이유가 코드만으로 이해하기 어려울 때
+1. **One commit = one logical change** — do not bundle multiple features in one commit
+2. **Commit only when the build passes** — never commit broken code
+3. **Explain "why", not "what"** — the code shows what changed; the message explains why
+4. Add a body only when:
+   - There is a breaking change
+   - The reason for the change cannot be inferred from the code alone
 
 ## Examples
 
@@ -63,7 +63,7 @@ chore: add javaparser dependency to build.gradle.kts
 test: add connection interface analysis tests
 ```
 
-## Anti-patterns (하지 말 것)
+## Anti-patterns
 
 ```
 # Too vague
@@ -77,14 +77,14 @@ feat: add the ability to parse java source files and extract method signatures f
 # Mixed language in subject
 feat: spec 추출기 추가
 
-# Multiple changes
+# Multiple unrelated changes in one commit
 feat: add parser and fix resolver and update docs
 ```
 
 ## Process
 
-1. `git status`와 `git diff`로 변경사항 확인
-2. 변경의 성격에 맞는 type 선택
-3. 50자 이내의 간결한 영어 subject 작성
-4. 관련 파일만 staging (`git add -A` 지양, 구체적 파일 지정)
-5. 커밋 생성
+1. Review changes with `git status` and `git diff`
+2. Choose the appropriate type
+3. Write a concise English subject within 50 characters
+4. Stage specific files only — avoid `git add -A`
+5. Create the commit — do **not** add `Co-Authored-By` or any auto-signature lines

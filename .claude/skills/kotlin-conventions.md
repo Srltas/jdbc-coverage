@@ -11,8 +11,8 @@ trigger: always
 
 ## Purpose
 
-이 프로젝트의 Kotlin 코드가 관용적(idiomatic)이고 일관되도록 가이드한다.
-사용자가 Kotlin 초심자이므로, Java 습관을 Kotlin 패턴으로 자연스럽게 전환한다.
+Ensure all Kotlin code in this project is idiomatic and consistent.
+The developer is new to Kotlin, so proactively convert Java habits into proper Kotlin patterns.
 
 ## Project-Specific Rules
 
@@ -45,7 +45,7 @@ sealed interface ImplementationStatus {
     data class Implemented(val confidence: Float) : ImplementationStatus
 }
 
-// Usage with exhaustive when
+// Exhaustive when — compiler enforces all cases are handled
 fun describe(status: ImplementationStatus): String = when (status) {
     is ImplementationStatus.NotFound -> "Not found"
     is ImplementationStatus.Stub -> "Stub"
@@ -121,31 +121,30 @@ println("Coverage: " + coverage.percentage + "% (" + coverage.implemented + "/" 
 ### 8. Scope Functions (use sparingly)
 
 ```kotlin
-// apply — for object configuration
+// apply — object configuration
 val config = AnalyzerConfig().apply {
     sourcePath = path
     outputFormats = listOf(OutputFormat.CONSOLE, OutputFormat.JSON)
 }
 
-// let — for nullable transformation
+// let — nullable transformation
 file?.let { parseSource(it) }
 
-// also — for side effects (logging, debugging)
+// also — side effects such as logging
 result.also { logger.info("Analysis complete: ${it.summary()}") }
 ```
 
 ## File Structure Convention
 
 ```kotlin
-// 파일 순서
 package com.jdbcchecker.analyzer
 
 import ...
 
-// 1. Constants / Top-level declarations
+// 1. Top-level constants
 private val JDBC_INTERFACES = setOf("Connection", "Statement", ...)
 
-// 2. Main class/interface
+// 2. Main class
 class SourceAnalyzer(...) {
     // Properties
     // Init block (if needed)
@@ -153,10 +152,10 @@ class SourceAnalyzer(...) {
     // Private methods
 }
 
-// 3. Extension functions (related to the main class)
+// 3. Extension functions related to the main class
 private fun ClassOrInterfaceDeclaration.isStub(): Boolean = ...
 
-// 4. Data classes (small, related ones in same file)
+// 4. Small related data classes
 data class AnalysisConfig(...)
 ```
 
@@ -168,7 +167,7 @@ data class AnalysisConfig(...)
 | Class | PascalCase | `SourceAnalyzer` |
 | Function | camelCase | `analyzeSource()` |
 | Property | camelCase | `methodCount` |
-| Constant | SCREAMING_SNAKE | `JDBC_INTERFACES` |
+| Constant | SCREAMING_SNAKE_CASE | `JDBC_INTERFACES` |
 | File | PascalCase (match class name) | `SourceAnalyzer.kt` |
 
 ## Testing Convention
@@ -193,6 +192,6 @@ fun `should detect stub method that throws UnsupportedOperationException`() {
 }
 ```
 
-- 테스트 함수명: backtick으로 감싼 자연어 (영어)
-- Given-When-Then 구조
-- AssertJ 사용 (`assertThat`)
+- Test function names: natural language wrapped in backticks, written in English
+- Structure: Given-When-Then
+- Assertion library: AssertJ (`assertThat`)

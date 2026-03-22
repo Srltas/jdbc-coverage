@@ -12,7 +12,8 @@ trigger: always
 
 ## Purpose
 
-JDBC 인터페이스 메서드의 스펙 정보를 정확하게 조사하고 검증한다.
+Accurately research and verify JDBC interface method specifications, including
+the version in which each method was introduced, optional status, and deprecation.
 
 ## JDBC Version History
 
@@ -60,10 +61,13 @@ JDBC 인터페이스 메서드의 스펙 정보를 정확하게 조사하고 검
 
 ## Common Pitfalls
 
-- `Connection.isValid()` — JDBC 4.0에서 추가되었지만, 많은 드라이버가 미구현
-- `ResultSet.getObject(int, Class<T>)` — JDBC 4.1에서 추가 (overloaded version)
-- Default methods in JDBC 4.2 — `Statement.executeLargeUpdate()` 등은 interface에 default 구현이 있어서 드라이버가 구현 안 해도 컴파일은 됨. 하지만 기본 구현이 UnsupportedOperationException을 던지므로 실질적으로 미구현
-- `Wrapper.unwrap()` / `Wrapper.isWrapperFor()` — JDBC 4.0의 모든 인터페이스가 extends Wrapper이므로, 모든 구현 클래스가 구현해야 하지만 자주 빠뜨림
+- `Connection.isValid()` — added in JDBC 4.0, but frequently unimplemented by drivers
+- `ResultSet.getObject(int, Class<T>)` — added in JDBC 4.1 as a new overload; easy to overlook
+- **Default methods in JDBC 4.2** — e.g., `Statement.executeLargeUpdate()` has a default interface
+  implementation that throws `UnsupportedOperationException`, so it compiles without override
+  but is effectively unimplemented at runtime
+- `Wrapper.unwrap()` / `Wrapper.isWrapperFor()` — since all JDBC 4.0 interfaces extend `Wrapper`,
+  all implementing classes must provide these methods; often missed
 
 ## OpenJDK Source Locations
 

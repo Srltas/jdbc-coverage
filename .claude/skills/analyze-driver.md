@@ -11,7 +11,8 @@ trigger: always
 
 ## Purpose
 
-JDBC 드라이버 소스에 대해 분석을 실행하고, 결과를 사람이 읽기 좋게 요약한다.
+Run JDBC compliance analysis against a driver source directory and present
+the results in a human-readable summary.
 
 ## Execution Steps
 
@@ -27,7 +28,7 @@ cd /Users/cubrid/Devel/JDBC/java-compliance-checker
 ```bash
 # Local source analysis
 java -jar build/libs/jdbc-compliance-checker.jar \
-  --source-path /path/to/driver/src \
+  analyze /path/to/driver/src \
   --output console \
   --output json:result.json
 
@@ -39,7 +40,7 @@ java -jar build/libs/jdbc-compliance-checker.jar \
 
 ### 3. Summarize results
 
-결과를 다음 형식으로 요약:
+Present the output in the following format:
 
 ```
 ## JDBC Compliance Report — [Driver Name]
@@ -61,13 +62,13 @@ java -jar build/libs/jdbc-compliance-checker.jar \
 - ...
 
 ### Recommendations
-1. [JDBC version]에서 [N]개 메서드 미구현 — 우선 구현 권장
+1. N methods unimplemented in JDBC [version] — recommended to prioritize
 2. ...
 ```
 
 ### 4. Compare with previous (if available)
 
-이전 결과 JSON이 있으면 diff 출력:
+If a previous result JSON exists, show the diff:
 
 ```
 ### Changes from Previous Analysis
@@ -87,6 +88,6 @@ java -jar build/libs/jdbc-compliance-checker.jar \
 
 ## Error Handling
 
-- 소스 경로가 잘못된 경우 → 경로 확인 안내
-- 빌드 실패 → `./gradlew build` 오류 메시지 분석
-- JavaParser 오류 → Symbol Solver 설정 확인, 의존성 소스 누락 여부 확인
+- Invalid source path → guide user to verify the path
+- Build failure → analyze the `./gradlew build` error output
+- JavaParser error → check Symbol Solver configuration and verify all source dependencies are present
