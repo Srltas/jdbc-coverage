@@ -1,0 +1,9 @@
+interfaceName: javax.sql.RowSetWriter
+since: 1.0
+methodCount: 1
+methods:
+- name: writeData
+  params:
+  - RowSetInternal
+  returns: boolean
+  since: 1.0

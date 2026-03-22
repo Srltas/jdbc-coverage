@@ -1,0 +1,30 @@
+interfaceName: javax.sql.CommonDataSource
+since: 4.0
+methodCount: 6
+methods:
+- name: getLogWriter
+  params: []
+  returns: PrintWriter
+  since: 4.0
+- name: getLoginTimeout
+  params: []
+  returns: int
+  since: 4.0
+- name: setLogWriter
+  params:
+  - PrintWriter
+  returns: void
+  since: 4.0
+- name: setLoginTimeout
+  params:
+  - int
+  returns: void
+  since: 4.0
+- name: getParentLogger
+  params: []
+  returns: Logger
+  since: 4.1
+- name: createShardingKeyBuilder
+  params: []
+  returns: ShardingKeyBuilder
+  since: 4.3

@@ -1,0 +1,14 @@
+interfaceName: javax.sql.StatementEventListener
+since: 4.0
+methodCount: 2
+methods:
+- name: statementClosed
+  params:
+  - StatementEvent
+  returns: void
+  since: 4.0
+- name: statementErrorOccurred
+  params:
+  - StatementEvent
+  returns: void
+  since: 4.0

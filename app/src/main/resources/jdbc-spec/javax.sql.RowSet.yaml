@@ -1,0 +1,678 @@
+interfaceName: javax.sql.RowSet
+since: 1.0
+methodCount: 115
+methods:
+- name: addRowSetListener
+  params:
+  - RowSetListener
+  returns: void
+  since: 1.0
+- name: clearParameters
+  params: []
+  returns: void
+  since: 1.0
+- name: execute
+  params: []
+  returns: void
+  since: 1.0
+- name: getCommand
+  params: []
+  returns: String
+  since: 1.0
+- name: getDataSourceName
+  params: []
+  returns: String
+  since: 1.0
+- name: getEscapeProcessing
+  params: []
+  returns: boolean
+  since: 1.0
+- name: getMaxFieldSize
+  params: []
+  returns: int
+  since: 1.0
+- name: getMaxRows
+  params: []
+  returns: int
+  since: 1.0
+- name: getPassword
+  params: []
+  returns: String
+  since: 1.0
+- name: getQueryTimeout
+  params: []
+  returns: int
+  since: 1.0
+- name: getTransactionIsolation
+  params: []
+  returns: int
+  since: 1.0
+- name: getTypeMap
+  params: []
+  returns: Map
+  since: 1.0
+- name: getUrl
+  params: []
+  returns: String
+  since: 1.0
+- name: getUsername
+  params: []
+  returns: String
+  since: 1.0
+- name: isReadOnly
+  params: []
+  returns: boolean
+  since: 1.0
+- name: removeRowSetListener
+  params:
+  - RowSetListener
+  returns: void
+  since: 1.0
+- name: setArray
+  params:
+  - int
+  - Array
+  returns: void
+  since: 1.0
+- name: setAsciiStream
+  params:
+  - int
+  - InputStream
+  - int
+  returns: void
+  since: 1.0
+- name: setBigDecimal
+  params:
+  - int
+  - BigDecimal
+  returns: void
+  since: 1.0
+- name: setBinaryStream
+  params:
+  - int
+  - InputStream
+  - int
+  returns: void
+  since: 1.0
+- name: setBlob
+  params:
+  - int
+  - Blob
+  returns: void
+  since: 1.0
+- name: setBoolean
+  params:
+  - int
+  - boolean
+  returns: void
+  since: 1.0
+- name: setByte
+  params:
+  - int
+  - byte
+  returns: void
+  since: 1.0
+- name: setBytes
+  params:
+  - int
+  - "byte[]"
+  returns: void
+  since: 1.0
+- name: setCharacterStream
+  params:
+  - int
+  - Reader
+  - int
+  returns: void
+  since: 1.0
+- name: setClob
+  params:
+  - int
+  - Clob
+  returns: void
+  since: 1.0
+- name: setCommand
+  params:
+  - String
+  returns: void
+  since: 1.0
+- name: setConcurrency
+  params:
+  - int
+  returns: void
+  since: 1.0
+- name: setDataSourceName
+  params:
+  - String
+  returns: void
+  since: 1.0
+- name: setDate
+  params:
+  - int
+  - Date
+  returns: void
+  since: 1.0
+- name: setDate
+  params:
+  - int
+  - Date
+  - Calendar
+  returns: void
+  since: 1.0
+- name: setDouble
+  params:
+  - int
+  - double
+  returns: void
+  since: 1.0
+- name: setEscapeProcessing
+  params:
+  - boolean
+  returns: void
+  since: 1.0
+- name: setFloat
+  params:
+  - int
+  - float
+  returns: void
+  since: 1.0
+- name: setInt
+  params:
+  - int
+  - int
+  returns: void
+  since: 1.0
+- name: setLong
+  params:
+  - int
+  - long
+  returns: void
+  since: 1.0
+- name: setMaxFieldSize
+  params:
+  - int
+  returns: void
+  since: 1.0
+- name: setMaxRows
+  params:
+  - int
+  returns: void
+  since: 1.0
+- name: setNull
+  params:
+  - int
+  - int
+  returns: void
+  since: 1.0
+- name: setNull
+  params:
+  - int
+  - int
+  - String
+  returns: void
+  since: 1.0
+- name: setObject
+  params:
+  - int
+  - Object
+  returns: void
+  since: 1.0
+- name: setObject
+  params:
+  - int
+  - Object
+  - int
+  returns: void
+  since: 1.0
+- name: setObject
+  params:
+  - int
+  - Object
+  - int
+  - int
+  returns: void
+  since: 1.0
+- name: setPassword
+  params:
+  - String
+  returns: void
+  since: 1.0
+- name: setQueryTimeout
+  params:
+  - int
+  returns: void
+  since: 1.0
+- name: setReadOnly
+  params:
+  - boolean
+  returns: void
+  since: 1.0
+- name: setRef
+  params:
+  - int
+  - Ref
+  returns: void
+  since: 1.0
+- name: setShort
+  params:
+  - int
+  - short
+  returns: void
+  since: 1.0
+- name: setString
+  params:
+  - int
+  - String
+  returns: void
+  since: 1.0
+- name: setTime
+  params:
+  - int
+  - Time
+  returns: void
+  since: 1.0
+- name: setTime
+  params:
+  - int
+  - Time
+  - Calendar
+  returns: void
+  since: 1.0
+- name: setTimestamp
+  params:
+  - int
+  - Timestamp
+  returns: void
+  since: 1.0
+- name: setTimestamp
+  params:
+  - int
+  - Timestamp
+  - Calendar
+  returns: void
+  since: 1.0
+- name: setTransactionIsolation
+  params:
+  - int
+  returns: void
+  since: 1.0
+- name: setType
+  params:
+  - int
+  returns: void
+  since: 1.0
+- name: setTypeMap
+  params:
+  - Map
+  returns: void
+  since: 1.0
+- name: setUrl
+  params:
+  - String
+  returns: void
+  since: 1.0
+- name: setUsername
+  params:
+  - String
+  returns: void
+  since: 1.0
+- name: setAsciiStream
+  params:
+  - String
+  - InputStream
+  - int
+  returns: void
+  since: 3.0
+- name: setBigDecimal
+  params:
+  - String
+  - BigDecimal
+  returns: void
+  since: 3.0
+- name: setBinaryStream
+  params:
+  - String
+  - InputStream
+  - int
+  returns: void
+  since: 3.0
+- name: setBoolean
+  params:
+  - String
+  - boolean
+  returns: void
+  since: 3.0
+- name: setByte
+  params:
+  - String
+  - byte
+  returns: void
+  since: 3.0
+- name: setBytes
+  params:
+  - String
+  - "byte[]"
+  returns: void
+  since: 3.0
+- name: setCharacterStream
+  params:
+  - String
+  - Reader
+  - int
+  returns: void
+  since: 3.0
+- name: setDate
+  params:
+  - String
+  - Date
+  returns: void
+  since: 3.0
+- name: setDate
+  params:
+  - String
+  - Date
+  - Calendar
+  returns: void
+  since: 3.0
+- name: setDouble
+  params:
+  - String
+  - double
+  returns: void
+  since: 3.0
+- name: setFloat
+  params:
+  - String
+  - float
+  returns: void
+  since: 3.0
+- name: setInt
+  params:
+  - String
+  - int
+  returns: void
+  since: 3.0
+- name: setLong
+  params:
+  - String
+  - long
+  returns: void
+  since: 3.0
+- name: setNull
+  params:
+  - String
+  - int
+  returns: void
+  since: 3.0
+- name: setNull
+  params:
+  - String
+  - int
+  - String
+  returns: void
+  since: 3.0
+- name: setObject
+  params:
+  - String
+  - Object
+  returns: void
+  since: 3.0
+- name: setObject
+  params:
+  - String
+  - Object
+  - int
+  returns: void
+  since: 3.0
+- name: setObject
+  params:
+  - String
+  - Object
+  - int
+  - int
+  returns: void
+  since: 3.0
+- name: setShort
+  params:
+  - String
+  - short
+  returns: void
+  since: 3.0
+- name: setString
+  params:
+  - String
+  - String
+  returns: void
+  since: 3.0
+- name: setTime
+  params:
+  - String
+  - Time
+  returns: void
+  since: 3.0
+- name: setTime
+  params:
+  - String
+  - Time
+  - Calendar
+  returns: void
+  since: 3.0
+- name: setTimestamp
+  params:
+  - String
+  - Timestamp
+  returns: void
+  since: 3.0
+- name: setTimestamp
+  params:
+  - String
+  - Timestamp
+  - Calendar
+  returns: void
+  since: 3.0
+- name: setURL
+  params:
+  - int
+  - URL
+  returns: void
+  since: 3.0
+- name: setAsciiStream
+  params:
+  - int
+  - InputStream
+  returns: void
+  since: 4.0
+- name: setAsciiStream
+  params:
+  - String
+  - InputStream
+  returns: void
+  since: 4.0
+- name: setBinaryStream
+  params:
+  - int
+  - InputStream
+  returns: void
+  since: 4.0
+- name: setBinaryStream
+  params:
+  - String
+  - InputStream
+  returns: void
+  since: 4.0
+- name: setBlob
+  params:
+  - int
+  - InputStream
+  returns: void
+  since: 4.0
+- name: setBlob
+  params:
+  - String
+  - Blob
+  returns: void
+  since: 4.0
+- name: setBlob
+  params:
+  - String
+  - InputStream
+  returns: void
+  since: 4.0
+- name: setBlob
+  params:
+  - int
+  - InputStream
+  - long
+  returns: void
+  since: 4.0
+- name: setBlob
+  params:
+  - String
+  - InputStream
+  - long
+  returns: void
+  since: 4.0
+- name: setCharacterStream
+  params:
+  - int
+  - Reader
+  returns: void
+  since: 4.0
+- name: setCharacterStream
+  params:
+  - String
+  - Reader
+  returns: void
+  since: 4.0
+- name: setClob
+  params:
+  - int
+  - Reader
+  returns: void
+  since: 4.0
+- name: setClob
+  params:
+  - String
+  - Clob
+  returns: void
+  since: 4.0
+- name: setClob
+  params:
+  - String
+  - Reader
+  returns: void
+  since: 4.0
+- name: setClob
+  params:
+  - int
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: setClob
+  params:
+  - String
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: setNCharacterStream
+  params:
+  - int
+  - Reader
+  returns: void
+  since: 4.0
+- name: setNCharacterStream
+  params:
+  - String
+  - Reader
+  returns: void
+  since: 4.0
+- name: setNCharacterStream
+  params:
+  - int
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: setNCharacterStream
+  params:
+  - String
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: setNClob
+  params:
+  - String
+  - NClob
+  returns: void
+  since: 4.0
+- name: setNClob
+  params:
+  - String
+  - Reader
+  returns: void
+  since: 4.0
+- name: setNClob
+  params:
+  - int
+  - NClob
+  returns: void
+  since: 4.0
+- name: setNClob
+  params:
+  - int
+  - Reader
+  returns: void
+  since: 4.0
+- name: setNClob
+  params:
+  - String
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: setNClob
+  params:
+  - int
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: setNString
+  params:
+  - int
+  - String
+  returns: void
+  since: 4.0
+- name: setNString
+  params:
+  - String
+  - String
+  returns: void
+  since: 4.0
+- name: setRowId
+  params:
+  - int
+  - RowId
+  returns: void
+  since: 4.0
+- name: setRowId
+  params:
+  - String
+  - RowId
+  returns: void
+  since: 4.0
+- name: setSQLXML
+  params:
+  - int
+  - SQLXML
+  returns: void
+  since: 4.0
+- name: setSQLXML
+  params:
+  - String
+  - SQLXML
+  returns: void
+  since: 4.0

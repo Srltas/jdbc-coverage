@@ -1,0 +1,21 @@
+interfaceName: java.sql.RowId
+since: 4.0
+methodCount: 4
+methods:
+- name: equals
+  params:
+  - Object
+  returns: boolean
+  since: 4.0
+- name: getBytes
+  params: []
+  returns: "byte[]"
+  since: 4.0
+- name: hashCode
+  params: []
+  returns: int
+  since: 4.0
+- name: toString
+  params: []
+  returns: String
+  since: 4.0

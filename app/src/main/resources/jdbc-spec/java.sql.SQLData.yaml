@@ -1,0 +1,19 @@
+interfaceName: java.sql.SQLData
+since: 2.0
+methodCount: 3
+methods:
+- name: getSQLTypeName
+  params: []
+  returns: String
+  since: 2.0
+- name: readSQL
+  params:
+  - SQLInput
+  - String
+  returns: void
+  since: 2.0
+- name: writeSQL
+  params:
+  - SQLOutput
+  returns: void
+  since: 2.0

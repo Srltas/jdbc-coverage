@@ -1,0 +1,145 @@
+interfaceName: java.sql.SQLOutput
+since: 2.0
+methodCount: 28
+methods:
+- name: writeArray
+  params:
+  - Array
+  returns: void
+  since: 2.0
+- name: writeAsciiStream
+  params:
+  - InputStream
+  returns: void
+  since: 2.0
+- name: writeBigDecimal
+  params:
+  - BigDecimal
+  returns: void
+  since: 2.0
+- name: writeBinaryStream
+  params:
+  - InputStream
+  returns: void
+  since: 2.0
+- name: writeBlob
+  params:
+  - Blob
+  returns: void
+  since: 2.0
+- name: writeBoolean
+  params:
+  - boolean
+  returns: void
+  since: 2.0
+- name: writeByte
+  params:
+  - byte
+  returns: void
+  since: 2.0
+- name: writeBytes
+  params:
+  - "byte[]"
+  returns: void
+  since: 2.0
+- name: writeCharacterStream
+  params:
+  - Reader
+  returns: void
+  since: 2.0
+- name: writeClob
+  params:
+  - Clob
+  returns: void
+  since: 2.0
+- name: writeDate
+  params:
+  - Date
+  returns: void
+  since: 2.0
+- name: writeDouble
+  params:
+  - double
+  returns: void
+  since: 2.0
+- name: writeFloat
+  params:
+  - float
+  returns: void
+  since: 2.0
+- name: writeInt
+  params:
+  - int
+  returns: void
+  since: 2.0
+- name: writeLong
+  params:
+  - long
+  returns: void
+  since: 2.0
+- name: writeObject
+  params:
+  - SQLData
+  returns: void
+  since: 2.0
+- name: writeRef
+  params:
+  - Ref
+  returns: void
+  since: 2.0
+- name: writeShort
+  params:
+  - short
+  returns: void
+  since: 2.0
+- name: writeString
+  params:
+  - String
+  returns: void
+  since: 2.0
+- name: writeStruct
+  params:
+  - Struct
+  returns: void
+  since: 2.0
+- name: writeTime
+  params:
+  - Time
+  returns: void
+  since: 2.0
+- name: writeTimestamp
+  params:
+  - Timestamp
+  returns: void
+  since: 2.0
+- name: writeURL
+  params:
+  - URL
+  returns: void
+  since: 3.0
+- name: writeNClob
+  params:
+  - NClob
+  returns: void
+  since: 4.0
+- name: writeNString
+  params:
+  - String
+  returns: void
+  since: 4.0
+- name: writeRowId
+  params:
+  - RowId
+  returns: void
+  since: 4.0
+- name: writeSQLXML
+  params:
+  - SQLXML
+  returns: void
+  since: 4.0
+- name: writeObject
+  params:
+  - Object
+  - SQLType
+  returns: void
+  since: 4.2

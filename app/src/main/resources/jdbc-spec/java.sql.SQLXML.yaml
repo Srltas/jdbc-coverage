@@ -1,0 +1,43 @@
+interfaceName: java.sql.SQLXML
+since: 4.0
+methodCount: 9
+methods:
+- name: free
+  params: []
+  returns: void
+  since: 4.0
+- name: getBinaryStream
+  params: []
+  returns: InputStream
+  since: 4.0
+- name: getCharacterStream
+  params: []
+  returns: Reader
+  since: 4.0
+- name: getSource
+  params:
+  - Class
+  returns: T
+  since: 4.0
+- name: getString
+  params: []
+  returns: String
+  since: 4.0
+- name: setBinaryStream
+  params: []
+  returns: OutputStream
+  since: 4.0
+- name: setCharacterStream
+  params: []
+  returns: Writer
+  since: 4.0
+- name: setResult
+  params:
+  - Class
+  returns: T
+  since: 4.0
+- name: setString
+  params:
+  - String
+  returns: void
+  since: 4.0

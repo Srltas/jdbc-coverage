@@ -1,0 +1,36 @@
+interfaceName: javax.sql.XADataSource
+since: 3.0
+methodCount: 7
+methods:
+- name: getLogWriter
+  params: []
+  returns: PrintWriter
+  since: 3.0
+- name: getLoginTimeout
+  params: []
+  returns: int
+  since: 3.0
+- name: getXAConnection
+  params: []
+  returns: XAConnection
+  since: 3.0
+- name: getXAConnection
+  params:
+  - String
+  - String
+  returns: XAConnection
+  since: 3.0
+- name: setLogWriter
+  params:
+  - PrintWriter
+  returns: void
+  since: 3.0
+- name: setLoginTimeout
+  params:
+  - int
+  returns: void
+  since: 3.0
+- name: createXAConnectionBuilder
+  params: []
+  returns: XAConnectionBuilder
+  since: 4.3

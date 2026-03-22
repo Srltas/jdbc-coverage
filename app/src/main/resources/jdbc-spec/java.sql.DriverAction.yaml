@@ -1,0 +1,8 @@
+interfaceName: java.sql.DriverAction
+since: 4.2
+methodCount: 1
+methods:
+- name: deregister
+  params: []
+  returns: void
+  since: 4.2

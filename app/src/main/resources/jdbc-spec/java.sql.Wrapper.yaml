@@ -1,0 +1,14 @@
+interfaceName: java.sql.Wrapper
+since: 4.0
+methodCount: 2
+methods:
+- name: isWrapperFor
+  params:
+  - Class
+  returns: boolean
+  since: 4.0
+- name: unwrap
+  params:
+  - Class
+  returns: T
+  since: 4.0

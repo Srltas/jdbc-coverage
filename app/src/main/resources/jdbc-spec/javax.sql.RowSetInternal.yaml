@@ -1,0 +1,25 @@
+interfaceName: javax.sql.RowSetInternal
+since: 1.0
+methodCount: 5
+methods:
+- name: getConnection
+  params: []
+  returns: Connection
+  since: 1.0
+- name: getOriginal
+  params: []
+  returns: ResultSet
+  since: 1.0
+- name: getOriginalRow
+  params: []
+  returns: ResultSet
+  since: 1.0
+- name: getParams
+  params: []
+  returns: "Object[]"
+  since: 1.0
+- name: setMetaData
+  params:
+  - RowSetMetaData
+  returns: void
+  since: 1.0

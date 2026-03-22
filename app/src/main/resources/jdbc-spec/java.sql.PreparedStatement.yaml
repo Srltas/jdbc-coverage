@@ -1,0 +1,357 @@
+interfaceName: java.sql.PreparedStatement
+since: 1.0
+methodCount: 58
+methods:
+- name: clearParameters
+  params: []
+  returns: void
+  since: 1.0
+- name: execute
+  params: []
+  returns: boolean
+  since: 1.0
+- name: executeQuery
+  params: []
+  returns: ResultSet
+  since: 1.0
+- name: executeUpdate
+  params: []
+  returns: int
+  since: 1.0
+- name: setAsciiStream
+  params:
+  - int
+  - InputStream
+  - int
+  returns: void
+  since: 1.0
+- name: setBigDecimal
+  params:
+  - int
+  - BigDecimal
+  returns: void
+  since: 1.0
+- name: setBinaryStream
+  params:
+  - int
+  - InputStream
+  - int
+  returns: void
+  since: 1.0
+- name: setBoolean
+  params:
+  - int
+  - boolean
+  returns: void
+  since: 1.0
+- name: setByte
+  params:
+  - int
+  - byte
+  returns: void
+  since: 1.0
+- name: setBytes
+  params:
+  - int
+  - "byte[]"
+  returns: void
+  since: 1.0
+- name: setDate
+  params:
+  - int
+  - Date
+  returns: void
+  since: 1.0
+- name: setDouble
+  params:
+  - int
+  - double
+  returns: void
+  since: 1.0
+- name: setFloat
+  params:
+  - int
+  - float
+  returns: void
+  since: 1.0
+- name: setInt
+  params:
+  - int
+  - int
+  returns: void
+  since: 1.0
+- name: setLong
+  params:
+  - int
+  - long
+  returns: void
+  since: 1.0
+- name: setNull
+  params:
+  - int
+  - int
+  returns: void
+  since: 1.0
+- name: setObject
+  params:
+  - int
+  - Object
+  returns: void
+  since: 1.0
+- name: setObject
+  params:
+  - int
+  - Object
+  - int
+  returns: void
+  since: 1.0
+- name: setObject
+  params:
+  - int
+  - Object
+  - int
+  - int
+  returns: void
+  since: 1.0
+- name: setShort
+  params:
+  - int
+  - short
+  returns: void
+  since: 1.0
+- name: setString
+  params:
+  - int
+  - String
+  returns: void
+  since: 1.0
+- name: setTime
+  params:
+  - int
+  - Time
+  returns: void
+  since: 1.0
+- name: setTimestamp
+  params:
+  - int
+  - Timestamp
+  returns: void
+  since: 1.0
+- name: setUnicodeStream
+  params:
+  - int
+  - InputStream
+  - int
+  returns: void
+  since: 1.0
+- name: addBatch
+  params: []
+  returns: void
+  since: 2.0
+- name: getMetaData
+  params: []
+  returns: ResultSetMetaData
+  since: 2.0
+- name: setArray
+  params:
+  - int
+  - Array
+  returns: void
+  since: 2.0
+- name: setBlob
+  params:
+  - int
+  - Blob
+  returns: void
+  since: 2.0
+- name: setCharacterStream
+  params:
+  - int
+  - Reader
+  - int
+  returns: void
+  since: 2.0
+- name: setClob
+  params:
+  - int
+  - Clob
+  returns: void
+  since: 2.0
+- name: setDate
+  params:
+  - int
+  - Date
+  - Calendar
+  returns: void
+  since: 2.0
+- name: setNull
+  params:
+  - int
+  - int
+  - String
+  returns: void
+  since: 2.0
+- name: setRef
+  params:
+  - int
+  - Ref
+  returns: void
+  since: 2.0
+- name: setTime
+  params:
+  - int
+  - Time
+  - Calendar
+  returns: void
+  since: 2.0
+- name: setTimestamp
+  params:
+  - int
+  - Timestamp
+  - Calendar
+  returns: void
+  since: 2.0
+- name: getParameterMetaData
+  params: []
+  returns: ParameterMetaData
+  since: 3.0
+- name: setURL
+  params:
+  - int
+  - URL
+  returns: void
+  since: 3.0
+- name: setAsciiStream
+  params:
+  - int
+  - InputStream
+  returns: void
+  since: 4.0
+- name: setAsciiStream
+  params:
+  - int
+  - InputStream
+  - long
+  returns: void
+  since: 4.0
+- name: setBinaryStream
+  params:
+  - int
+  - InputStream
+  returns: void
+  since: 4.0
+- name: setBinaryStream
+  params:
+  - int
+  - InputStream
+  - long
+  returns: void
+  since: 4.0
+- name: setBlob
+  params:
+  - int
+  - InputStream
+  returns: void
+  since: 4.0
+- name: setBlob
+  params:
+  - int
+  - InputStream
+  - long
+  returns: void
+  since: 4.0
+- name: setCharacterStream
+  params:
+  - int
+  - Reader
+  returns: void
+  since: 4.0
+- name: setCharacterStream
+  params:
+  - int
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: setClob
+  params:
+  - int
+  - Reader
+  returns: void
+  since: 4.0
+- name: setClob
+  params:
+  - int
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: setNCharacterStream
+  params:
+  - int
+  - Reader
+  returns: void
+  since: 4.0
+- name: setNCharacterStream
+  params:
+  - int
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: setNClob
+  params:
+  - int
+  - NClob
+  returns: void
+  since: 4.0
+- name: setNClob
+  params:
+  - int
+  - Reader
+  returns: void
+  since: 4.0
+- name: setNClob
+  params:
+  - int
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: setNString
+  params:
+  - int
+  - String
+  returns: void
+  since: 4.0
+- name: setRowId
+  params:
+  - int
+  - RowId
+  returns: void
+  since: 4.0
+- name: setSQLXML
+  params:
+  - int
+  - SQLXML
+  returns: void
+  since: 4.0
+- name: executeLargeUpdate
+  params: []
+  returns: long
+  since: 4.2
+- name: setObject
+  params:
+  - int
+  - Object
+  - SQLType
+  returns: void
+  since: 4.2
+- name: setObject
+  params:
+  - int
+  - Object
+  - SQLType
+  - int
+  returns: void
+  since: 4.2

@@ -1,0 +1,108 @@
+interfaceName: java.sql.ResultSetMetaData
+since: 1.0
+methodCount: 21
+methods:
+- name: getCatalogName
+  params:
+  - int
+  returns: String
+  since: 1.0
+- name: getColumnCount
+  params: []
+  returns: int
+  since: 1.0
+- name: getColumnDisplaySize
+  params:
+  - int
+  returns: int
+  since: 1.0
+- name: getColumnLabel
+  params:
+  - int
+  returns: String
+  since: 1.0
+- name: getColumnName
+  params:
+  - int
+  returns: String
+  since: 1.0
+- name: getColumnType
+  params:
+  - int
+  returns: int
+  since: 1.0
+- name: getColumnTypeName
+  params:
+  - int
+  returns: String
+  since: 1.0
+- name: getPrecision
+  params:
+  - int
+  returns: int
+  since: 1.0
+- name: getScale
+  params:
+  - int
+  returns: int
+  since: 1.0
+- name: getSchemaName
+  params:
+  - int
+  returns: String
+  since: 1.0
+- name: getTableName
+  params:
+  - int
+  returns: String
+  since: 1.0
+- name: isAutoIncrement
+  params:
+  - int
+  returns: boolean
+  since: 1.0
+- name: isCaseSensitive
+  params:
+  - int
+  returns: boolean
+  since: 1.0
+- name: isCurrency
+  params:
+  - int
+  returns: boolean
+  since: 1.0
+- name: isDefinitelyWritable
+  params:
+  - int
+  returns: boolean
+  since: 1.0
+- name: isNullable
+  params:
+  - int
+  returns: int
+  since: 1.0
+- name: isReadOnly
+  params:
+  - int
+  returns: boolean
+  since: 1.0
+- name: isSearchable
+  params:
+  - int
+  returns: boolean
+  since: 1.0
+- name: isSigned
+  params:
+  - int
+  returns: boolean
+  since: 1.0
+- name: isWritable
+  params:
+  - int
+  returns: boolean
+  since: 1.0
+- name: getColumnClassName
+  params:
+  - int
+  returns: String
+  since: 2.0

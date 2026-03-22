@@ -1,0 +1,14 @@
+interfaceName: java.sql.ShardingKeyBuilder
+since: 4.3
+methodCount: 2
+methods:
+- name: build
+  params: []
+  returns: ShardingKey
+  since: 4.3
+- name: subkey
+  params:
+  - Object
+  - SQLType
+  returns: ShardingKeyBuilder
+  since: 4.3

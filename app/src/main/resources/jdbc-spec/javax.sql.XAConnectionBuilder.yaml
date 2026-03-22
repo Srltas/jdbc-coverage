@@ -1,0 +1,28 @@
+interfaceName: javax.sql.XAConnectionBuilder
+since: 4.3
+methodCount: 5
+methods:
+- name: build
+  params: []
+  returns: XAConnection
+  since: 4.3
+- name: password
+  params:
+  - String
+  returns: XAConnectionBuilder
+  since: 4.3
+- name: shardingKey
+  params:
+  - ShardingKey
+  returns: XAConnectionBuilder
+  since: 4.3
+- name: superShardingKey
+  params:
+  - ShardingKey
+  returns: XAConnectionBuilder
+  since: 4.3
+- name: user
+  params:
+  - String
+  returns: XAConnectionBuilder
+  since: 4.3

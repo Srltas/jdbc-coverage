@@ -1,0 +1,12 @@
+interfaceName: java.sql.Savepoint
+since: 3.0
+methodCount: 2
+methods:
+- name: getSavepointId
+  params: []
+  returns: int
+  since: 3.0
+- name: getSavepointName
+  params: []
+  returns: String
+  since: 3.0

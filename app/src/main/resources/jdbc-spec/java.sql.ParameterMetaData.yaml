@@ -1,0 +1,48 @@
+interfaceName: java.sql.ParameterMetaData
+since: 3.0
+methodCount: 9
+methods:
+- name: getParameterClassName
+  params:
+  - int
+  returns: String
+  since: 3.0
+- name: getParameterCount
+  params: []
+  returns: int
+  since: 3.0
+- name: getParameterMode
+  params:
+  - int
+  returns: int
+  since: 3.0
+- name: getParameterType
+  params:
+  - int
+  returns: int
+  since: 3.0
+- name: getParameterTypeName
+  params:
+  - int
+  returns: String
+  since: 3.0
+- name: getPrecision
+  params:
+  - int
+  returns: int
+  since: 3.0
+- name: getScale
+  params:
+  - int
+  returns: int
+  since: 3.0
+- name: isNullable
+  params:
+  - int
+  returns: int
+  since: 3.0
+- name: isSigned
+  params:
+  - int
+  returns: boolean
+  since: 3.0

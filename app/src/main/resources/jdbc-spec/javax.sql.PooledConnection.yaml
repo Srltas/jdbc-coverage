@@ -1,0 +1,32 @@
+interfaceName: javax.sql.PooledConnection
+since: 2.0
+methodCount: 6
+methods:
+- name: addConnectionEventListener
+  params:
+  - ConnectionEventListener
+  returns: void
+  since: 2.0
+- name: removeConnectionEventListener
+  params:
+  - ConnectionEventListener
+  returns: void
+  since: 2.0
+- name: close
+  params: []
+  returns: void
+  since: 3.0
+- name: getConnection
+  params: []
+  returns: Connection
+  since: 3.0
+- name: addStatementEventListener
+  params:
+  - StatementEventListener
+  returns: void
+  since: 4.0
+- name: removeStatementEventListener
+  params:
+  - StatementEventListener
+  returns: void
+  since: 4.0

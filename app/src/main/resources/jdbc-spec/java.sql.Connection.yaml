@@ -1,0 +1,294 @@
+interfaceName: java.sql.Connection
+since: 1.0
+methodCount: 58
+methods:
+- name: clearWarnings
+  params: []
+  returns: void
+  since: 1.0
+- name: close
+  params: []
+  returns: void
+  since: 1.0
+- name: commit
+  params: []
+  returns: void
+  since: 1.0
+- name: createStatement
+  params: []
+  returns: Statement
+  since: 1.0
+- name: getAutoCommit
+  params: []
+  returns: boolean
+  since: 1.0
+- name: getCatalog
+  params: []
+  returns: String
+  since: 1.0
+- name: getMetaData
+  params: []
+  returns: DatabaseMetaData
+  since: 1.0
+- name: getTransactionIsolation
+  params: []
+  returns: int
+  since: 1.0
+- name: getWarnings
+  params: []
+  returns: SQLWarning
+  since: 1.0
+- name: isClosed
+  params: []
+  returns: boolean
+  since: 1.0
+- name: isReadOnly
+  params: []
+  returns: boolean
+  since: 1.0
+- name: nativeSQL
+  params:
+  - String
+  returns: String
+  since: 1.0
+- name: prepareCall
+  params:
+  - String
+  returns: CallableStatement
+  since: 1.0
+- name: prepareStatement
+  params:
+  - String
+  returns: PreparedStatement
+  since: 1.0
+- name: rollback
+  params: []
+  returns: void
+  since: 1.0
+- name: setAutoCommit
+  params:
+  - boolean
+  returns: void
+  since: 1.0
+- name: setCatalog
+  params:
+  - String
+  returns: void
+  since: 1.0
+- name: setReadOnly
+  params:
+  - boolean
+  returns: void
+  since: 1.0
+- name: setTransactionIsolation
+  params:
+  - int
+  returns: void
+  since: 1.0
+- name: createStatement
+  params:
+  - int
+  - int
+  returns: Statement
+  since: 2.0
+- name: getTypeMap
+  params: []
+  returns: Map
+  since: 2.0
+- name: prepareCall
+  params:
+  - String
+  - int
+  - int
+  returns: CallableStatement
+  since: 2.0
+- name: prepareStatement
+  params:
+  - String
+  - int
+  - int
+  returns: PreparedStatement
+  since: 2.0
+- name: setTypeMap
+  params:
+  - Map
+  returns: void
+  since: 2.0
+- name: createStatement
+  params:
+  - int
+  - int
+  - int
+  returns: Statement
+  since: 3.0
+- name: getHoldability
+  params: []
+  returns: int
+  since: 3.0
+- name: prepareCall
+  params:
+  - String
+  - int
+  - int
+  - int
+  returns: CallableStatement
+  since: 3.0
+- name: prepareStatement
+  params:
+  - String
+  - int
+  returns: PreparedStatement
+  since: 3.0
+- name: prepareStatement
+  params:
+  - String
+  - "int[]"
+  returns: PreparedStatement
+  since: 3.0
+- name: prepareStatement
+  params:
+  - String
+  - "String[]"
+  returns: PreparedStatement
+  since: 3.0
+- name: prepareStatement
+  params:
+  - String
+  - int
+  - int
+  - int
+  returns: PreparedStatement
+  since: 3.0
+- name: releaseSavepoint
+  params:
+  - Savepoint
+  returns: void
+  since: 3.0
+- name: rollback
+  params:
+  - Savepoint
+  returns: void
+  since: 3.0
+- name: setHoldability
+  params:
+  - int
+  returns: void
+  since: 3.0
+- name: setSavepoint
+  params: []
+  returns: Savepoint
+  since: 3.0
+- name: setSavepoint
+  params:
+  - String
+  returns: Savepoint
+  since: 3.0
+- name: createArrayOf
+  params:
+  - String
+  - "Object[]"
+  returns: Array
+  since: 4.0
+- name: createBlob
+  params: []
+  returns: Blob
+  since: 4.0
+- name: createClob
+  params: []
+  returns: Clob
+  since: 4.0
+- name: createNClob
+  params: []
+  returns: NClob
+  since: 4.0
+- name: createSQLXML
+  params: []
+  returns: SQLXML
+  since: 4.0
+- name: createStruct
+  params:
+  - String
+  - "Object[]"
+  returns: Struct
+  since: 4.0
+- name: getClientInfo
+  params: []
+  returns: Properties
+  since: 4.0
+- name: getClientInfo
+  params:
+  - String
+  returns: String
+  since: 4.0
+- name: isValid
+  params:
+  - int
+  returns: boolean
+  since: 4.0
+- name: setClientInfo
+  params:
+  - Properties
+  returns: void
+  since: 4.0
+- name: setClientInfo
+  params:
+  - String
+  - String
+  returns: void
+  since: 4.0
+- name: abort
+  params:
+  - Executor
+  returns: void
+  since: 4.1
+- name: getNetworkTimeout
+  params: []
+  returns: int
+  since: 4.1
+- name: getSchema
+  params: []
+  returns: String
+  since: 4.1
+- name: setNetworkTimeout
+  params:
+  - Executor
+  - int
+  returns: void
+  since: 4.1
+- name: setSchema
+  params:
+  - String
+  returns: void
+  since: 4.1
+- name: beginRequest
+  params: []
+  returns: void
+  since: 4.3
+- name: endRequest
+  params: []
+  returns: void
+  since: 4.3
+- name: setShardingKey
+  params:
+  - ShardingKey
+  returns: void
+  since: 4.3
+- name: setShardingKey
+  params:
+  - ShardingKey
+  - ShardingKey
+  returns: void
+  since: 4.3
+- name: setShardingKeyIfValid
+  params:
+  - ShardingKey
+  - int
+  returns: boolean
+  since: 4.3
+- name: setShardingKeyIfValid
+  params:
+  - ShardingKey
+  - ShardingKey
+  - int
+  returns: boolean
+  since: 4.3

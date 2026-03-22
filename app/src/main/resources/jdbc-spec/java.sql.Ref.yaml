@@ -1,0 +1,22 @@
+interfaceName: java.sql.Ref
+since: 2.0
+methodCount: 4
+methods:
+- name: getBaseTypeName
+  params: []
+  returns: String
+  since: 2.0
+- name: getObject
+  params: []
+  returns: Object
+  since: 3.0
+- name: getObject
+  params:
+  - Map
+  returns: Object
+  since: 3.0
+- name: setObject
+  params:
+  - Object
+  returns: void
+  since: 3.0

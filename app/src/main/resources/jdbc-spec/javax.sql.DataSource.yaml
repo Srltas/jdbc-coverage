@@ -1,0 +1,36 @@
+interfaceName: javax.sql.DataSource
+since: 2.0
+methodCount: 7
+methods:
+- name: getConnection
+  params: []
+  returns: Connection
+  since: 2.0
+- name: getConnection
+  params:
+  - String
+  - String
+  returns: Connection
+  since: 3.0
+- name: getLogWriter
+  params: []
+  returns: PrintWriter
+  since: 3.0
+- name: getLoginTimeout
+  params: []
+  returns: int
+  since: 3.0
+- name: setLogWriter
+  params:
+  - PrintWriter
+  returns: void
+  since: 3.0
+- name: setLoginTimeout
+  params:
+  - int
+  returns: void
+  since: 3.0
+- name: createConnectionBuilder
+  params: []
+  returns: ConnectionBuilder
+  since: 4.3

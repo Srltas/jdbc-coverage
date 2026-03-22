@@ -1,0 +1,1059 @@
+interfaceName: java.sql.ResultSet
+since: 1.0
+methodCount: 193
+methods:
+- name: clearWarnings
+  params: []
+  returns: void
+  since: 1.0
+- name: close
+  params: []
+  returns: void
+  since: 1.0
+- name: findColumn
+  params:
+  - String
+  returns: int
+  since: 1.0
+- name: getAsciiStream
+  params:
+  - int
+  returns: InputStream
+  since: 1.0
+- name: getAsciiStream
+  params:
+  - String
+  returns: InputStream
+  since: 1.0
+- name: getBigDecimal
+  params:
+  - int
+  - int
+  returns: BigDecimal
+  since: 1.0
+- name: getBigDecimal
+  params:
+  - String
+  - int
+  returns: BigDecimal
+  since: 1.0
+- name: getBinaryStream
+  params:
+  - int
+  returns: InputStream
+  since: 1.0
+- name: getBinaryStream
+  params:
+  - String
+  returns: InputStream
+  since: 1.0
+- name: getBoolean
+  params:
+  - int
+  returns: boolean
+  since: 1.0
+- name: getBoolean
+  params:
+  - String
+  returns: boolean
+  since: 1.0
+- name: getByte
+  params:
+  - int
+  returns: byte
+  since: 1.0
+- name: getByte
+  params:
+  - String
+  returns: byte
+  since: 1.0
+- name: getBytes
+  params:
+  - int
+  returns: "byte[]"
+  since: 1.0
+- name: getBytes
+  params:
+  - String
+  returns: "byte[]"
+  since: 1.0
+- name: getCursorName
+  params: []
+  returns: String
+  since: 1.0
+- name: getDate
+  params:
+  - int
+  returns: Date
+  since: 1.0
+- name: getDate
+  params:
+  - String
+  returns: Date
+  since: 1.0
+- name: getDouble
+  params:
+  - int
+  returns: double
+  since: 1.0
+- name: getDouble
+  params:
+  - String
+  returns: double
+  since: 1.0
+- name: getFloat
+  params:
+  - int
+  returns: float
+  since: 1.0
+- name: getFloat
+  params:
+  - String
+  returns: float
+  since: 1.0
+- name: getInt
+  params:
+  - int
+  returns: int
+  since: 1.0
+- name: getInt
+  params:
+  - String
+  returns: int
+  since: 1.0
+- name: getLong
+  params:
+  - int
+  returns: long
+  since: 1.0
+- name: getLong
+  params:
+  - String
+  returns: long
+  since: 1.0
+- name: getMetaData
+  params: []
+  returns: ResultSetMetaData
+  since: 1.0
+- name: getObject
+  params:
+  - int
+  returns: Object
+  since: 1.0
+- name: getObject
+  params:
+  - String
+  returns: Object
+  since: 1.0
+- name: getShort
+  params:
+  - int
+  returns: short
+  since: 1.0
+- name: getShort
+  params:
+  - String
+  returns: short
+  since: 1.0
+- name: getString
+  params:
+  - int
+  returns: String
+  since: 1.0
+- name: getString
+  params:
+  - String
+  returns: String
+  since: 1.0
+- name: getTime
+  params:
+  - int
+  returns: Time
+  since: 1.0
+- name: getTime
+  params:
+  - String
+  returns: Time
+  since: 1.0
+- name: getTimestamp
+  params:
+  - int
+  returns: Timestamp
+  since: 1.0
+- name: getTimestamp
+  params:
+  - String
+  returns: Timestamp
+  since: 1.0
+- name: getUnicodeStream
+  params:
+  - int
+  returns: InputStream
+  since: 1.0
+- name: getUnicodeStream
+  params:
+  - String
+  returns: InputStream
+  since: 1.0
+- name: getWarnings
+  params: []
+  returns: SQLWarning
+  since: 1.0
+- name: next
+  params: []
+  returns: boolean
+  since: 1.0
+- name: wasNull
+  params: []
+  returns: boolean
+  since: 1.0
+- name: absolute
+  params:
+  - int
+  returns: boolean
+  since: 2.0
+- name: afterLast
+  params: []
+  returns: void
+  since: 2.0
+- name: beforeFirst
+  params: []
+  returns: void
+  since: 2.0
+- name: cancelRowUpdates
+  params: []
+  returns: void
+  since: 2.0
+- name: deleteRow
+  params: []
+  returns: void
+  since: 2.0
+- name: first
+  params: []
+  returns: boolean
+  since: 2.0
+- name: getArray
+  params:
+  - int
+  returns: Array
+  since: 2.0
+- name: getArray
+  params:
+  - String
+  returns: Array
+  since: 2.0
+- name: getBigDecimal
+  params:
+  - int
+  returns: BigDecimal
+  since: 2.0
+- name: getBigDecimal
+  params:
+  - String
+  returns: BigDecimal
+  since: 2.0
+- name: getBlob
+  params:
+  - int
+  returns: Blob
+  since: 2.0
+- name: getBlob
+  params:
+  - String
+  returns: Blob
+  since: 2.0
+- name: getCharacterStream
+  params:
+  - int
+  returns: Reader
+  since: 2.0
+- name: getCharacterStream
+  params:
+  - String
+  returns: Reader
+  since: 2.0
+- name: getClob
+  params:
+  - int
+  returns: Clob
+  since: 2.0
+- name: getClob
+  params:
+  - String
+  returns: Clob
+  since: 2.0
+- name: getConcurrency
+  params: []
+  returns: int
+  since: 2.0
+- name: getDate
+  params:
+  - int
+  - Calendar
+  returns: Date
+  since: 2.0
+- name: getDate
+  params:
+  - String
+  - Calendar
+  returns: Date
+  since: 2.0
+- name: getFetchDirection
+  params: []
+  returns: int
+  since: 2.0
+- name: getFetchSize
+  params: []
+  returns: int
+  since: 2.0
+- name: getObject
+  params:
+  - int
+  - Map
+  returns: Object
+  since: 2.0
+- name: getObject
+  params:
+  - String
+  - Map
+  returns: Object
+  since: 2.0
+- name: getRef
+  params:
+  - int
+  returns: Ref
+  since: 2.0
+- name: getRef
+  params:
+  - String
+  returns: Ref
+  since: 2.0
+- name: getRow
+  params: []
+  returns: int
+  since: 2.0
+- name: getStatement
+  params: []
+  returns: Statement
+  since: 2.0
+- name: getTime
+  params:
+  - int
+  - Calendar
+  returns: Time
+  since: 2.0
+- name: getTime
+  params:
+  - String
+  - Calendar
+  returns: Time
+  since: 2.0
+- name: getTimestamp
+  params:
+  - int
+  - Calendar
+  returns: Timestamp
+  since: 2.0
+- name: getTimestamp
+  params:
+  - String
+  - Calendar
+  returns: Timestamp
+  since: 2.0
+- name: getType
+  params: []
+  returns: int
+  since: 2.0
+- name: insertRow
+  params: []
+  returns: void
+  since: 2.0
+- name: isAfterLast
+  params: []
+  returns: boolean
+  since: 2.0
+- name: isBeforeFirst
+  params: []
+  returns: boolean
+  since: 2.0
+- name: isFirst
+  params: []
+  returns: boolean
+  since: 2.0
+- name: isLast
+  params: []
+  returns: boolean
+  since: 2.0
+- name: last
+  params: []
+  returns: boolean
+  since: 2.0
+- name: moveToCurrentRow
+  params: []
+  returns: void
+  since: 2.0
+- name: moveToInsertRow
+  params: []
+  returns: void
+  since: 2.0
+- name: previous
+  params: []
+  returns: boolean
+  since: 2.0
+- name: refreshRow
+  params: []
+  returns: void
+  since: 2.0
+- name: relative
+  params:
+  - int
+  returns: boolean
+  since: 2.0
+- name: rowDeleted
+  params: []
+  returns: boolean
+  since: 2.0
+- name: rowInserted
+  params: []
+  returns: boolean
+  since: 2.0
+- name: rowUpdated
+  params: []
+  returns: boolean
+  since: 2.0
+- name: setFetchDirection
+  params:
+  - int
+  returns: void
+  since: 2.0
+- name: setFetchSize
+  params:
+  - int
+  returns: void
+  since: 2.0
+- name: updateAsciiStream
+  params:
+  - int
+  - InputStream
+  - int
+  returns: void
+  since: 2.0
+- name: updateAsciiStream
+  params:
+  - String
+  - InputStream
+  - int
+  returns: void
+  since: 2.0
+- name: updateBigDecimal
+  params:
+  - int
+  - BigDecimal
+  returns: void
+  since: 2.0
+- name: updateBigDecimal
+  params:
+  - String
+  - BigDecimal
+  returns: void
+  since: 2.0
+- name: updateBinaryStream
+  params:
+  - int
+  - InputStream
+  - int
+  returns: void
+  since: 2.0
+- name: updateBinaryStream
+  params:
+  - String
+  - InputStream
+  - int
+  returns: void
+  since: 2.0
+- name: updateBoolean
+  params:
+  - int
+  - boolean
+  returns: void
+  since: 2.0
+- name: updateBoolean
+  params:
+  - String
+  - boolean
+  returns: void
+  since: 2.0
+- name: updateByte
+  params:
+  - int
+  - byte
+  returns: void
+  since: 2.0
+- name: updateByte
+  params:
+  - String
+  - byte
+  returns: void
+  since: 2.0
+- name: updateBytes
+  params:
+  - int
+  - "byte[]"
+  returns: void
+  since: 2.0
+- name: updateBytes
+  params:
+  - String
+  - "byte[]"
+  returns: void
+  since: 2.0
+- name: updateCharacterStream
+  params:
+  - int
+  - Reader
+  - int
+  returns: void
+  since: 2.0
+- name: updateCharacterStream
+  params:
+  - String
+  - Reader
+  - int
+  returns: void
+  since: 2.0
+- name: updateDate
+  params:
+  - int
+  - Date
+  returns: void
+  since: 2.0
+- name: updateDate
+  params:
+  - String
+  - Date
+  returns: void
+  since: 2.0
+- name: updateDouble
+  params:
+  - int
+  - double
+  returns: void
+  since: 2.0
+- name: updateDouble
+  params:
+  - String
+  - double
+  returns: void
+  since: 2.0
+- name: updateFloat
+  params:
+  - int
+  - float
+  returns: void
+  since: 2.0
+- name: updateFloat
+  params:
+  - String
+  - float
+  returns: void
+  since: 2.0
+- name: updateInt
+  params:
+  - int
+  - int
+  returns: void
+  since: 2.0
+- name: updateInt
+  params:
+  - String
+  - int
+  returns: void
+  since: 2.0
+- name: updateLong
+  params:
+  - int
+  - long
+  returns: void
+  since: 2.0
+- name: updateLong
+  params:
+  - String
+  - long
+  returns: void
+  since: 2.0
+- name: updateNull
+  params:
+  - int
+  returns: void
+  since: 2.0
+- name: updateNull
+  params:
+  - String
+  returns: void
+  since: 2.0
+- name: updateObject
+  params:
+  - int
+  - Object
+  returns: void
+  since: 2.0
+- name: updateObject
+  params:
+  - String
+  - Object
+  returns: void
+  since: 2.0
+- name: updateObject
+  params:
+  - int
+  - Object
+  - int
+  returns: void
+  since: 2.0
+- name: updateObject
+  params:
+  - String
+  - Object
+  - int
+  returns: void
+  since: 2.0
+- name: updateRow
+  params: []
+  returns: void
+  since: 2.0
+- name: updateShort
+  params:
+  - int
+  - short
+  returns: void
+  since: 2.0
+- name: updateShort
+  params:
+  - String
+  - short
+  returns: void
+  since: 2.0
+- name: updateString
+  params:
+  - int
+  - String
+  returns: void
+  since: 2.0
+- name: updateString
+  params:
+  - String
+  - String
+  returns: void
+  since: 2.0
+- name: updateTime
+  params:
+  - int
+  - Time
+  returns: void
+  since: 2.0
+- name: updateTime
+  params:
+  - String
+  - Time
+  returns: void
+  since: 2.0
+- name: updateTimestamp
+  params:
+  - int
+  - Timestamp
+  returns: void
+  since: 2.0
+- name: updateTimestamp
+  params:
+  - String
+  - Timestamp
+  returns: void
+  since: 2.0
+- name: getURL
+  params:
+  - int
+  returns: URL
+  since: 3.0
+- name: getURL
+  params:
+  - String
+  returns: URL
+  since: 3.0
+- name: updateArray
+  params:
+  - int
+  - Array
+  returns: void
+  since: 3.0
+- name: updateArray
+  params:
+  - String
+  - Array
+  returns: void
+  since: 3.0
+- name: updateBlob
+  params:
+  - int
+  - Blob
+  returns: void
+  since: 3.0
+- name: updateBlob
+  params:
+  - String
+  - Blob
+  returns: void
+  since: 3.0
+- name: updateClob
+  params:
+  - int
+  - Clob
+  returns: void
+  since: 3.0
+- name: updateClob
+  params:
+  - String
+  - Clob
+  returns: void
+  since: 3.0
+- name: updateRef
+  params:
+  - int
+  - Ref
+  returns: void
+  since: 3.0
+- name: updateRef
+  params:
+  - String
+  - Ref
+  returns: void
+  since: 3.0
+- name: getHoldability
+  params: []
+  returns: int
+  since: 4.0
+- name: getNCharacterStream
+  params:
+  - int
+  returns: Reader
+  since: 4.0
+- name: getNCharacterStream
+  params:
+  - String
+  returns: Reader
+  since: 4.0
+- name: getNClob
+  params:
+  - int
+  returns: NClob
+  since: 4.0
+- name: getNClob
+  params:
+  - String
+  returns: NClob
+  since: 4.0
+- name: getNString
+  params:
+  - int
+  returns: String
+  since: 4.0
+- name: getNString
+  params:
+  - String
+  returns: String
+  since: 4.0
+- name: getRowId
+  params:
+  - int
+  returns: RowId
+  since: 4.0
+- name: getRowId
+  params:
+  - String
+  returns: RowId
+  since: 4.0
+- name: getSQLXML
+  params:
+  - int
+  returns: SQLXML
+  since: 4.0
+- name: getSQLXML
+  params:
+  - String
+  returns: SQLXML
+  since: 4.0
+- name: isClosed
+  params: []
+  returns: boolean
+  since: 4.0
+- name: updateAsciiStream
+  params:
+  - int
+  - InputStream
+  returns: void
+  since: 4.0
+- name: updateAsciiStream
+  params:
+  - String
+  - InputStream
+  returns: void
+  since: 4.0
+- name: updateAsciiStream
+  params:
+  - int
+  - InputStream
+  - long
+  returns: void
+  since: 4.0
+- name: updateAsciiStream
+  params:
+  - String
+  - InputStream
+  - long
+  returns: void
+  since: 4.0
+- name: updateBinaryStream
+  params:
+  - int
+  - InputStream
+  returns: void
+  since: 4.0
+- name: updateBinaryStream
+  params:
+  - String
+  - InputStream
+  returns: void
+  since: 4.0
+- name: updateBinaryStream
+  params:
+  - int
+  - InputStream
+  - long
+  returns: void
+  since: 4.0
+- name: updateBinaryStream
+  params:
+  - String
+  - InputStream
+  - long
+  returns: void
+  since: 4.0
+- name: updateBlob
+  params:
+  - int
+  - InputStream
+  returns: void
+  since: 4.0
+- name: updateBlob
+  params:
+  - String
+  - InputStream
+  returns: void
+  since: 4.0
+- name: updateBlob
+  params:
+  - int
+  - InputStream
+  - long
+  returns: void
+  since: 4.0
+- name: updateBlob
+  params:
+  - String
+  - InputStream
+  - long
+  returns: void
+  since: 4.0
+- name: updateCharacterStream
+  params:
+  - int
+  - Reader
+  returns: void
+  since: 4.0
+- name: updateCharacterStream
+  params:
+  - String
+  - Reader
+  returns: void
+  since: 4.0
+- name: updateCharacterStream
+  params:
+  - int
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: updateCharacterStream
+  params:
+  - String
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: updateClob
+  params:
+  - int
+  - Reader
+  returns: void
+  since: 4.0
+- name: updateClob
+  params:
+  - String
+  - Reader
+  returns: void
+  since: 4.0
+- name: updateClob
+  params:
+  - int
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: updateClob
+  params:
+  - String
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: updateNCharacterStream
+  params:
+  - int
+  - Reader
+  returns: void
+  since: 4.0
+- name: updateNCharacterStream
+  params:
+  - String
+  - Reader
+  returns: void
+  since: 4.0
+- name: updateNCharacterStream
+  params:
+  - int
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: updateNCharacterStream
+  params:
+  - String
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: updateNClob
+  params:
+  - int
+  - NClob
+  returns: void
+  since: 4.0
+- name: updateNClob
+  params:
+  - String
+  - NClob
+  returns: void
+  since: 4.0
+- name: updateNClob
+  params:
+  - int
+  - Reader
+  returns: void
+  since: 4.0
+- name: updateNClob
+  params:
+  - String
+  - Reader
+  returns: void
+  since: 4.0
+- name: updateNClob
+  params:
+  - int
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: updateNClob
+  params:
+  - String
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: updateNString
+  params:
+  - int
+  - String
+  returns: void
+  since: 4.0
+- name: updateNString
+  params:
+  - String
+  - String
+  returns: void
+  since: 4.0
+- name: updateRowId
+  params:
+  - int
+  - RowId
+  returns: void
+  since: 4.0
+- name: updateRowId
+  params:
+  - String
+  - RowId
+  returns: void
+  since: 4.0
+- name: updateSQLXML
+  params:
+  - int
+  - SQLXML
+  returns: void
+  since: 4.0
+- name: updateSQLXML
+  params:
+  - String
+  - SQLXML
+  returns: void
+  since: 4.0
+- name: getObject
+  params:
+  - int
+  - Class
+  returns: T
+  since: 4.1
+- name: getObject
+  params:
+  - String
+  - Class
+  returns: T
+  since: 4.1
+- name: updateObject
+  params:
+  - int
+  - Object
+  - SQLType
+  returns: void
+  since: 4.2
+- name: updateObject
+  params:
+  - String
+  - Object
+  - SQLType
+  returns: void
+  since: 4.2
+- name: updateObject
+  params:
+  - int
+  - Object
+  - SQLType
+  - int
+  returns: void
+  since: 4.2
+- name: updateObject
+  params:
+  - String
+  - Object
+  - SQLType
+  - int
+  returns: void
+  since: 4.2

@@ -1,0 +1,60 @@
+interfaceName: java.sql.Array
+since: 2.0
+methodCount: 11
+methods:
+- name: getArray
+  params: []
+  returns: Object
+  since: 2.0
+- name: getArray
+  params:
+  - Map
+  returns: Object
+  since: 2.0
+- name: getArray
+  params:
+  - long
+  - int
+  returns: Object
+  since: 2.0
+- name: getArray
+  params:
+  - long
+  - int
+  - Map
+  returns: Object
+  since: 2.0
+- name: getBaseType
+  params: []
+  returns: int
+  since: 2.0
+- name: getBaseTypeName
+  params: []
+  returns: String
+  since: 2.0
+- name: getResultSet
+  params: []
+  returns: ResultSet
+  since: 2.0
+- name: getResultSet
+  params:
+  - Map
+  returns: ResultSet
+  since: 2.0
+- name: getResultSet
+  params:
+  - long
+  - int
+  returns: ResultSet
+  since: 2.0
+- name: getResultSet
+  params:
+  - long
+  - int
+  - Map
+  returns: ResultSet
+  since: 2.0
+- name: free
+  params: []
+  returns: void
+  since: 4.0

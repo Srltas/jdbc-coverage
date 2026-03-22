@@ -1,0 +1,37 @@
+interfaceName: java.sql.Driver
+since: 1.0
+methodCount: 7
+methods:
+- name: acceptsURL
+  params:
+  - String
+  returns: boolean
+  since: 1.0
+- name: connect
+  params:
+  - String
+  - Properties
+  returns: Connection
+  since: 1.0
+- name: getMajorVersion
+  params: []
+  returns: int
+  since: 1.0
+- name: getMinorVersion
+  params: []
+  returns: int
+  since: 1.0
+- name: getPropertyInfo
+  params:
+  - String
+  - Properties
+  returns: "DriverPropertyInfo[]"
+  since: 1.0
+- name: jdbcCompliant
+  params: []
+  returns: boolean
+  since: 1.0
+- name: getParentLogger
+  params: []
+  returns: Logger
+  since: 4.1

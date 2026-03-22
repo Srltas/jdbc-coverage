@@ -1,0 +1,258 @@
+interfaceName: java.sql.Statement
+since: 1.0
+methodCount: 54
+methods:
+- name: cancel
+  params: []
+  returns: void
+  since: 1.0
+- name: clearWarnings
+  params: []
+  returns: void
+  since: 1.0
+- name: close
+  params: []
+  returns: void
+  since: 1.0
+- name: execute
+  params:
+  - String
+  returns: boolean
+  since: 1.0
+- name: executeQuery
+  params:
+  - String
+  returns: ResultSet
+  since: 1.0
+- name: executeUpdate
+  params:
+  - String
+  returns: int
+  since: 1.0
+- name: getMaxFieldSize
+  params: []
+  returns: int
+  since: 1.0
+- name: getMaxRows
+  params: []
+  returns: int
+  since: 1.0
+- name: getMoreResults
+  params: []
+  returns: boolean
+  since: 1.0
+- name: getQueryTimeout
+  params: []
+  returns: int
+  since: 1.0
+- name: getResultSet
+  params: []
+  returns: ResultSet
+  since: 1.0
+- name: getUpdateCount
+  params: []
+  returns: int
+  since: 1.0
+- name: getWarnings
+  params: []
+  returns: SQLWarning
+  since: 1.0
+- name: setCursorName
+  params:
+  - String
+  returns: void
+  since: 1.0
+- name: setEscapeProcessing
+  params:
+  - boolean
+  returns: void
+  since: 1.0
+- name: setMaxFieldSize
+  params:
+  - int
+  returns: void
+  since: 1.0
+- name: setMaxRows
+  params:
+  - int
+  returns: void
+  since: 1.0
+- name: setQueryTimeout
+  params:
+  - int
+  returns: void
+  since: 1.0
+- name: addBatch
+  params:
+  - String
+  returns: void
+  since: 2.0
+- name: clearBatch
+  params: []
+  returns: void
+  since: 2.0
+- name: executeBatch
+  params: []
+  returns: "int[]"
+  since: 2.0
+- name: getConnection
+  params: []
+  returns: Connection
+  since: 2.0
+- name: getFetchDirection
+  params: []
+  returns: int
+  since: 2.0
+- name: getFetchSize
+  params: []
+  returns: int
+  since: 2.0
+- name: getResultSetConcurrency
+  params: []
+  returns: int
+  since: 2.0
+- name: getResultSetType
+  params: []
+  returns: int
+  since: 2.0
+- name: setFetchDirection
+  params:
+  - int
+  returns: void
+  since: 2.0
+- name: setFetchSize
+  params:
+  - int
+  returns: void
+  since: 2.0
+- name: execute
+  params:
+  - String
+  - int
+  returns: boolean
+  since: 3.0
+- name: execute
+  params:
+  - String
+  - "int[]"
+  returns: boolean
+  since: 3.0
+- name: execute
+  params:
+  - String
+  - "String[]"
+  returns: boolean
+  since: 3.0
+- name: executeUpdate
+  params:
+  - String
+  - int
+  returns: int
+  since: 3.0
+- name: executeUpdate
+  params:
+  - String
+  - "int[]"
+  returns: int
+  since: 3.0
+- name: executeUpdate
+  params:
+  - String
+  - "String[]"
+  returns: int
+  since: 3.0
+- name: getGeneratedKeys
+  params: []
+  returns: ResultSet
+  since: 3.0
+- name: getMoreResults
+  params:
+  - int
+  returns: boolean
+  since: 3.0
+- name: getResultSetHoldability
+  params: []
+  returns: int
+  since: 3.0
+- name: isClosed
+  params: []
+  returns: boolean
+  since: 4.0
+- name: isPoolable
+  params: []
+  returns: boolean
+  since: 4.0
+- name: setPoolable
+  params:
+  - boolean
+  returns: void
+  since: 4.0
+- name: closeOnCompletion
+  params: []
+  returns: void
+  since: 4.1
+- name: isCloseOnCompletion
+  params: []
+  returns: boolean
+  since: 4.1
+- name: executeLargeBatch
+  params: []
+  returns: "long[]"
+  since: 4.2
+- name: executeLargeUpdate
+  params:
+  - String
+  returns: long
+  since: 4.2
+- name: executeLargeUpdate
+  params:
+  - String
+  - int
+  returns: long
+  since: 4.2
+- name: executeLargeUpdate
+  params:
+  - String
+  - "int[]"
+  returns: long
+  since: 4.2
+- name: executeLargeUpdate
+  params:
+  - String
+  - "String[]"
+  returns: long
+  since: 4.2
+- name: getLargeMaxRows
+  params: []
+  returns: long
+  since: 4.2
+- name: getLargeUpdateCount
+  params: []
+  returns: long
+  since: 4.2
+- name: setLargeMaxRows
+  params:
+  - long
+  returns: void
+  since: 4.2
+- name: enquoteIdentifier
+  params:
+  - String
+  - boolean
+  returns: String
+  since: 4.3
+- name: enquoteLiteral
+  params:
+  - String
+  returns: String
+  since: 4.3
+- name: enquoteNCharLiteral
+  params:
+  - String
+  returns: String
+  since: 4.3
+- name: isSimpleIdentifier
+  params:
+  - String
+  returns: boolean
+  since: 4.3

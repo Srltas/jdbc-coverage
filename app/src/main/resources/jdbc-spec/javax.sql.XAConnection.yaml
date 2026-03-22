@@ -1,0 +1,8 @@
+interfaceName: javax.sql.XAConnection
+since: 3.0
+methodCount: 1
+methods:
+- name: getXAResource
+  params: []
+  returns: XAResource
+  since: 3.0

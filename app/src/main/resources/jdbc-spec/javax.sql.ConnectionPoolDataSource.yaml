@@ -1,0 +1,36 @@
+interfaceName: javax.sql.ConnectionPoolDataSource
+since: 3.0
+methodCount: 7
+methods:
+- name: getLogWriter
+  params: []
+  returns: PrintWriter
+  since: 3.0
+- name: getLoginTimeout
+  params: []
+  returns: int
+  since: 3.0
+- name: getPooledConnection
+  params: []
+  returns: PooledConnection
+  since: 3.0
+- name: getPooledConnection
+  params:
+  - String
+  - String
+  returns: PooledConnection
+  since: 3.0
+- name: setLogWriter
+  params:
+  - PrintWriter
+  returns: void
+  since: 3.0
+- name: setLoginTimeout
+  params:
+  - int
+  returns: void
+  since: 3.0
+- name: createPooledConnectionBuilder
+  params: []
+  returns: PooledConnectionBuilder
+  since: 4.3

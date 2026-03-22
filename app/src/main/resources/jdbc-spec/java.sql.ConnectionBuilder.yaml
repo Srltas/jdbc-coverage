@@ -1,0 +1,28 @@
+interfaceName: java.sql.ConnectionBuilder
+since: 4.3
+methodCount: 5
+methods:
+- name: build
+  params: []
+  returns: Connection
+  since: 4.3
+- name: password
+  params:
+  - String
+  returns: ConnectionBuilder
+  since: 4.3
+- name: shardingKey
+  params:
+  - ShardingKey
+  returns: ConnectionBuilder
+  since: 4.3
+- name: superShardingKey
+  params:
+  - ShardingKey
+  returns: ConnectionBuilder
+  since: 4.3
+- name: user
+  params:
+  - String
+  returns: ConnectionBuilder
+  since: 4.3

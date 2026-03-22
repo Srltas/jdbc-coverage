@@ -1,0 +1,17 @@
+interfaceName: java.sql.Struct
+since: 2.0
+methodCount: 3
+methods:
+- name: getAttributes
+  params: []
+  returns: "Object[]"
+  since: 2.0
+- name: getAttributes
+  params:
+  - Map
+  returns: "Object[]"
+  since: 2.0
+- name: getSQLTypeName
+  params: []
+  returns: String
+  since: 2.0

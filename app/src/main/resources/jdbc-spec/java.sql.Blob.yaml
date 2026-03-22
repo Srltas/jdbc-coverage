@@ -1,0 +1,64 @@
+interfaceName: java.sql.Blob
+since: 2.0
+methodCount: 11
+methods:
+- name: getBinaryStream
+  params: []
+  returns: InputStream
+  since: 2.0
+- name: getBytes
+  params:
+  - long
+  - int
+  returns: "byte[]"
+  since: 2.0
+- name: length
+  params: []
+  returns: long
+  since: 2.0
+- name: position
+  params:
+  - "byte[]"
+  - long
+  returns: long
+  since: 2.0
+- name: position
+  params:
+  - Blob
+  - long
+  returns: long
+  since: 2.0
+- name: setBinaryStream
+  params:
+  - long
+  returns: OutputStream
+  since: 3.0
+- name: setBytes
+  params:
+  - long
+  - "byte[]"
+  returns: int
+  since: 3.0
+- name: setBytes
+  params:
+  - long
+  - "byte[]"
+  - int
+  - int
+  returns: int
+  since: 3.0
+- name: truncate
+  params:
+  - long
+  returns: void
+  since: 3.0
+- name: free
+  params: []
+  returns: void
+  since: 4.0
+- name: getBinaryStream
+  params:
+  - long
+  - long
+  returns: InputStream
+  since: 4.0

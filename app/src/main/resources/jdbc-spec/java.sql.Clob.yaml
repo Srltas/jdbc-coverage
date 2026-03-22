@@ -1,0 +1,73 @@
+interfaceName: java.sql.Clob
+since: 2.0
+methodCount: 13
+methods:
+- name: getAsciiStream
+  params: []
+  returns: InputStream
+  since: 2.0
+- name: getCharacterStream
+  params: []
+  returns: Reader
+  since: 2.0
+- name: getSubString
+  params:
+  - long
+  - int
+  returns: String
+  since: 2.0
+- name: length
+  params: []
+  returns: long
+  since: 2.0
+- name: position
+  params:
+  - String
+  - long
+  returns: long
+  since: 2.0
+- name: position
+  params:
+  - Clob
+  - long
+  returns: long
+  since: 2.0
+- name: setAsciiStream
+  params:
+  - long
+  returns: OutputStream
+  since: 3.0
+- name: setCharacterStream
+  params:
+  - long
+  returns: Writer
+  since: 3.0
+- name: setString
+  params:
+  - long
+  - String
+  returns: int
+  since: 3.0
+- name: setString
+  params:
+  - long
+  - String
+  - int
+  - int
+  returns: int
+  since: 3.0
+- name: truncate
+  params:
+  - long
+  returns: void
+  since: 3.0
+- name: free
+  params: []
+  returns: void
+  since: 4.0
+- name: getCharacterStream
+  params:
+  - long
+  - long
+  returns: Reader
+  since: 4.0

@@ -1,0 +1,16 @@
+interfaceName: java.sql.SQLType
+since: 4.2
+methodCount: 3
+methods:
+- name: getName
+  params: []
+  returns: String
+  since: 4.2
+- name: getVendor
+  params: []
+  returns: String
+  since: 4.2
+- name: getVendorTypeNumber
+  params: []
+  returns: Integer
+  since: 4.2

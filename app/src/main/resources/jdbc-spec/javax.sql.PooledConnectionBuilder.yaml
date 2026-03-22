@@ -1,0 +1,28 @@
+interfaceName: javax.sql.PooledConnectionBuilder
+since: 4.3
+methodCount: 5
+methods:
+- name: build
+  params: []
+  returns: PooledConnection
+  since: 4.3
+- name: password
+  params:
+  - String
+  returns: PooledConnectionBuilder
+  since: 4.3
+- name: shardingKey
+  params:
+  - ShardingKey
+  returns: PooledConnectionBuilder
+  since: 4.3
+- name: superShardingKey
+  params:
+  - ShardingKey
+  returns: PooledConnectionBuilder
+  since: 4.3
+- name: user
+  params:
+  - String
+  returns: PooledConnectionBuilder
+  since: 4.3

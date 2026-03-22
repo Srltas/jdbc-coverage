@@ -1,0 +1,706 @@
+interfaceName: java.sql.CallableStatement
+since: 1.0
+methodCount: 121
+methods:
+- name: getBigDecimal
+  params:
+  - int
+  - int
+  returns: BigDecimal
+  since: 1.0
+- name: getBoolean
+  params:
+  - int
+  returns: boolean
+  since: 1.0
+- name: getByte
+  params:
+  - int
+  returns: byte
+  since: 1.0
+- name: getBytes
+  params:
+  - int
+  returns: "byte[]"
+  since: 1.0
+- name: getDate
+  params:
+  - int
+  returns: Date
+  since: 1.0
+- name: getDouble
+  params:
+  - int
+  returns: double
+  since: 1.0
+- name: getFloat
+  params:
+  - int
+  returns: float
+  since: 1.0
+- name: getInt
+  params:
+  - int
+  returns: int
+  since: 1.0
+- name: getLong
+  params:
+  - int
+  returns: long
+  since: 1.0
+- name: getObject
+  params:
+  - int
+  returns: Object
+  since: 1.0
+- name: getShort
+  params:
+  - int
+  returns: short
+  since: 1.0
+- name: getString
+  params:
+  - int
+  returns: String
+  since: 1.0
+- name: getTime
+  params:
+  - int
+  returns: Time
+  since: 1.0
+- name: getTimestamp
+  params:
+  - int
+  returns: Timestamp
+  since: 1.0
+- name: registerOutParameter
+  params:
+  - int
+  - int
+  returns: void
+  since: 1.0
+- name: registerOutParameter
+  params:
+  - int
+  - int
+  - int
+  returns: void
+  since: 1.0
+- name: wasNull
+  params: []
+  returns: boolean
+  since: 1.0
+- name: getArray
+  params:
+  - int
+  returns: Array
+  since: 2.0
+- name: getBigDecimal
+  params:
+  - int
+  returns: BigDecimal
+  since: 2.0
+- name: getBlob
+  params:
+  - int
+  returns: Blob
+  since: 2.0
+- name: getClob
+  params:
+  - int
+  returns: Clob
+  since: 2.0
+- name: getDate
+  params:
+  - int
+  - Calendar
+  returns: Date
+  since: 2.0
+- name: getObject
+  params:
+  - int
+  - Map
+  returns: Object
+  since: 2.0
+- name: getRef
+  params:
+  - int
+  returns: Ref
+  since: 2.0
+- name: getTime
+  params:
+  - int
+  - Calendar
+  returns: Time
+  since: 2.0
+- name: getTimestamp
+  params:
+  - int
+  - Calendar
+  returns: Timestamp
+  since: 2.0
+- name: registerOutParameter
+  params:
+  - int
+  - int
+  - String
+  returns: void
+  since: 2.0
+- name: getArray
+  params:
+  - String
+  returns: Array
+  since: 3.0
+- name: getBigDecimal
+  params:
+  - String
+  returns: BigDecimal
+  since: 3.0
+- name: getBlob
+  params:
+  - String
+  returns: Blob
+  since: 3.0
+- name: getBoolean
+  params:
+  - String
+  returns: boolean
+  since: 3.0
+- name: getByte
+  params:
+  - String
+  returns: byte
+  since: 3.0
+- name: getBytes
+  params:
+  - String
+  returns: "byte[]"
+  since: 3.0
+- name: getClob
+  params:
+  - String
+  returns: Clob
+  since: 3.0
+- name: getDate
+  params:
+  - String
+  returns: Date
+  since: 3.0
+- name: getDate
+  params:
+  - String
+  - Calendar
+  returns: Date
+  since: 3.0
+- name: getDouble
+  params:
+  - String
+  returns: double
+  since: 3.0
+- name: getFloat
+  params:
+  - String
+  returns: float
+  since: 3.0
+- name: getInt
+  params:
+  - String
+  returns: int
+  since: 3.0
+- name: getLong
+  params:
+  - String
+  returns: long
+  since: 3.0
+- name: getObject
+  params:
+  - String
+  returns: Object
+  since: 3.0
+- name: getObject
+  params:
+  - String
+  - Map
+  returns: Object
+  since: 3.0
+- name: getRef
+  params:
+  - String
+  returns: Ref
+  since: 3.0
+- name: getShort
+  params:
+  - String
+  returns: short
+  since: 3.0
+- name: getString
+  params:
+  - String
+  returns: String
+  since: 3.0
+- name: getTime
+  params:
+  - String
+  returns: Time
+  since: 3.0
+- name: getTime
+  params:
+  - String
+  - Calendar
+  returns: Time
+  since: 3.0
+- name: getTimestamp
+  params:
+  - String
+  returns: Timestamp
+  since: 3.0
+- name: getTimestamp
+  params:
+  - String
+  - Calendar
+  returns: Timestamp
+  since: 3.0
+- name: getURL
+  params:
+  - int
+  returns: URL
+  since: 3.0
+- name: getURL
+  params:
+  - String
+  returns: URL
+  since: 3.0
+- name: registerOutParameter
+  params:
+  - String
+  - int
+  returns: void
+  since: 3.0
+- name: registerOutParameter
+  params:
+  - String
+  - int
+  - int
+  returns: void
+  since: 3.0
+- name: registerOutParameter
+  params:
+  - String
+  - int
+  - String
+  returns: void
+  since: 3.0
+- name: setAsciiStream
+  params:
+  - String
+  - InputStream
+  - int
+  returns: void
+  since: 3.0
+- name: setBigDecimal
+  params:
+  - String
+  - BigDecimal
+  returns: void
+  since: 3.0
+- name: setBinaryStream
+  params:
+  - String
+  - InputStream
+  - int
+  returns: void
+  since: 3.0
+- name: setBoolean
+  params:
+  - String
+  - boolean
+  returns: void
+  since: 3.0
+- name: setByte
+  params:
+  - String
+  - byte
+  returns: void
+  since: 3.0
+- name: setBytes
+  params:
+  - String
+  - "byte[]"
+  returns: void
+  since: 3.0
+- name: setCharacterStream
+  params:
+  - String
+  - Reader
+  - int
+  returns: void
+  since: 3.0
+- name: setDate
+  params:
+  - String
+  - Date
+  returns: void
+  since: 3.0
+- name: setDate
+  params:
+  - String
+  - Date
+  - Calendar
+  returns: void
+  since: 3.0
+- name: setDouble
+  params:
+  - String
+  - double
+  returns: void
+  since: 3.0
+- name: setFloat
+  params:
+  - String
+  - float
+  returns: void
+  since: 3.0
+- name: setInt
+  params:
+  - String
+  - int
+  returns: void
+  since: 3.0
+- name: setLong
+  params:
+  - String
+  - long
+  returns: void
+  since: 3.0
+- name: setNull
+  params:
+  - String
+  - int
+  returns: void
+  since: 3.0
+- name: setNull
+  params:
+  - String
+  - int
+  - String
+  returns: void
+  since: 3.0
+- name: setObject
+  params:
+  - String
+  - Object
+  returns: void
+  since: 3.0
+- name: setObject
+  params:
+  - String
+  - Object
+  - int
+  returns: void
+  since: 3.0
+- name: setObject
+  params:
+  - String
+  - Object
+  - int
+  - int
+  returns: void
+  since: 3.0
+- name: setShort
+  params:
+  - String
+  - short
+  returns: void
+  since: 3.0
+- name: setString
+  params:
+  - String
+  - String
+  returns: void
+  since: 3.0
+- name: setTime
+  params:
+  - String
+  - Time
+  returns: void
+  since: 3.0
+- name: setTime
+  params:
+  - String
+  - Time
+  - Calendar
+  returns: void
+  since: 3.0
+- name: setTimestamp
+  params:
+  - String
+  - Timestamp
+  returns: void
+  since: 3.0
+- name: setTimestamp
+  params:
+  - String
+  - Timestamp
+  - Calendar
+  returns: void
+  since: 3.0
+- name: setURL
+  params:
+  - String
+  - URL
+  returns: void
+  since: 3.0
+- name: getCharacterStream
+  params:
+  - int
+  returns: Reader
+  since: 4.0
+- name: getCharacterStream
+  params:
+  - String
+  returns: Reader
+  since: 4.0
+- name: getNCharacterStream
+  params:
+  - int
+  returns: Reader
+  since: 4.0
+- name: getNCharacterStream
+  params:
+  - String
+  returns: Reader
+  since: 4.0
+- name: getNClob
+  params:
+  - int
+  returns: NClob
+  since: 4.0
+- name: getNClob
+  params:
+  - String
+  returns: NClob
+  since: 4.0
+- name: getNString
+  params:
+  - int
+  returns: String
+  since: 4.0
+- name: getNString
+  params:
+  - String
+  returns: String
+  since: 4.0
+- name: getRowId
+  params:
+  - int
+  returns: RowId
+  since: 4.0
+- name: getRowId
+  params:
+  - String
+  returns: RowId
+  since: 4.0
+- name: getSQLXML
+  params:
+  - int
+  returns: SQLXML
+  since: 4.0
+- name: getSQLXML
+  params:
+  - String
+  returns: SQLXML
+  since: 4.0
+- name: setAsciiStream
+  params:
+  - String
+  - InputStream
+  returns: void
+  since: 4.0
+- name: setAsciiStream
+  params:
+  - String
+  - InputStream
+  - long
+  returns: void
+  since: 4.0
+- name: setBinaryStream
+  params:
+  - String
+  - InputStream
+  returns: void
+  since: 4.0
+- name: setBinaryStream
+  params:
+  - String
+  - InputStream
+  - long
+  returns: void
+  since: 4.0
+- name: setBlob
+  params:
+  - String
+  - Blob
+  returns: void
+  since: 4.0
+- name: setBlob
+  params:
+  - String
+  - InputStream
+  returns: void
+  since: 4.0
+- name: setBlob
+  params:
+  - String
+  - InputStream
+  - long
+  returns: void
+  since: 4.0
+- name: setCharacterStream
+  params:
+  - String
+  - Reader
+  returns: void
+  since: 4.0
+- name: setCharacterStream
+  params:
+  - String
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: setClob
+  params:
+  - String
+  - Clob
+  returns: void
+  since: 4.0
+- name: setClob
+  params:
+  - String
+  - Reader
+  returns: void
+  since: 4.0
+- name: setClob
+  params:
+  - String
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: setNCharacterStream
+  params:
+  - String
+  - Reader
+  returns: void
+  since: 4.0
+- name: setNCharacterStream
+  params:
+  - String
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: setNClob
+  params:
+  - String
+  - NClob
+  returns: void
+  since: 4.0
+- name: setNClob
+  params:
+  - String
+  - Reader
+  returns: void
+  since: 4.0
+- name: setNClob
+  params:
+  - String
+  - Reader
+  - long
+  returns: void
+  since: 4.0
+- name: setNString
+  params:
+  - String
+  - String
+  returns: void
+  since: 4.0
+- name: setRowId
+  params:
+  - String
+  - RowId
+  returns: void
+  since: 4.0
+- name: setSQLXML
+  params:
+  - String
+  - SQLXML
+  returns: void
+  since: 4.0
+- name: getObject
+  params:
+  - int
+  - Class
+  returns: T
+  since: 4.1
+- name: getObject
+  params:
+  - String
+  - Class
+  returns: T
+  since: 4.1
+- name: registerOutParameter
+  params:
+  - int
+  - SQLType
+  returns: void
+  since: 4.2
+- name: registerOutParameter
+  params:
+  - String
+  - SQLType
+  returns: void
+  since: 4.2
+- name: registerOutParameter
+  params:
+  - int
+  - SQLType
+  - int
+  returns: void
+  since: 4.2
+- name: registerOutParameter
+  params:
+  - int
+  - SQLType
+  - String
+  returns: void
+  since: 4.2
+- name: registerOutParameter
+  params:
+  - String
+  - SQLType
+  - int
+  returns: void
+  since: 4.2
+- name: registerOutParameter
+  params:
+  - String
+  - SQLType
+  - String
+  returns: void
+  since: 4.2
+- name: setObject
+  params:
+  - String
+  - Object
+  - SQLType
+  returns: void
+  since: 4.2
+- name: setObject
+  params:
+  - String
+  - Object
+  - SQLType
+  - int
+  returns: void
+  since: 4.2

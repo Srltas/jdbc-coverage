@@ -1,0 +1,105 @@
+interfaceName: javax.sql.RowSetMetaData
+since: 1.0
+methodCount: 17
+methods:
+- name: setAutoIncrement
+  params:
+  - int
+  - boolean
+  returns: void
+  since: 1.0
+- name: setCaseSensitive
+  params:
+  - int
+  - boolean
+  returns: void
+  since: 1.0
+- name: setCatalogName
+  params:
+  - int
+  - String
+  returns: void
+  since: 1.0
+- name: setColumnCount
+  params:
+  - int
+  returns: void
+  since: 1.0
+- name: setColumnDisplaySize
+  params:
+  - int
+  - int
+  returns: void
+  since: 1.0
+- name: setColumnLabel
+  params:
+  - int
+  - String
+  returns: void
+  since: 1.0
+- name: setColumnName
+  params:
+  - int
+  - String
+  returns: void
+  since: 1.0
+- name: setColumnType
+  params:
+  - int
+  - int
+  returns: void
+  since: 1.0
+- name: setColumnTypeName
+  params:
+  - int
+  - String
+  returns: void
+  since: 1.0
+- name: setCurrency
+  params:
+  - int
+  - boolean
+  returns: void
+  since: 1.0
+- name: setNullable
+  params:
+  - int
+  - int
+  returns: void
+  since: 1.0
+- name: setPrecision
+  params:
+  - int
+  - int
+  returns: void
+  since: 1.0
+- name: setScale
+  params:
+  - int
+  - int
+  returns: void
+  since: 1.0
+- name: setSchemaName
+  params:
+  - int
+  - String
+  returns: void
+  since: 1.0
+- name: setSearchable
+  params:
+  - int
+  - boolean
+  returns: void
+  since: 1.0
+- name: setSigned
+  params:
+  - int
+  - boolean
+  returns: void
+  since: 1.0
+- name: setTableName
+  params:
+  - int
+  - String
+  returns: void
+  since: 1.0

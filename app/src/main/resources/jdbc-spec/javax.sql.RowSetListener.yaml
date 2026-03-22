@@ -1,0 +1,19 @@
+interfaceName: javax.sql.RowSetListener
+since: 1.0
+methodCount: 3
+methods:
+- name: cursorMoved
+  params:
+  - RowSetEvent
+  returns: void
+  since: 1.0
+- name: rowChanged
+  params:
+  - RowSetEvent
+  returns: void
+  since: 1.0
+- name: rowSetChanged
+  params:
+  - RowSetEvent
+  returns: void
+  since: 1.0
