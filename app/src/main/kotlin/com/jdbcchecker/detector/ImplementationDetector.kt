@@ -1,5 +1,6 @@
 package com.jdbcchecker.detector
 
+import com.github.javaparser.ast.CompilationUnit
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration
 import com.github.javaparser.ast.body.MethodDeclaration
 import com.github.javaparser.ast.expr.Expression
@@ -24,11 +25,81 @@ class ImplementationDetector {
         specMethod: MethodSignature,
         classDecl: ClassOrInterfaceDeclaration,
     ): ImplementationStatus {
+        // Search in the class itself
         val method = findMatchingMethod(specMethod, classDecl)
-            ?: return ImplementationStatus.NotFound
+        if (method != null) {
+            return analyzeMethodBody(method)
+        }
 
-        return analyzeMethodBody(method)
+        // Search in parent classes within the same compilation unit set
+        val parentResult = searchParentClasses(specMethod, classDecl)
+        if (parentResult != null) {
+            return parentResult
+        }
+
+        return ImplementationStatus.NotFound
     }
+
+    /**
+     * Walk up the inheritance chain looking for the method in parent classes.
+     */
+    private fun searchParentClasses(
+        specMethod: MethodSignature,
+        classDecl: ClassOrInterfaceDeclaration,
+    ): ImplementationStatus? {
+        val parentTypeName = classDecl.extendedTypes.firstOrNull()?.nameAsString
+            ?: return null
+
+        // Find the parent class declaration in the same AST
+        val cu = classDecl.findCompilationUnit().orElse(null) ?: return null
+        val allCUs = cu.findAll(ClassOrInterfaceDeclaration::class.java)
+
+        // Also search in the compilation unit storage if available
+        val parentClass = findClassByName(parentTypeName, classDecl)
+            ?: return null
+
+        val method = findMatchingMethod(specMethod, parentClass)
+        if (method != null) {
+            return analyzeMethodBody(method)
+        }
+
+        // Continue up the chain recursively
+        return searchParentClasses(specMethod, parentClass)
+    }
+
+    /**
+     * Find a class declaration by simple name, searching sibling classes
+     * in the same package/compilation unit set.
+     */
+    private fun findClassByName(
+        simpleName: String,
+        referenceClass: ClassOrInterfaceDeclaration,
+    ): ClassOrInterfaceDeclaration? {
+        // Search in the same compilation unit first
+        val cu = referenceClass.findCompilationUnit().orElse(null)
+        cu?.findAll(ClassOrInterfaceDeclaration::class.java)
+            ?.find { it.nameAsString == simpleName }
+            ?.let { return it }
+
+        // Search in registered compilation units (from SourceParser)
+        return parentClassRegistry[simpleName]
+    }
+
+    /**
+     * Register all parsed compilation units so parent classes can be found
+     * across files.
+     */
+    fun registerCompilationUnits(compilationUnits: List<CompilationUnit>) {
+        for (cu in compilationUnits) {
+            cu.findAll(ClassOrInterfaceDeclaration::class.java)
+                .filter { !it.isInterface }
+                .forEach { classDecl ->
+                    parentClassRegistry[classDecl.nameAsString] = classDecl
+                }
+        }
+    }
+
+    private val parentClassRegistry = mutableMapOf<String, ClassOrInterfaceDeclaration>()
 
     /**
      * Find a method in the class that matches the spec method signature.
