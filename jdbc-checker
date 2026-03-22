@@ -9,18 +9,21 @@
 #   ./jdbc-checker extract-spec <jdk-source> [options]
 #
 # Run './jdbc-checker --help' for full usage information.
+#
+# Distribution layout:
+#   jdbc-checker              (this script)
+#   jdbc-checker-1.0.0-all.jar (fat JAR)
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-JAR_DIR="$SCRIPT_DIR/app/build/libs"
 JAR_NAME="jdbc-checker-1.0.0-all.jar"
-JAR_PATH="$JAR_DIR/$JAR_NAME"
+JAR_PATH="$SCRIPT_DIR/$JAR_NAME"
 
 if [[ ! -f "$JAR_PATH" ]]; then
-    echo "Fat JAR not found: $JAR_PATH"
-    echo "Building..."
-    "$SCRIPT_DIR/gradlew" -p "$SCRIPT_DIR" fatJar -q
+    echo "Error: $JAR_NAME not found in $SCRIPT_DIR" >&2
+    echo "Place the fat JAR in the same directory as this script." >&2
+    exit 1
 fi
 
 exec java -jar "$JAR_PATH" "$@"

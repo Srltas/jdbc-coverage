@@ -253,7 +253,7 @@ class AnalyzeCommand : Callable<Int> {
 @Command(
     name = "diff",
     description = [
-        "Compare a baseline analysis JSON against the current driver source (or another JSON).",
+        "Compare baseline JSON against current source or JSON.",
         "",
         "Examples:",
         "  jdbc-checker diff baseline.json ./src/jdbc",
