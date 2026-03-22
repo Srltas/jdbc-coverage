@@ -1,6 +1,7 @@
 package com.jdbcchecker.cli
 
 import com.jdbcchecker.detector.ImplementationDetector
+import com.jdbcchecker.git.GitCloneService
 import com.jdbcchecker.model.AnalysisReport
 import com.jdbcchecker.model.ImplementationStatus
 import com.jdbcchecker.model.InterfaceResult
@@ -28,7 +29,7 @@ import java.util.concurrent.Callable
 @Command(
     name = "jdbc-checker",
     mixinStandardHelpOptions = true,
-    version = ["jdbc-compliance-checker 0.3.0"],
+    version = ["jdbc-compliance-checker 1.0.0"],
     description = ["Analyze JDBC driver source code for spec compliance."],
     subcommands = [
         AnalyzeCommand::class,
@@ -50,10 +51,11 @@ class JdbcCheckerCommand : Runnable {
 /**
  * Runs the full analysis pipeline on a JDBC driver source directory.
  *
- * @param sourcePath path to the source root
- * @param driverName optional driver name override (auto-detected if null)
+ * @param sourcePath resolved local path to the source root
+ * @param driverName optional driver name override (auto-detected from [sourceDisplay] if null)
  * @param entryClasses optional manual class overrides for interface detection
  * @param specDir optional external spec YAML directory (uses bundled if null)
+ * @param sourceDisplay original source string (URL or path) shown in the report
  * @return [AnalysisReport] or null if the pipeline fails
  */
 internal fun runAnalysis(
@@ -61,6 +63,7 @@ internal fun runAnalysis(
     driverName: String?,
     entryClasses: List<String> = emptyList(),
     specDir: Path? = null,
+    sourceDisplay: String? = null,
 ): AnalysisReport? {
     if (!Files.isDirectory(sourcePath)) {
         System.err.println("Error: Source path does not exist or is not a directory: $sourcePath")
@@ -127,24 +130,33 @@ internal fun runAnalysis(
     }
     println("done")
 
+    val displaySource = sourceDisplay ?: sourcePath.toAbsolutePath().toString()
     return AnalysisReport(
-        driverName = driverName ?: detectDriverName(sourcePath),
-        sourcePath = sourcePath.toAbsolutePath().toString(),
+        driverName = driverName ?: detectDriverName(displaySource),
+        sourcePath = displaySource,
         analyzedAt = Instant.now(),
         interfaces = interfaceResults,
     )
 }
 
-/** Attempt to detect driver name from the source path directory name. */
-internal fun detectDriverName(path: Path): String {
-    val dirName = path.toAbsolutePath().fileName?.toString() ?: "Unknown"
-    return when {
-        "cubrid" in dirName.lowercase() -> "CUBRID JDBC"
-        "mysql" in dirName.lowercase() -> "MySQL Connector/J"
-        "mariadb" in dirName.lowercase() -> "MariaDB Connector/J"
-        "postgresql" in dirName.lowercase() || "pgjdbc" in dirName.lowercase() -> "PostgreSQL JDBC"
-        else -> dirName
+/**
+ * Detect driver name from a source string (local path or Git URL).
+ */
+internal fun detectDriverName(source: String): String {
+    val hint = if (GitCloneService.isGitUrl(source)) {
+        source.substringAfterLast('/').removeSuffix(".git")
+    } else {
+        Path.of(source).toAbsolutePath().fileName?.toString() ?: "Unknown"
     }
+    return detectDriverNameFromHint(hint)
+}
+
+private fun detectDriverNameFromHint(hint: String): String = when {
+    "cubrid" in hint.lowercase() -> "CUBRID JDBC"
+    "mysql" in hint.lowercase() -> "MySQL Connector/J"
+    "mariadb" in hint.lowercase() -> "MariaDB Connector/J"
+    "postgresql" in hint.lowercase() || "pgjdbc" in hint.lowercase() -> "PostgreSQL JDBC"
+    else -> hint
 }
 
 /** Dispatch report outputs (console / json:<path> / html:<path>). */
@@ -178,9 +190,9 @@ class AnalyzeCommand : Callable<Int> {
 
     @Parameters(
         index = "0",
-        description = ["Path to JDBC driver source root directory."],
+        description = ["Local source path or Git repository URL."],
     )
-    lateinit var sourcePath: Path
+    lateinit var source: String
 
     @Option(
         names = ["-o", "--output"],
@@ -206,14 +218,30 @@ class AnalyzeCommand : Callable<Int> {
     )
     var specDir: Path? = null
 
+    @Option(
+        names = ["-b", "--branch"],
+        description = ["Git branch or tag to clone (default: default branch). Only used with Git URLs."],
+    )
+    var branch: String? = null
+
+    @Option(
+        names = ["--source-subdir"],
+        description = ["Subdirectory within the repository containing JDBC source (e.g., src/main/java)."],
+    )
+    var sourceSubdir: String? = null
+
     override fun call(): Int {
-        println("JDBC Compliance Checker v0.3.0")
-        println("Source: $sourcePath")
+        println("JDBC Compliance Checker v1.0.0")
+        println("Source: $source")
         println()
 
-        val report = runAnalysis(sourcePath, driverName, entryClasses, specDir) ?: return 1
-        println()
-        dispatchOutputs(outputs, report)
+        SourceResolver().use { resolver ->
+            val sourcePath = resolver.resolve(source, branch, sourceSubdir)
+            val resolvedName = driverName ?: detectDriverName(source)
+            val report = runAnalysis(sourcePath, resolvedName, entryClasses, specDir, source) ?: return 1
+            println()
+            dispatchOutputs(outputs, report)
+        }
         return 0
     }
 }
@@ -230,6 +258,7 @@ class AnalyzeCommand : Callable<Int> {
         "Examples:",
         "  jdbc-checker diff baseline.json ./src/jdbc",
         "  jdbc-checker diff baseline.json current.json",
+        "  jdbc-checker diff baseline.json https://github.com/owner/jdbc-driver.git",
     ],
     mixinStandardHelpOptions = true,
 )
@@ -244,10 +273,10 @@ class DiffCommand : Callable<Int> {
     @Parameters(
         index = "1",
         description = [
-            "Current source directory to analyze, or a second JSON report for a pure JSON diff.",
+            "Current source path, Git URL, or JSON report for comparison.",
         ],
     )
-    lateinit var current: Path
+    lateinit var current: String
 
     @Option(
         names = ["-o", "--output"],
@@ -266,6 +295,18 @@ class DiffCommand : Callable<Int> {
         description = ["Path to external JDBC spec YAML directory."],
     )
     var specDir: Path? = null
+
+    @Option(
+        names = ["-b", "--branch"],
+        description = ["Git branch or tag to clone (only used with Git URLs)."],
+    )
+    var branch: String? = null
+
+    @Option(
+        names = ["--source-subdir"],
+        description = ["Subdirectory within the repository containing JDBC source."],
+    )
+    var sourceSubdir: String? = null
 
     override fun call(): Int {
         println("JDBC Compliance Checker — Diff")
@@ -286,24 +327,31 @@ class DiffCommand : Callable<Int> {
         println("${baseline.driverName}  (${baseline.analyzedAt.toString().take(10)})")
 
         // Load or analyze current
-        val currentReport: AnalysisReport = if (current.toString().endsWith(".json")) {
-            if (!Files.isRegularFile(current)) {
+        val currentReport: AnalysisReport
+        if (current.endsWith(".json") && !GitCloneService.isGitUrl(current)) {
+            val jsonPath = Path.of(current)
+            if (!Files.isRegularFile(jsonPath)) {
                 System.err.println("Error: Current JSON not found: $current")
                 return 1
             }
             print("Loading current report... ")
-            val r = try {
-                JsonReporter().loadReport(current)
+            currentReport = try {
+                JsonReporter().loadReport(jsonPath)
             } catch (e: Exception) {
                 System.err.println("Error reading current JSON: ${e.message}")
                 return 1
             }
-            println("${r.driverName}  (${r.analyzedAt.toString().take(10)})")
-            r
+            println("${currentReport.driverName}  (${currentReport.analyzedAt.toString().take(10)})")
         } else {
             println("Analyzing current source: $current")
             println()
-            runAnalysis(current, driverName, specDir = specDir) ?: return 1
+            SourceResolver().use { resolver ->
+                val sourcePath = resolver.resolve(current, branch, sourceSubdir)
+                val resolvedName = driverName ?: detectDriverName(current)
+                val report = runAnalysis(sourcePath, resolvedName, specDir = specDir, sourceDisplay = current)
+                if (report == null) return 1
+                currentReport = report
+            }
         }
 
         val diff = computeDiff(baseline, currentReport)
@@ -336,6 +384,7 @@ class DiffCommand : Callable<Int> {
         "Examples:",
         "  jdbc-checker compare ./cubrid/src ./pgsql/src",
         "  jdbc-checker compare ./cubrid/src ./pgsql/src -n CUBRID -n PostgreSQL",
+        "  jdbc-checker compare cubrid.json https://github.com/owner/pgjdbc.git",
     ],
     mixinStandardHelpOptions = true,
 )
@@ -343,10 +392,10 @@ class CompareCommand : Callable<Int> {
 
     @Parameters(
         index = "0..*",
-        description = ["Two or more source paths (or JSON report files) to compare."],
+        description = ["Two or more source paths, Git URLs, or JSON report files to compare."],
         arity = "2..*",
     )
-    lateinit var sources: List<Path>
+    lateinit var sources: List<String>
 
     @Option(
         names = ["-n", "--driver-name"],
@@ -366,48 +415,66 @@ class CompareCommand : Callable<Int> {
     )
     var specDir: Path? = null
 
+    @Option(
+        names = ["-b", "--branch"],
+        description = ["Git branch or tag to clone (applies to all Git URL sources)."],
+    )
+    var branch: String? = null
+
+    @Option(
+        names = ["--source-subdir"],
+        description = ["Subdirectory within repositories containing JDBC source."],
+    )
+    var sourceSubdir: String? = null
+
     override fun call(): Int {
         println("JDBC Compliance Checker — Compare")
         println()
 
-        val reports = sources.mapIndexed { idx, source ->
-            val nameOverride = driverNames.getOrNull(idx)
+        SourceResolver().use { resolver ->
+            val reports = sources.mapIndexed { idx, source ->
+                val nameOverride = driverNames.getOrNull(idx)
 
-            if (source.toString().endsWith(".json")) {
-                // Load from JSON
-                if (!Files.isRegularFile(source)) {
-                    System.err.println("Error: Report JSON not found: $source")
-                    return 1
+                if (source.endsWith(".json") && !GitCloneService.isGitUrl(source)) {
+                    // Load from JSON
+                    val jsonPath = Path.of(source)
+                    if (!Files.isRegularFile(jsonPath)) {
+                        System.err.println("Error: Report JSON not found: $source")
+                        return 1
+                    }
+                    print("Loading report ${idx + 1}: $source ... ")
+                    val r = try {
+                        JsonReporter().loadReport(jsonPath)
+                    } catch (e: Exception) {
+                        System.err.println("Error reading JSON: ${e.message}")
+                        return 1
+                    }
+                    val r2 = if (nameOverride != null) r.copy(driverName = nameOverride) else r
+                    println(r2.driverName)
+                    r2
+                } else {
+                    // Resolve (local path or Git URL) and analyze
+                    println("Analyzing source ${idx + 1}: $source")
+                    println()
+                    val sourcePath = resolver.resolve(source, branch, sourceSubdir)
+                    val resolvedName = nameOverride ?: detectDriverName(source)
+                    runAnalysis(sourcePath, resolvedName, specDir = specDir, sourceDisplay = source)
+                        ?: return 1
                 }
-                print("Loading report ${idx + 1}: $source ... ")
-                val r = try {
-                    JsonReporter().loadReport(source)
-                } catch (e: Exception) {
-                    System.err.println("Error reading JSON: ${e.message}")
-                    return 1
-                }
-                val r2 = if (nameOverride != null) r.copy(driverName = nameOverride) else r
-                println(r2.driverName)
-                r2
-            } else {
-                // Analyze source directory
-                println("Analyzing source ${idx + 1}: $source")
-                println()
-                runAnalysis(source, nameOverride, specDir = specDir) ?: return 1
             }
-        }
 
-        val comparison = computeComparison(reports)
+            val comparison = computeComparison(reports)
 
-        println()
-        for (output in outputs) {
-            when {
-                output == "console" -> ComparisonReporter().report(comparison)
-                output.startsWith("json:") -> {
-                    val path = Path.of(output.removePrefix("json:"))
-                    DiffJsonReporter().reportComparison(comparison, path)
+            println()
+            for (output in outputs) {
+                when {
+                    output == "console" -> ComparisonReporter().report(comparison)
+                    output.startsWith("json:") -> {
+                        val path = Path.of(output.removePrefix("json:"))
+                        DiffJsonReporter().reportComparison(comparison, path)
+                    }
+                    else -> System.err.println("Warning: Unknown output format: $output")
                 }
-                else -> System.err.println("Warning: Unknown output format: $output")
             }
         }
 

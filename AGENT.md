@@ -95,8 +95,12 @@
 - [x] JSON output for both diff and comparison reports
 - [x] Custom Jackson serializer for ImplementationStatus (enables JSON round-trip)
 
-### v1.0 — Full Feature
-- [ ] Git URL auto-clone support
+### v1.0 — Full Feature ✅ Complete
+- [x] Git URL auto-clone support (shallow clone via system git)
+- [x] `--branch` option for specifying branch/tag
+- [x] `--source-subdir` option for JDBC source within repository
+- [x] Auto driver name detection from Git URL
+- [x] Temp directory cleanup after analysis
 
 ### v1.5+ — Future
 - [ ] Dynamic analysis (live DB connection)
