@@ -43,19 +43,40 @@ data class AnalysisReport(
     val totalNotFound: Int get() = interfaces.sumOf { it.notFound }
     val overallCoveragePercent: Double
         get() = if (totalMethods == 0) 0.0 else (totalImplemented.toDouble() / totalMethods) * 100.0
+
+    /** Coverage breakdown by JDBC version */
+    val versionBreakdown: Map<JdbcVersion, VersionCoverage>
+        get() {
+            val allMethods = interfaces.flatMap { it.methods }
+            return JdbcVersion.entries.associateWith { version ->
+                val versionMethods = allMethods.filter { it.specMethod.jdbcVersion == version }
+                VersionCoverage(
+                    total = versionMethods.size,
+                    implemented = versionMethods.count { it.status.isImplemented() },
+                    stub = versionMethods.count { it.status.isStub() },
+                    notFound = versionMethods.count { it.status is ImplementationStatus.NotFound },
+                )
+            }.filter { it.value.total > 0 }
+        }
+
+    /** Level 2 status distribution across all methods */
+    val statusDistribution: Map<String, Int>
+        get() {
+            val allMethods = interfaces.flatMap { it.methods }
+            return allMethods.groupBy { it.status.label }.mapValues { it.value.size }
+        }
 }
 
-/** Helper extensions for status classification */
-private fun ImplementationStatus.isImplemented(): Boolean = when (this) {
-    is ImplementationStatus.Delegates,
-    is ImplementationStatus.Partial,
-    is ImplementationStatus.FullyImplemented -> true
-    else -> false
+/**
+ * Coverage stats for a single JDBC version.
+ */
+data class VersionCoverage(
+    val total: Int,
+    val implemented: Int,
+    val stub: Int,
+    val notFound: Int,
+) {
+    val coveragePercent: Double
+        get() = if (total == 0) 0.0 else (implemented.toDouble() / total) * 100.0
 }
 
-private fun ImplementationStatus.isStub(): Boolean = when (this) {
-    is ImplementationStatus.ThrowsUnsupported,
-    is ImplementationStatus.ThrowsSqlException,
-    is ImplementationStatus.ReturnsDefault -> true
-    else -> false
-}
