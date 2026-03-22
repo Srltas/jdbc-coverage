@@ -14,7 +14,9 @@ class ConsoleReporter {
     fun report(result: AnalysisReport) {
         printHeader(result)
         printOverallSummary(result)
+        printVersionBreakdown(result)
         printInterfaceDetails(result)
+        printStatusDistribution(result)
         printFooter(result)
     }
 
@@ -37,6 +39,39 @@ class ConsoleReporter {
         println("    Implemented: ${result.totalImplemented}")
         println("    Stub:        ${result.totalStub}")
         println("    Not Found:   ${result.totalNotFound}")
+        println()
+    }
+
+    private fun printVersionBreakdown(result: AnalysisReport) {
+        val separator = "-".repeat(70)
+        println(separator)
+        println("  JDBC Version Breakdown:")
+        println(separator)
+
+        for ((version, coverage) in result.versionBreakdown) {
+            val bar = progressBar(coverage.coveragePercent, 20)
+            println(
+                "  JDBC %-4s  %s  %3d/%3d".format(
+                    version.display,
+                    bar,
+                    coverage.implemented,
+                    coverage.total,
+                ),
+            )
+        }
+        println()
+    }
+
+    private fun printStatusDistribution(result: AnalysisReport) {
+        val separator = "-".repeat(70)
+        println(separator)
+        println("  Implementation Detail (Level 2):")
+        println(separator)
+
+        for ((label, count) in result.statusDistribution.entries.sortedByDescending { it.value }) {
+            val percent = count.toDouble() / result.totalMethods * 100.0
+            println("    %-25s %4d  (%4.1f%%)".format(label, count, percent))
+        }
         println()
     }
 

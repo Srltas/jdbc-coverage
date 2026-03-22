@@ -8,6 +8,7 @@ import com.jdbcchecker.model.MethodResult
 import com.jdbcchecker.model.MethodSignature
 import com.jdbcchecker.parser.SourceParser
 import com.jdbcchecker.report.console.ConsoleReporter
+import com.jdbcchecker.report.html.HtmlReporter
 import com.jdbcchecker.report.json.JsonReporter
 import com.jdbcchecker.resolver.JdbcInterfaceResolver
 import com.jdbcchecker.spec.JdbcSpecLoader
@@ -173,6 +174,10 @@ class AnalyzeCommand : Callable<Int> {
                 output.startsWith("json:") -> {
                     val jsonPath = Path.of(output.removePrefix("json:"))
                     JsonReporter().report(report, jsonPath)
+                }
+                output.startsWith("html:") -> {
+                    val htmlPath = Path.of(output.removePrefix("html:"))
+                    HtmlReporter().report(report, htmlPath)
                 }
                 else -> System.err.println("Warning: Unknown output format: $output")
             }
