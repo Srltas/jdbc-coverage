@@ -96,7 +96,6 @@
 - [x] Custom Jackson serializer for ImplementationStatus (enables JSON round-trip)
 
 ### v1.0 — Full Feature
-- [ ] JAR analysis (Reflection-based)
 - [ ] Git URL auto-clone support
 
 ### v1.5+ — Future
