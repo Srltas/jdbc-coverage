@@ -76,17 +76,19 @@ class ConsoleReporter {
     }
 
     private fun printInterfaceDetails(result: AnalysisReport) {
+        val colWidth = 35
         val separator = "-".repeat(70)
         println(separator)
-        println("  %-35s %8s %6s %6s %6s".format("Interface", "Coverage", "Impl", "Stub", "N/A"))
+        println("  %-${colWidth}s %8s %6s %6s %6s".format("Interface", "Coverage", "Impl", "Stub", "N/A"))
         println(separator)
 
         for (iface in result.interfaces.sortedByDescending { it.coveragePercent }) {
             val simpleName = iface.interfaceName.substringAfterLast('.')
             val implClass = iface.implementingClass?.substringAfterLast('.') ?: "—"
+            val displayName = truncateInterfaceLabel(simpleName, implClass, colWidth)
             println(
-                "  %-35s %7.1f%% %6d %6d %6d".format(
-                    "$simpleName ($implClass)",
+                "  %-${colWidth}s %7.1f%% %6d %6d %6d".format(
+                    displayName,
                     iface.coveragePercent,
                     iface.implemented,
                     iface.stub,
@@ -95,6 +97,30 @@ class ConsoleReporter {
             )
         }
         println(separator)
+    }
+
+    /**
+     * Builds a display label like "Interface (ImplClass)" that fits within [maxLen].
+     *
+     * The interface name is always preserved in full. If the combined label exceeds
+     * [maxLen], the implementation class name is truncated with "..." suffix.
+     * When there is no implementing class, only the interface name is shown.
+     */
+    private fun truncateInterfaceLabel(interfaceName: String, implClass: String, maxLen: Int): String {
+        if (implClass == "—") return "$interfaceName ($implClass)"
+
+        val full = "$interfaceName ($implClass)"
+        if (full.length <= maxLen) return full
+
+        // "Interface (" = interfaceName.length + 2, trailing "...)" = 4
+        val overhead = interfaceName.length + 2 + 4 // " (" + "...)"
+        val available = maxLen - overhead
+        return if (available > 0) {
+            "$interfaceName (${implClass.take(available)}...)"
+        } else {
+            // Extreme case: even interface name + overhead exceeds maxLen
+            interfaceName
+        }
     }
 
     private fun printFooter(result: AnalysisReport) {
