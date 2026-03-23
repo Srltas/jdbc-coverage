@@ -49,9 +49,9 @@ class JdbcCheckerCommand : Runnable {
 // ---------------------------------------------------------------------------
 
 /**
- * Runs the full analysis pipeline on a JDBC driver source directory.
+ * Runs the full analysis pipeline on one or more JDBC driver source directories.
  *
- * @param sourcePath resolved local path to the source root
+ * @param sourcePaths resolved local paths to the source roots (multiple for multi-module drivers)
  * @param driverName optional driver name override (auto-detected from [sourceDisplay] if null)
  * @param entryClasses optional manual class overrides for interface detection
  * @param specDir optional external spec YAML directory (uses bundled if null)
@@ -59,14 +59,17 @@ class JdbcCheckerCommand : Runnable {
  * @return [AnalysisReport] or null if the pipeline fails
  */
 internal fun runAnalysis(
-    sourcePath: Path,
+    sourcePaths: List<Path>,
     driverName: String?,
     entryClasses: List<String> = emptyList(),
     specDir: Path? = null,
     sourceDisplay: String? = null,
 ): AnalysisReport? {
-    if (!Files.isDirectory(sourcePath)) {
-        System.err.println("Error: Source path does not exist or is not a directory: $sourcePath")
+    val invalidPaths = sourcePaths.filter { !Files.isDirectory(it) }
+    if (invalidPaths.isNotEmpty()) {
+        invalidPaths.forEach {
+            System.err.println("Error: Source path does not exist or is not a directory: $it")
+        }
         return null
     }
 
@@ -83,10 +86,10 @@ internal fun runAnalysis(
 
     // Step 2: Parse source files
     print("Parsing source files... ")
-    val compilationUnits = SourceParser(listOf(sourcePath)).parseAll()
+    val compilationUnits = SourceParser(sourcePaths).parseAll()
     println("${compilationUnits.size} files parsed")
     if (compilationUnits.isEmpty()) {
-        System.err.println("Error: No Java source files found in $sourcePath")
+        System.err.println("Error: No Java source files found in ${sourcePaths.joinToString()}")
         return null
     }
 
@@ -130,7 +133,8 @@ internal fun runAnalysis(
     }
     println("done")
 
-    val displaySource = sourceDisplay ?: sourcePath.toAbsolutePath().toString()
+    val displaySource = sourceDisplay
+        ?: sourcePaths.joinToString(", ") { it.toAbsolutePath().toString() }
     return AnalysisReport(
         driverName = driverName ?: detectDriverName(displaySource),
         sourcePath = displaySource,
@@ -226,9 +230,12 @@ class AnalyzeCommand : Callable<Int> {
 
     @Option(
         names = ["--source-subdir"],
-        description = ["Subdirectory within the repository containing JDBC source (e.g., src/main/java)."],
+        description = [
+            "Subdirectory within the repository containing JDBC source (e.g., src/main/java).",
+            "Can be specified multiple times for multi-module drivers.",
+        ],
     )
-    var sourceSubdir: String? = null
+    var sourceSubdirs: List<String> = emptyList()
 
     override fun call(): Int {
         println("JDBC Compliance Checker v1.0.0")
@@ -236,9 +243,9 @@ class AnalyzeCommand : Callable<Int> {
         println()
 
         SourceResolver().use { resolver ->
-            val sourcePath = resolver.resolve(source, branch, sourceSubdir)
+            val sourcePaths = resolver.resolve(source, branch, sourceSubdirs)
             val resolvedName = driverName ?: detectDriverName(source)
-            val report = runAnalysis(sourcePath, resolvedName, entryClasses, specDir, source) ?: return 1
+            val report = runAnalysis(sourcePaths, resolvedName, entryClasses, specDir, source) ?: return 1
             println()
             dispatchOutputs(outputs, report)
         }
@@ -304,9 +311,12 @@ class DiffCommand : Callable<Int> {
 
     @Option(
         names = ["--source-subdir"],
-        description = ["Subdirectory within the repository containing JDBC source."],
+        description = [
+            "Subdirectory within the repository containing JDBC source.",
+            "Can be specified multiple times for multi-module drivers.",
+        ],
     )
-    var sourceSubdir: String? = null
+    var sourceSubdirs: List<String> = emptyList()
 
     override fun call(): Int {
         println("JDBC Compliance Checker — Diff")
@@ -346,9 +356,9 @@ class DiffCommand : Callable<Int> {
             println("Analyzing current source: $current")
             println()
             SourceResolver().use { resolver ->
-                val sourcePath = resolver.resolve(current, branch, sourceSubdir)
+                val sourcePaths = resolver.resolve(current, branch, sourceSubdirs)
                 val resolvedName = driverName ?: detectDriverName(current)
-                val report = runAnalysis(sourcePath, resolvedName, specDir = specDir, sourceDisplay = current)
+                val report = runAnalysis(sourcePaths, resolvedName, specDir = specDir, sourceDisplay = current)
                 if (report == null) return 1
                 currentReport = report
             }
@@ -423,9 +433,12 @@ class CompareCommand : Callable<Int> {
 
     @Option(
         names = ["--source-subdir"],
-        description = ["Subdirectory within repositories containing JDBC source."],
+        description = [
+            "Subdirectory within repositories containing JDBC source (applies to all sources).",
+            "Can be specified multiple times for multi-module drivers.",
+        ],
     )
-    var sourceSubdir: String? = null
+    var sourceSubdirs: List<String> = emptyList()
 
     override fun call(): Int {
         println("JDBC Compliance Checker — Compare")
@@ -456,9 +469,9 @@ class CompareCommand : Callable<Int> {
                     // Resolve (local path or Git URL) and analyze
                     println("Analyzing source ${idx + 1}: $source")
                     println()
-                    val sourcePath = resolver.resolve(source, branch, sourceSubdir)
+                    val sourcePaths = resolver.resolve(source, branch, sourceSubdirs)
                     val resolvedName = nameOverride ?: detectDriverName(source)
-                    runAnalysis(sourcePath, resolvedName, specDir = specDir, sourceDisplay = source)
+                    runAnalysis(sourcePaths, resolvedName, specDir = specDir, sourceDisplay = source)
                         ?: return 1
                 }
             }
