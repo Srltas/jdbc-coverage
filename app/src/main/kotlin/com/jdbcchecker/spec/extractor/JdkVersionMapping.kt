@@ -33,6 +33,9 @@ object JdkVersionMapping {
         "8" to JdbcVersion.V4_2,
 
         // JDBC 4.3 — Java 9+
+        // JDBC 4.3 (JSR 221) was finalized with Java SE 9 and remains the latest
+        // ratified JDBC specification as of Java 25. New JDK releases are mapped
+        // here as they are confirmed to not introduce a new JDBC specification version.
         "9" to JdbcVersion.V4_3,
         "10" to JdbcVersion.V4_3,
         "11" to JdbcVersion.V4_3,
@@ -46,6 +49,10 @@ object JdkVersionMapping {
         "19" to JdbcVersion.V4_3,
         "20" to JdbcVersion.V4_3,
         "21" to JdbcVersion.V4_3,
+        "22" to JdbcVersion.V4_3,
+        "23" to JdbcVersion.V4_3,
+        "24" to JdbcVersion.V4_3,
+        "25" to JdbcVersion.V4_3,
     )
 
     /**
