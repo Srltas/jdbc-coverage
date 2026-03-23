@@ -38,50 +38,42 @@ app/build/install/jdbc-checker/
     └── *.jar              ← 애플리케이션 + 의존성 JAR
 ```
 
-## 실행 방법
+### 배포 패키지
 
-### 래퍼 스크립트 사용 (권장)
-
-`installDist`로 빌드하면 래퍼 스크립트가 자동 생성됩니다:
+배포용 tar/zip 파일을 생성할 수 있습니다:
 
 ```bash
-./app/build/install/jdbc-checker/bin/jdbc-checker <command> [options]
-```
-
-PATH에 등록하면 어디서든 실행할 수 있습니다:
-
-```bash
-export PATH="$PWD/app/build/install/jdbc-checker/bin:$PATH"
-jdbc-checker <command> [options]
-```
-
-### 배포 패키지 (zip)
-
-배포용 zip 파일을 생성할 수도 있습니다:
-
-```bash
-./gradlew :app:distZip
-# 결과: app/build/distributions/jdbc-checker.zip
+./gradlew :app:distTar    # → app/build/distributions/jdbc-checker.tar
+./gradlew :app:distZip    # → app/build/distributions/jdbc-checker.zip
 ```
 
 압축을 풀면 `bin/jdbc-checker` 스크립트로 바로 실행 가능합니다.
 
-### fat JAR 직접 실행
-
-단일 JAR 파일로도 실행할 수 있습니다:
+### 기타 실행 방법
 
 ```bash
+# fat JAR 직접 실행
 ./gradlew fatJar
 java -jar app/build/libs/jdbc-checker-1.0.0-all.jar <command> [options]
-```
 
-### Gradle로 실행 (개발 중)
-
-```bash
+# Gradle로 실행 (개발 중)
 ./gradlew :app:run --args="<command> [options]"
 ```
 
----
+## 빠른 시작
+
+```bash
+# PATH 등록
+export PATH="$PWD/app/build/install/jdbc-checker/bin:$PATH"
+
+# CUBRID JDBC 분석 (Git URL)
+jdbc-checker analyze https://github.com/CUBRID/cubrid-jdbc.git \
+  --source-subdir src/jdbc \
+  -o console -o html:./report.html
+
+# 로컬 소스 분석
+jdbc-checker analyze ./src/jdbc -o console -o json:./report.json
+```
 
 ## 커맨드
 
@@ -93,13 +85,9 @@ JDBC 드라이버 소스 코드의 스펙 준수율을 분석합니다.
 jdbc-checker analyze <source> [options]
 ```
 
-#### 인자
-
 | 인자 | 설명 |
 |------|------|
 | `<source>` | **(필수)** JDBC 드라이버 소스 경로 또는 Git URL |
-
-#### 옵션
 
 | 옵션 | 짧은 형태 | 설명 | 기본값 |
 |------|-----------|------|--------|
@@ -110,88 +98,16 @@ jdbc-checker analyze <source> [options]
 | `--entry-class <fqcn>` | | 구현 클래스 수동 지정 (여러 번 지정 가능) | 자동 탐색 |
 | `--spec-dir <path>` | `-s` | 외부 JDBC 스펙 YAML 디렉터리 | 번들 스펙 |
 
-#### 출력 형식 (`-o`)
-
-| 형식 | 값 | 설명 |
-|------|------|------|
-| 콘솔 | `console` | 터미널에 테이블 형태로 출력 |
-| JSON | `json:<파일경로>` | 구조화된 JSON 파일 생성 |
-| HTML | `html:<파일경로>` | Chart.js 차트 포함 단일 HTML 파일 생성 |
-
-여러 형식을 동시에 지정할 수 있습니다.
-
-#### 사용 예시
+**출력 형식** (`-o`): `console`, `json:<파일경로>`, `html:<파일경로>` — 여러 형식을 동시에 지정 가능
 
 ```bash
 # 로컬 소스 분석
-./jdbc-checker analyze ./src/jdbc
+jdbc-checker analyze ./src/jdbc
 
-# Git URL로 분석
-./jdbc-checker analyze https://github.com/CUBRID/cubrid-jdbc.git \
-  --source-subdir src/jdbc
-
-# 특정 브랜치 분석
-./jdbc-checker analyze https://github.com/CUBRID/cubrid-jdbc.git \
-  --source-subdir src/jdbc \
-  --branch develop
-
-# 콘솔 + JSON + HTML 동시 출력
-./jdbc-checker analyze ./src/jdbc \
-  -o console \
-  -o json:./report.json \
-  -o html:./report.html
-
-# 드라이버 이름 직접 지정
-./jdbc-checker analyze ./src/jdbc -n "My JDBC Driver"
-```
-
-#### 출력 예시 (콘솔)
-
-```
-======================================================================
-  JDBC Compliance Report — CUBRID JDBC
-  Source: https://github.com/CUBRID/cubrid-jdbc.git
-  Analyzed: 2026-03-22T22:46:45.079948Z
-======================================================================
-
-  Overall Coverage: 62.3%
-    [████████████████████████░░░░░░░░░░░░░░░░] 62.3%
-
-  Total: 771 methods
-    Implemented: 480
-    Stub:        205
-    Not Found:   86
-
-----------------------------------------------------------------------
-  JDBC Version Breakdown:
-----------------------------------------------------------------------
-  JDBC 1.0     [███████████████████░] 97.5%  274/281
-  JDBC 2.0     [████████████████░░░░] 80.5%  132/164
-  JDBC 3.0     [████████░░░░░░░░░░░░] 40.6%   54/133
-  JDBC 4.0     [██░░░░░░░░░░░░░░░░░░] 14.4%   20/139
-  JDBC 4.1     [░░░░░░░░░░░░░░░░░░░░] 0.0%    0/ 15
-  JDBC 4.2     [░░░░░░░░░░░░░░░░░░░░] 0.0%    0/ 25
-  JDBC 4.3     [░░░░░░░░░░░░░░░░░░░░] 0.0%    0/ 14
-
-----------------------------------------------------------------------
-  Interface                           Coverage   Impl   Stub    N/A
-----------------------------------------------------------------------
-  ResultSetMetaData (CUBRIDResult...)   100.0%     21      0      0
-  DatabaseMetaData (CUBRIDDatabas...)    92.7%    164     10      3
-  Driver (CUBRIDDriver)                  85.7%      6      1      0
-  Statement (CUBRIDStatement)            68.5%     37      5     12
-  ResultSet (CUBRIDResultSet)            64.8%    125     60      8
-  Connection (CUBRIDConnection)          58.6%     34     17      7
-  ...
-
-----------------------------------------------------------------------
-  Implementation Detail (Level 2):
-----------------------------------------------------------------------
-    Fully Implemented          442  (57.3%)
-    Throws Unsupported         205  (26.6%)
-    Not Found                   86  (11.2%)
-    Delegates                   34  ( 4.4%)
-    Partial                      4  ( 0.5%)
+# Git URL + 브랜치 + 다중 출력
+jdbc-checker analyze https://github.com/CUBRID/cubrid-jdbc.git \
+  --source-subdir src/jdbc --branch develop \
+  -o console -o json:./report.json -o html:./report.html
 ```
 
 ---
@@ -204,14 +120,10 @@ jdbc-checker analyze <source> [options]
 jdbc-checker diff <baseline.json> <current> [options]
 ```
 
-#### 인자
-
 | 인자 | 설명 |
 |------|------|
 | `<baseline.json>` | **(필수)** 기준이 되는 이전 분석 JSON 파일 |
 | `<current>` | **(필수)** 비교 대상: 로컬 소스 경로, Git URL, 또는 JSON 파일 |
-
-#### 옵션
 
 | 옵션 | 짧은 형태 | 설명 | 기본값 |
 |------|-----------|------|--------|
@@ -221,46 +133,16 @@ jdbc-checker diff <baseline.json> <current> [options]
 | `--source-subdir <path>` | | Git URL 사용 시 소스 서브디렉터리 | 루트 |
 | `--spec-dir <path>` | `-s` | 외부 JDBC 스펙 YAML 디렉터리 | 번들 스펙 |
 
-#### 사용 예시
-
 ```bash
-# 저장된 JSON vs 현재 로컬 소스 비교
-./jdbc-checker diff ./baseline.json ./src/jdbc
+# JSON vs 현재 소스
+jdbc-checker diff ./baseline.json ./src/jdbc
 
-# JSON vs JSON 비교 (재분석 없이 빠름)
-./jdbc-checker diff ./v1.json ./v2.json
+# JSON vs JSON (재분석 없이 빠름)
+jdbc-checker diff ./v1.json ./v2.json
 
-# JSON vs Git URL 비교
-./jdbc-checker diff ./baseline.json \
-  https://github.com/CUBRID/cubrid-jdbc.git \
+# JSON vs Git URL
+jdbc-checker diff ./baseline.json https://github.com/CUBRID/cubrid-jdbc.git \
   --source-subdir src/jdbc
-
-# 결과를 JSON으로 저장
-./jdbc-checker diff ./v1.json ./v2.json \
-  -o console -o json:./diff-result.json
-```
-
-#### 출력 예시
-
-```
-======================================================================
-  JDBC Compliance Diff
-  Baseline : CUBRID JDBC  (2026-03-01)
-  Current  : CUBRID JDBC  (2026-03-22)
-======================================================================
-  Coverage : 58.6%  →  62.3%  (+3.7%)
-  Improved  : 28 methods
-  Regressed : 0 methods
-  Unchanged : 743 methods
-
-----------------------------------------------------------------------
-  Improved Methods:
-----------------------------------------------------------------------
-  + Connection.setSchema(String)  (JDBC 4.1)
-      Not Found  →  Fully Implemented
-  + Statement.getLargeUpdateCount()  (JDBC 4.2)
-      Throws Unsupported  →  Fully Implemented
-  ...
 ```
 
 ---
@@ -273,13 +155,9 @@ jdbc-checker diff <baseline.json> <current> [options]
 jdbc-checker compare <source1> <source2> [source3...] [options]
 ```
 
-#### 인자
-
 | 인자 | 설명 |
 |------|------|
 | `<sources>` | **(필수, 2개 이상)** 로컬 소스 경로, Git URL, 또는 JSON 파일 (혼합 가능) |
-
-#### 옵션
 
 | 옵션 | 짧은 형태 | 설명 | 기본값 |
 |------|-----------|------|--------|
@@ -289,22 +167,12 @@ jdbc-checker compare <source1> <source2> [source3...] [options]
 | `--source-subdir <path>` | | Git URL 사용 시 소스 서브디렉터리 (공통 적용) | 루트 |
 | `--spec-dir <path>` | `-s` | 외부 JDBC 스펙 YAML 디렉터리 | 번들 스펙 |
 
-#### 사용 예시
-
 ```bash
 # 두 로컬 소스 비교
-./jdbc-checker compare ./cubrid/src ./pgsql/src \
-  -n CUBRID -n PostgreSQL
+jdbc-checker compare ./cubrid/src ./pgsql/src -n CUBRID -n PostgreSQL
 
-# JSON + Git URL 혼합 비교
-./jdbc-checker compare ./cubrid.json \
-  https://github.com/pgjdbc/pgjdbc.git \
-  --source-subdir pgjdbc/src/main/java \
-  -n CUBRID -n PostgreSQL
-
-# 결과를 JSON으로 저장
-./jdbc-checker compare ./a.json ./b.json \
-  -o console -o json:./comparison.json
+# JSON 파일들로 빠른 비교
+jdbc-checker compare ./cubrid.json ./pgsql.json -n CUBRID -n PostgreSQL
 ```
 
 ---
@@ -317,31 +185,16 @@ JDK 소스 코드의 `@since` Javadoc 태그를 파싱하여 JDBC 인터페이�
 jdbc-checker extract-spec <jdk-source-root> [options]
 ```
 
-#### 인자
-
 | 인자 | 설명 |
 |------|------|
 | `<jdk-source-root>` | **(필수)** `java/sql/`과 `javax/sql/`이 포함된 JDK 소스 루트 디렉터리 |
-
-#### 옵션
 
 | 옵션 | 짧은 형태 | 설명 | 기본값 |
 |------|-----------|------|--------|
 | `--output <dir>` | `-o` | YAML 파일 출력 디렉터리 | `jdbc-spec/` |
 | `--interfaces <list>` | | 추출할 인터페이스 목록 (콤마 구분) | 전체 |
 
-#### 사용 예시
-
-```bash
-# 전체 JDBC 인터페이스 추출
-./jdbc-checker extract-spec ./jdk-sources -o ./my-spec
-
-# 특정 인터페이스만 추출
-./jdbc-checker extract-spec ./jdk-sources \
-  --interfaces Connection,Statement,ResultSet
-```
-
-> **참고**: 프로젝트에 JDK 21 기준 스펙 YAML이 이미 번들링되어 있습니다 (771개 메서드, 19개 인터페이스). 이 커맨드는 새로운 JDK 버전에 맞춰 스펙을 갱신할 때 사용합니다.
+> **참고**: 프로젝트에 JDK 21 기준 스펙이 이미 번들링되어 있습니다. 이 커맨드는 새로운 JDK 버전에 맞춰 스펙을 갱신할 때만 사용합니다. 자세한 내용은 [JDBC 스펙 관리 가이드](docs/jdbc-spec-guide.md)를 참고하세요.
 
 ---
 
@@ -356,412 +209,17 @@ jdbc-checker extract-spec <jdk-source-root> [options]
 | Git URL (SSH) | `git@`로 시작 | `git@github.com:CUBRID/cubrid-jdbc.git` |
 | JSON 파일 | `.json`으로 끝남 | `./baseline.json`, `/tmp/report.json` |
 
-### Git URL 동작 방식
-
-- **Shallow clone** (depth 1)으로 최소한의 데이터만 다운로드
-- 분석 완료 후 임시 디렉터리 **자동 삭제**
-- `--branch` 옵션으로 특정 브랜치 또는 태그 지정 가능
-- `--source-subdir` 옵션으로 리포지토리 내 소스 위치 지정
-
-### 드라이버 이름 자동 감지
-
-경로 또는 URL에서 드라이버 이름을 자동으로 감지합니다:
-
-| 키워드 | 감지 결과 |
-|--------|-----------|
-| `cubrid` | CUBRID JDBC |
-| `mysql` | MySQL Connector/J |
-| `mariadb` | MariaDB Connector/J |
-| `postgresql`, `pgjdbc` | PostgreSQL JDBC |
-| 기타 | 디렉터리명 또는 리포지토리명 |
-
-`-n` 옵션으로 수동 지정하면 자동 감지를 덮어씁니다.
+Git URL은 **shallow clone** (depth 1)으로 빠르게 클론하며, 분석 완료 후 임시 디렉터리를 **자동 삭제**합니다.
 
 ---
 
-## 구현 상태 분류
+## 상세 문서
 
-각 JDBC 메서드의 구현 상태를 메서드 본문 분석을 통해 7단계로 분류합니다.
-
-| 상태 | 분류 | 설명 |
-|------|------|------|
-| `Fully Implemented` | Implemented | 완전한 구현 |
-| `Partial` | Implemented | 일부 분기에서만 구현 (나머지는 예외/기본값) |
-| `Delegates` | Implemented | 다른 메서드에 위임만 수행 |
-| `Returns Default` | Stub | `null`, `0`, `false`, `""` 등 기본값만 반환 |
-| `Throws SQLException` | Stub | `SQLException("Not supported")` 등 예외 발생 |
-| `Throws Unsupported` | Stub | `UnsupportedOperationException` 예외 발생 |
-| `Not Found` | Not Found | 드라이버 소스에 해당 메서드 없음 |
-
-리포트 상단의 요약(Implemented / Stub / Not Found)은 위 7단계를 3개 그룹으로 합산한 값입니다.
-
----
-
-## JDBC 스펙 범위
-
-JDK 21 소스에서 추출한 `java.sql.*` 및 `javax.sql.*` 인터페이스의 공개 메서드를 기준으로 합니다.
-
-### 지원 JDBC 버전
-
-| JDBC 버전 | Java 버전 | 메서드 수 |
-|-----------|-----------|-----------|
-| JDBC 1.0 | JDK 1.1 | 281 |
-| JDBC 2.0 | JDK 1.2 | 164 |
-| JDBC 3.0 | JDK 1.4 | 133 |
-| JDBC 4.0 | Java 6 | 139 |
-| JDBC 4.1 | Java 7 | 15 |
-| JDBC 4.2 | Java 8 | 25 |
-| JDBC 4.3 | Java 9 | 14 |
-| **합계** | | **771** |
-
-### 분석 대상 인터페이스 (19개)
-
-`Connection`, `Statement`, `PreparedStatement`, `CallableStatement`, `ResultSet`, `ResultSetMetaData`, `DatabaseMetaData`, `Driver`, `Blob`, `Clob`, `SQLXML`, `Array`, `Ref`, `Struct`, `ParameterMetaData`, `DataSource`, `ConnectionPoolDataSource`, `CommonDataSource`, `Wrapper`
-
----
-
-## 구현 클래스 자동 탐색
-
-분석 시 각 JDBC 인터페이스의 구현 클래스를 자동으로 탐색합니다.
-
-### 탐색 전략
-
-1. **직접 `implements` 선언** — `implements Connection`을 직접 선언한 클래스를 우선 선택
-2. **래퍼 패턴 필터링** — 클래스명에 `Wrapper`, `XA`, `Pooling`, `Proxy`, `Adapter`, `Delegate`가 포함된 클래스 제외
-3. **메서드 수 기준** — 동점 시 JDBC 메서드를 가장 많이 보유한 클래스 선택
-
-자동 탐색이 부정확한 경우 `--entry-class` 옵션으로 수동 지정할 수 있습니다:
-
-```bash
-./jdbc-checker analyze ./src/jdbc \
-  --entry-class com.example.MyConnection \
-  --entry-class com.example.MyStatement
-```
-
----
-
-## 상세 사용 가이드
-
-이 섹션은 프로그램의 내부 동작 원리와 실전 사용 패턴을 상세히 설명합니다.
-
-### 전체 동작 흐름
-
-```
-┌─────────────┐     extract-spec     ┌──────────────┐
-│ JDK 소스     │ ──────────────────→  │ YAML 스펙 파일 │
-│ (java/sql/) │                      │ (번들 포함)    │
-└─────────────┘                      └──────┬───────┘
-                                            │
-┌─────────────┐     JavaParser       ┌──────▼───────┐     report      ┌────────────┐
-│ JDBC 드라이버 │ ──────────────────→  │ 분석 엔진     │ ─────────────→  │ Console    │
-│ 소스 코드    │     AST 파싱         │ (비교/매칭)   │                 │ JSON       │
-└─────────────┘                      └──────────────┘                 │ HTML       │
-                                                                      └────────────┘
-```
-
-### JDBC 스펙 YAML: 번들 vs 커스텀
-
-#### 번들 스펙 (기본값 — 대부분의 경우 이것으로 충분)
-
-프로젝트에 JDK 21 기준 스펙 YAML이 이미 포함되어 있습니다:
-
-```
-app/src/main/resources/jdbc-spec/
-├── _summary.yaml                      ← 전체 요약 (41 인터페이스, 1,017 메서드)
-├── java.sql.Connection.yaml           ← 인터페이스별 메서드 목록
-├── java.sql.Statement.yaml
-├── java.sql.ResultSet.yaml
-├── ...                                ← 총 42개 파일
-```
-
-`analyze` 커맨드 실행 시 **별도 설정 없이** 이 번들 스펙이 자동으로 사용됩니다. 대부분의 사용자는 이 단계를 건드릴 필요가 없습니다.
-
-> **참고**: 번들 스펙에는 41개 인터페이스 1,017개 메서드가 포함되어 있지만, 분석에는 19개 핵심 인터페이스 771개 메서드만 사용됩니다. `ConnectionBuilder`, `DriverAction`, `RowSet` 등 드라이버가 직접 구현하지 않는 인터페이스는 분석에서 제외됩니다.
-
-#### YAML 파일 구조
-
-각 YAML 파일은 다음과 같은 구조입니다:
-
-```yaml
-# java.sql.Connection.yaml
-interfaceName: java.sql.Connection
-since: 1.0
-methodCount: 58
-methods:
-- name: clearWarnings
-  params: []
-  returns: void
-  since: 1.0
-- name: createStatement
-  params: [int, int]
-  returns: Statement
-  since: 2.0
-- name: setSchema
-  params: [String]
-  returns: void
-  since: 4.1
-```
-
-`since` 필드가 JDBC 버전을 나타내며, JDK 소스의 `@since` Javadoc 태그에서 추출됩니다.
-
-#### JDK 소스에서 스펙 재추출 (필요한 경우에만)
-
-새로운 JDK 버전이 출시되어 JDBC 스펙이 변경되었을 때만 이 과정이 필요합니다.
-
-**Step 1: JDK 소스 준비**
-
-OpenJDK 소스에서 `java/sql/`과 `javax/sql/` 디렉터리를 추출합니다:
-
-```bash
-# 방법 1: OpenJDK 소스 다운로드
-git clone --depth 1 https://github.com/openjdk/jdk.git /tmp/openjdk
-# java.sql과 javax.sql 소스가 여기에 있음:
-#   /tmp/openjdk/src/java.sql/share/classes/java/sql/
-#   /tmp/openjdk/src/java.sql/share/classes/javax/sql/
-
-# 방법 2: 이 프로젝트에 포함된 JDK 21 소스 사용
-# 이미 jdk-sources/ 디렉터리에 준비되어 있음:
-#   jdk-sources/java/sql/*.java
-#   jdk-sources/javax/sql/*.java
-```
-
-JDK 소스 디렉터리 구조는 반드시 다음과 같아야 합니다:
-
-```
-<jdk-source-root>/
-├── java/
-│   └── sql/
-│       ├── Connection.java
-│       ├── Statement.java
-│       └── ...
-└── javax/
-    └── sql/
-        ├── DataSource.java
-        └── ...
-```
-
-**Step 2: 스펙 추출 실행**
-
-```bash
-# 전체 인터페이스 추출
-jdbc-checker extract-spec ./jdk-sources -o ./my-custom-spec
-
-# 특정 인터페이스만 추출
-jdbc-checker extract-spec ./jdk-sources \
-  -o ./my-custom-spec \
-  --interfaces Connection,Statement,ResultSet
-```
-
-**Step 3: 추출된 스펙을 번들에 덮어쓰기 (선택)**
-
-```bash
-# 번들 스펙 교체
-cp ./my-custom-spec/*.yaml app/src/main/resources/jdbc-spec/
-# 다시 빌드
-./gradlew :app:installDist
-```
-
-또는 런타임에 외부 스펙 디렉터리를 지정할 수도 있습니다:
-
-```bash
-jdbc-checker analyze ./src/jdbc --spec-dir ./my-custom-spec
-```
-
----
-
-### 분석 결과 파일 관리
-
-#### JSON 파일
-
-JSON 출력은 **사용자가 `-o json:<경로>`로 지정한 경로**에 생성됩니다. 자동으로 생성되는 디렉터리는 없으며, 경로는 전적으로 사용자가 결정합니다.
-
-```bash
-# 절대 경로
-jdbc-checker analyze ./src/jdbc -o json:/tmp/report.json
-
-# 상대 경로 (현재 디렉터리 기준)
-jdbc-checker analyze ./src/jdbc -o json:./report.json
-
-# 하위 디렉터리 (디렉터리가 이미 존재해야 함)
-mkdir -p ./reports
-jdbc-checker analyze ./src/jdbc -o json:./reports/cubrid-2026-03.json
-```
-
-JSON 파일의 용도:
-- `diff` 커맨드의 입력 (베이스라인 또는 비교 대상)
-- `compare` 커맨드의 입력
-- 외부 도구에서 데이터 가공 (jq, Python 등)
-- CI에서 결과 보관 및 자동 비교
-
-#### HTML 파일
-
-HTML 출력도 **사용자가 `-o html:<경로>`로 지정한 경로**에 생성됩니다.
-
-```bash
-jdbc-checker analyze ./src/jdbc -o html:./reports/cubrid-report.html
-open ./reports/cubrid-report.html
-```
-
-HTML 파일은 **단일 자급식(self-contained) 파일**입니다. CSS가 내장되어 있고, Chart.js만 CDN에서 로드합니다. 파일 하나만 공유하면 누구든 브라우저에서 열어볼 수 있습니다.
-
-#### 동시 출력
-
-여러 형식을 **동시에** 출력할 수 있습니다:
-
-```bash
-jdbc-checker analyze ./src/jdbc \
-  -o console \
-  -o json:./reports/cubrid.json \
-  -o html:./reports/cubrid.html
-```
-
----
-
-### 버전별 JSON 관리 패턴
-
-JDBC 드라이버의 개선 과정을 추적하려면 JSON 파일을 버전별로 보관하는 것이 유용합니다.
-
-#### 패턴 1: 날짜 기반 관리
-
-```bash
-mkdir -p ./reports/cubrid
-
-# 월별 분석
-jdbc-checker analyze ./src/jdbc \
-  -o json:./reports/cubrid/2026-01.json \
-  -o html:./reports/cubrid/2026-01.html
-
-jdbc-checker analyze ./src/jdbc \
-  -o json:./reports/cubrid/2026-03.json \
-  -o html:./reports/cubrid/2026-03.html
-
-# 1월 → 3월 변경 추적
-jdbc-checker diff \
-  ./reports/cubrid/2026-01.json \
-  ./reports/cubrid/2026-03.json
-```
-
-#### 패턴 2: 릴리스 버전 기반 관리
-
-```bash
-mkdir -p ./reports/cubrid
-
-# v11.2 릴리스 분석
-jdbc-checker analyze https://github.com/CUBRID/cubrid-jdbc.git \
-  --branch release/11.2 \
-  --source-subdir src/jdbc \
-  -o json:./reports/cubrid/v11.2.json
-
-# v11.3 릴리스 분석
-jdbc-checker analyze https://github.com/CUBRID/cubrid-jdbc.git \
-  --branch release/11.3 \
-  --source-subdir src/jdbc \
-  -o json:./reports/cubrid/v11.3.json
-
-# 릴리스 간 비교
-jdbc-checker diff \
-  ./reports/cubrid/v11.2.json \
-  ./reports/cubrid/v11.3.json \
-  -o console \
-  -o json:./reports/cubrid/diff-v11.2-v11.3.json
-```
-
-#### 패턴 3: 다중 드라이버 비교 관리
-
-```bash
-mkdir -p ./reports/{cubrid,pgsql,mysql}
-
-# 각 드라이버 분석
-jdbc-checker analyze https://github.com/CUBRID/cubrid-jdbc.git \
-  --source-subdir src/jdbc \
-  -o json:./reports/cubrid/latest.json
-
-jdbc-checker analyze https://github.com/pgjdbc/pgjdbc.git \
-  --source-subdir pgjdbc/src/main/java \
-  -o json:./reports/pgsql/latest.json
-
-# JSON 파일로 빠른 비교 (재분석 불필요)
-jdbc-checker compare \
-  ./reports/cubrid/latest.json \
-  ./reports/pgsql/latest.json \
-  -n CUBRID -n PostgreSQL
-```
-
-#### 패턴 4: CI/CD 파이프라인
-
-```bash
-#!/bin/bash
-# ci-jdbc-check.sh
-
-REPORT_DIR="./reports/$(date +%Y-%m-%d)"
-mkdir -p "$REPORT_DIR"
-
-# 현재 소스 분석
-jdbc-checker analyze ./src/jdbc \
-  -o json:"$REPORT_DIR/current.json" \
-  -o html:"$REPORT_DIR/report.html"
-
-# 베이스라인이 있으면 diff 실행
-if [ -f "./reports/baseline.json" ]; then
-  jdbc-checker diff \
-    ./reports/baseline.json \
-    "$REPORT_DIR/current.json" \
-    -o console \
-    -o json:"$REPORT_DIR/diff.json"
-fi
-
-# 현재를 새 베이스라인으로 갱신
-cp "$REPORT_DIR/current.json" ./reports/baseline.json
-```
-
----
-
-### 추천 프로젝트 디렉터리 구조
-
-```
-my-project/
-├── reports/                    ← JSON/HTML 보관 (Git에 포함하거나 .gitignore)
-│   ├── baseline.json           ← 현재 베이스라인
-│   ├── cubrid/
-│   │   ├── v11.2.json
-│   │   ├── v11.3.json
-│   │   └── latest.html
-│   └── comparison/
-│       └── cubrid-vs-pgsql.json
-├── custom-spec/                ← (선택) 커스텀 JDBC 스펙
-│   └── *.yaml
-└── jdbc-checker/               ← 도구 설치 디렉터리
-    ├── bin/
-    │   └── jdbc-checker
-    └── lib/
-        └── *.jar
-```
-
----
-
-### 알려진 제한 사항
-
-| 항목 | 설명 |
+| 문서 | 내용 |
 |------|------|
-| **Java 소스만 지원** | Kotlin이나 다른 JVM 언어로 작성된 드라이버는 분석할 수 없음 |
-| **정적 분석 한계** | 런타임 동적 디스패치, 리플렉션 기반 구현은 감지하지 못함 |
-| **`--source-subdir` 공통 적용** | `compare`에서 Git URL을 여러 개 사용할 때 서브디렉터리가 동일하게 적용됨. 다른 서브디렉터리가 필요하면 JSON으로 미리 분석 후 비교 |
-| **`--branch` 공통 적용** | `compare`에서 모든 Git URL에 동일한 브랜치가 적용됨 |
-| **네트워크 의존** | HTML 리포트의 Chart.js는 CDN에서 로드하므로 오프라인에서는 차트가 표시되지 않음 |
-
----
-
-## 기술 스택
-
-| 구분 | 기술 | 사용 목적 |
-|------|------|-----------|
-| 언어 | Kotlin | Java 생태계 + 간결한 문법 |
-| 빌드 | Gradle (Kotlin DSL) | 빌드 및 의존성 관리 |
-| Java 파서 | JavaParser + Symbol Solver | 소스 코드 AST 파싱 및 타입 해석 |
-| CLI | picocli | 커맨드라인 인터페이스 |
-| 스펙 데이터 | Jackson YAML | JDBC 스펙 YAML 직렬화/역직렬화 |
-| JSON 리포트 | Jackson Kotlin + JSR310 | JSON 출력 및 `java.time.Instant` 처리 |
-| HTML 리포트 | kotlinx.html + Chart.js | 타입 세이프 HTML 생성 + 차트 시각화 |
+| [내부 구조 및 분석 원리](docs/architecture.md) | 동작 흐름, 구현 상태 7단계 분류, 구현 클래스 자동 탐색 전략, 기술 스택 |
+| [JDBC 스펙 관리 가이드](docs/jdbc-spec-guide.md) | 번들 스펙 설명, YAML 파일 구조, JDK 소스 준비 및 스펙 재추출 방법 |
+| [실전 사용 패턴](docs/usage-patterns.md) | 파일 관리, 버전별 JSON 관리, CI/CD 파이프라인, 추천 디렉터리 구조 |
 
 ## 라이선스
 
