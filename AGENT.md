@@ -103,8 +103,77 @@
 - [x] Temp directory cleanup after analysis
 
 ### v1.5+ — Future
+- [ ] Driver profile configuration (see Known Issues below)
 - [ ] Dynamic analysis (live DB connection)
 - [ ] Git history tracking (coverage change per commit)
+
+---
+
+## Known Issues & Deferred Work
+
+### Driver Profile Configuration
+
+**배경 (Why this is needed)**
+
+`--source-subdir` 옵션은 하나의 파싱 범위만 지정하며, 파싱 범위가 곧 클래스 선택 범위와 상속 체인 탐색 범위를 동시에 결정한다. 단순한 드라이버(CUBRID 등)에서는 이것으로 충분하지만, MySQL처럼 소스가 여러 모듈로 분리된 드라이버에서는 문제가 발생한다.
+
+**실제로 발생한 문제**
+
+MySQL Connector/J를 분석할 때 `--source-subdir` 조합에 따라 커버리지가 크게 달라졌다:
+
+| 지정한 디렉터리 | 커버리지 |
+|----------------|---------|
+| `user-impl/java` + `core-impl/java` | 47.2% |
+| `user-impl/java` + `user-api` | 53.7% |
+| `user-impl/java` + `user-api` + `core-impl/java` + `core-api/java` | 71.7% |
+
+원인: `ImplementationDetector`가 상속 체인을 탐색할 때, 파싱된 파일 안에서만 부모 클래스를 찾을 수 있다. 부모 클래스가 포함된 디렉터리를 지정하지 않으면 상속 체인이 중간에 끊겨 메서드가 `Not Found`로 잘못 분류된다.
+
+**근본 원인**
+
+현재 구조의 한계:
+```
+파싱 범위 = 클래스 선택 범위 + 상속 체인 탐색 범위
+```
+이 두 가지가 분리되어 있지 않다. 정확한 분석을 위해서는:
+- **클래스 선택**: JDBC 인터페이스를 `implements`로 선언한 클래스만 후보
+- **상속 체인 탐색**: 선택된 클래스의 전체 부모 클래스까지 파싱 가능해야 함
+
+**해결 방안: 드라이버 프로파일 YAML**
+
+드라이버별 분석 설정을 YAML 파일로 정의하고, `--profile` 옵션으로 로드하는 방식:
+
+```yaml
+# profiles/mysql.yaml
+name: MySQL Connector/J
+url: https://github.com/mysql/mysql-connector-j.git
+sourceDirs:
+  - src/main/user-impl/java   # JDBC 인터페이스 구현체 (클래스 선택 대상)
+  - src/main/user-api/java    # 중간 인터페이스/추상 클래스
+  - src/main/core-impl/java   # 부모 추상 클래스 (상속 체인 탐색용)
+  - src/main/core-api/java    # 내부 API 인터페이스
+entryClasses:                 # (선택) 클래스 선택을 수동으로 고정
+  - com.mysql.cj.jdbc.ConnectionImpl
+  - com.mysql.cj.jdbc.StatementImpl
+  - com.mysql.cj.jdbc.result.ResultSetImpl
+```
+
+```bash
+# 프로파일 사용 예시
+jdbc-checker analyze --profile ./profiles/mysql.yaml -o html:./report.html
+jdbc-checker analyze --profile mysql  # 번들 프로파일 참조
+```
+
+**구현 시 고려사항**
+
+1. `ProfileLoader`: YAML → `AnalysisProfile` 데이터 클래스로 역직렬화
+2. `AnalyzeCommand`: `--profile` 옵션 추가, `--source`, `--source-subdir`, `--entry-class`보다 낮은 우선순위
+3. 번들 프로파일: `resources/profiles/` 에 주요 드라이버(cubrid, mysql, mariadb, postgresql, mssql) 기본 프로파일 포함
+4. `sourceDirs`와 별도로 `inheritanceDirs`를 분리하는 방안도 고려 (클래스 선택에는 포함하지 않고 상속 탐색에만 사용)
+
+**임시 해결책 (현재)**
+
+`src/main` 또는 `src/main/java`처럼 상위 디렉터리를 통째로 지정하면 대부분의 경우 올바른 결과를 얻을 수 있다. 단, 이 경우 더 많은 파일을 파싱하므로 분석 시간이 늘어날 수 있다.
 
 ## Architecture Overview
 
