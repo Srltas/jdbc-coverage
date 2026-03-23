@@ -94,8 +94,31 @@ internal fun runAnalysis(
     }
 
     // Step 3: Resolve JDBC interface implementors
+    // Parse entry class overrides.
+    // Supported formats:
+    //   "java.sql.Connection=com.mysql.cj.jdbc.ConnectionImpl"  → explicit: forces the mapping
+    //   "com.mysql.cj.jdbc.StatementImpl"                       → hint: auto-detects JDBC interface
+    val explicitOverrides = entryClasses
+        .filter { '=' in it }
+        .associate { spec ->
+            val eq = spec.indexOf('=')
+            spec.substring(0, eq).trim() to spec.substring(eq + 1).trim()
+        }
+    val hintClasses = entryClasses.filter { '=' !in it }
+
+    // For hint-only entries (no '='), resolve by finding the class in the parsed sources
+    // and detecting which JDBC interface(s) it implements transitively.
+    // This works when the full inheritance chain is available in the parsed files.
+    val hintOverrides = if (hintClasses.isNotEmpty()) {
+        resolveHintOverrides(compilationUnits, hintClasses)
+    } else {
+        emptyMap()
+    }
+
+    val allOverrides = hintOverrides + explicitOverrides // explicit takes precedence
+
     print("Resolving JDBC interface implementations... ")
-    val implementors = JdbcInterfaceResolver().resolve(compilationUnits)
+    val implementors = JdbcInterfaceResolver().resolve(compilationUnits, allOverrides)
     println("${implementors.size} interfaces matched")
 
     // Step 4: Detect implementation status per method
@@ -141,6 +164,53 @@ internal fun runAnalysis(
         analyzedAt = Instant.now(),
         interfaces = interfaceResults,
     )
+}
+
+/**
+ * For hint-style entry classes (class FQN only, no `=`), find each class in the parsed
+ * compilation units and detect which JDBC interface(s) it implements transitively.
+ * Returns a map of JDBC interface FQN → class FQN for any successful resolutions.
+ *
+ * This works when the full inheritance chain is available in the parsed source files.
+ * If resolution fails (e.g., parent class not in scope), use the explicit
+ * `java.sql.Connection=com.mysql.cj.jdbc.ConnectionImpl` format instead.
+ */
+private fun resolveHintOverrides(
+    compilationUnits: List<com.github.javaparser.ast.CompilationUnit>,
+    hintClasses: List<String>,
+): Map<String, String> {
+    val result = mutableMapOf<String, String>()
+    val resolver = JdbcInterfaceResolver()
+    for (fqcn in hintClasses) {
+        val simpleName = fqcn.substringAfterLast('.')
+        val packageName = fqcn.substringBeforeLast('.', "")
+        val classDecl = compilationUnits
+            .flatMap { it.findAll(com.github.javaparser.ast.body.ClassOrInterfaceDeclaration::class.java) }
+            .filter { !it.isInterface }
+            .firstOrNull { decl ->
+                decl.nameAsString == simpleName &&
+                    decl.findCompilationUnit()
+                        .flatMap { it.packageDeclaration }
+                        .map { it.nameAsString }
+                        .orElse("") == packageName
+            }
+        if (classDecl == null) {
+            System.err.println("Warning: Entry class hint '$fqcn' not found in parsed sources")
+            continue
+        }
+        // Use a temporary single-class resolve to detect which JDBC interface it maps to
+        val detected = resolver.resolve(listOf(classDecl.findCompilationUnit().get()))
+        for ((jdbcIface, _) in detected) {
+            result[jdbcIface] = fqcn
+        }
+        if (detected.isEmpty()) {
+            System.err.println(
+                "Warning: Could not auto-detect JDBC interface for '$fqcn'. " +
+                    "Use 'java.sql.Connection=$fqcn' format for explicit mapping.",
+            )
+        }
+    }
+    return result
 }
 
 /**
@@ -212,7 +282,14 @@ class AnalyzeCommand : Callable<Int> {
 
     @Option(
         names = ["--entry-class"],
-        description = ["Manually specify implementing class (overrides auto-detection)."],
+        description = [
+            "Manually specify implementing class (overrides auto-detection). Can be specified multiple times.",
+            "Two formats supported:",
+            "  ClassName only:  --entry-class com.mysql.cj.jdbc.StatementImpl",
+            "    → auto-detects the JDBC interface (works if inheritance chain is fully parseable)",
+            "  Explicit:        --entry-class java.sql.Connection=com.mysql.cj.jdbc.ConnectionImpl",
+            "    → forces the mapping regardless of inheritance chain (use for transitive implementors)",
+        ],
     )
     var entryClasses: List<String> = emptyList()
 

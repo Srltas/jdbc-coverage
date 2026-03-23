@@ -25,15 +25,53 @@ class JdbcInterfaceResolver {
 
     /**
      * Resolve JDBC interface → implementing class mapping.
+     *
+     * @param compilationUnits parsed source files
+     * @param overrides explicit mapping of JDBC interface FQN → implementing class FQN.
+     *   Overrides auto-detection for the specified interfaces.
+     *   Example: `"java.sql.Connection" to "com.mysql.cj.jdbc.ConnectionImpl"`
      */
-    fun resolve(compilationUnits: List<CompilationUnit>): Map<String, ClassOrInterfaceDeclaration> {
+    fun resolve(
+        compilationUnits: List<CompilationUnit>,
+        overrides: Map<String, String> = emptyMap(),
+    ): Map<String, ClassOrInterfaceDeclaration> {
         val allClasses = compilationUnits.flatMap { cu ->
             cu.findAll(ClassOrInterfaceDeclaration::class.java)
                 .filter { !it.isInterface }
         }
 
         val jdbcImplementors = findJdbcImplementors(allClasses)
-        return selectBestImplementor(jdbcImplementors)
+        val result = selectBestImplementor(jdbcImplementors).toMutableMap()
+
+        // Apply explicit overrides: bypass auto-detection for specified interfaces
+        for ((jdbcInterface, classFqcn) in overrides) {
+            val classDecl = findClassByFqcn(allClasses, classFqcn)
+            if (classDecl != null) {
+                result[jdbcInterface] = classDecl
+            } else {
+                System.err.println("Warning: Entry class '$classFqcn' not found in parsed sources (for $jdbcInterface)")
+            }
+        }
+
+        return result
+    }
+
+    /**
+     * Find a class declaration by its fully qualified name.
+     */
+    private fun findClassByFqcn(
+        classes: List<ClassOrInterfaceDeclaration>,
+        fqcn: String,
+    ): ClassOrInterfaceDeclaration? {
+        val simpleName = fqcn.substringAfterLast('.')
+        val packageName = fqcn.substringBeforeLast('.', "")
+        return classes.firstOrNull { decl ->
+            decl.nameAsString == simpleName &&
+                decl.findCompilationUnit()
+                    .flatMap { it.packageDeclaration }
+                    .map { it.nameAsString }
+                    .orElse("") == packageName
+        }
     }
 
     /**
