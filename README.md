@@ -24,26 +24,55 @@ JAR 파일이 아닌 **Java 소스 코드**를 직접 파싱하여, 각 메서�
 ```bash
 git clone https://github.com/CUBRID/jdbc-compliance-checker.git
 cd jdbc-compliance-checker
-./gradlew fatJar
+./gradlew :app:installDist
 ```
 
-빌드 결과물: `app/build/libs/jdbc-checker-1.0.0-all.jar`
+빌드 결과:
+
+```
+app/build/install/jdbc-checker/
+├── bin/
+│   ├── jdbc-checker       ← 실행 스크립트 (Unix)
+│   └── jdbc-checker.bat   ← 실행 스크립트 (Windows)
+└── lib/
+    └── *.jar              ← 애플리케이션 + 의존성 JAR
+```
 
 ## 실행 방법
 
 ### 래퍼 스크립트 사용 (권장)
 
-fat JAR과 `jdbc-checker` 스크립트를 같은 디렉터리에 배치합니다:
+`installDist`로 빌드하면 래퍼 스크립트가 자동 생성됩니다:
 
 ```bash
-cp app/build/libs/jdbc-checker-1.0.0-all.jar .
-./jdbc-checker <command> [options]
+./app/build/install/jdbc-checker/bin/jdbc-checker <command> [options]
 ```
 
-### JAR 직접 실행
+PATH에 등록하면 어디서든 실행할 수 있습니다:
 
 ```bash
-java -jar jdbc-checker-1.0.0-all.jar <command> [options]
+export PATH="$PWD/app/build/install/jdbc-checker/bin:$PATH"
+jdbc-checker <command> [options]
+```
+
+### 배포 패키지 (zip)
+
+배포용 zip 파일을 생성할 수도 있습니다:
+
+```bash
+./gradlew :app:distZip
+# 결과: app/build/distributions/jdbc-checker.zip
+```
+
+압축을 풀면 `bin/jdbc-checker` 스크립트로 바로 실행 가능합니다.
+
+### fat JAR 직접 실행
+
+단일 JAR 파일로도 실행할 수 있습니다:
+
+```bash
+./gradlew fatJar
+java -jar app/build/libs/jdbc-checker-1.0.0-all.jar <command> [options]
 ```
 
 ### Gradle로 실행 (개발 중)
