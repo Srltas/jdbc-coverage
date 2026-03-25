@@ -11,6 +11,8 @@ enum class JdbcVersion(val display: String, val javaVersion: String) {
     V4_1("4.1", "Java 7"),
     V4_2("4.2", "Java 8"),
     V4_3("4.3", "Java 9"),
+    V4_4("4.4", "Java 24"),
+    V4_5("4.5", "Java 26"),
     ;
 
     companion object {
