@@ -16,9 +16,23 @@ import kotlin.streams.asSequence
 /**
  * Extracts JDBC specification method definitions from JDK source files.
  *
- * Parses java.sql.* and javax.sql.* interface source files from the JDK,
- * extracting method signatures and @since version tags to build a complete
- * JDBC specification database.
+ * Parses java.sql.*, javax.sql.*, and javax.transaction.xa.* interface source
+ * files from the JDK, extracting method signatures and @since version tags to
+ * build a complete JDBC specification database.
+ *
+ * Accepts two directory layouts for [jdkSourceRoot]:
+ *
+ *   Module directory (single module):
+ *     jdkSourceRoot = <extracted>/java.sql/
+ *       → java/sql/ and javax/sql/ found directly inside
+ *       → java.transaction.xa module looked up as sibling: ../java.transaction.xa/
+ *
+ *   Modules parent (all modules under one root):
+ *     jdkSourceRoot = <extracted>/
+ *       → java.sql/java/sql/ and java.sql/javax/sql/ found inside
+ *       → java.transaction.xa/javax/transaction/xa/ found inside
+ *
+ * Both layouts are auto-detected at runtime.
  */
 class SpecExtractor(private val jdkSourceRoot: Path) {
 
@@ -124,21 +138,74 @@ class SpecExtractor(private val jdkSourceRoot: Path) {
     }
 
     /**
-     * Find all Java source files under java/sql/ and javax/sql/ directories.
+     * Find all Java source files under java/sql/, javax/sql/, and
+     * javax/transaction/xa/ directories.
+     *
+     * Auto-detects two directory layouts:
+     *  - Module directory: jdkSourceRoot is the java.sql module dir itself
+     *  - Modules parent: jdkSourceRoot is the parent containing all module dirs
      */
     private fun findJdbcInterfaceFiles(): List<Path> {
-        val sqlDir = jdkSourceRoot.resolve("java/sql")
-        val javaxDir = jdkSourceRoot.resolve("javax/sql")
+        val dirs = resolveScanDirectories()
+        return dirs.flatMap { dir ->
+            Files.walk(dir)
+                .asSequence()
+                .filter { it.isRegularFile() && it.extension == "java" }
+                .filter { !it.fileName.toString().startsWith("package-info") }
+                .toList()
+        }
+    }
 
-        return listOfNotNull(sqlDir, javaxDir)
-            .filter { Files.isDirectory(it) }
-            .flatMap { dir ->
-                Files.walk(dir)
-                    .asSequence()
-                    .filter { it.isRegularFile() && it.extension == "java" }
-                    .filter { !it.fileName.toString().startsWith("package-info") }
-                    .toList()
+    /**
+     * Resolve the set of directories to scan based on the detected layout.
+     *
+     * Layout A — Module directory (jdkSourceRoot = java.sql module):
+     *   java/sql/           directly under jdkSourceRoot
+     *   javax/sql/          directly under jdkSourceRoot
+     *   ../java.transaction.xa/javax/transaction/xa/   sibling module
+     *
+     * Layout B — Modules parent (jdkSourceRoot contains module subdirs):
+     *   java.sql/java/sql/
+     *   java.sql/javax/sql/
+     *   java.transaction.xa/javax/transaction/xa/
+     */
+    private fun resolveScanDirectories(): List<Path> {
+        // Detect layout by checking which structure exists
+        val isModuleDir = Files.isDirectory(jdkSourceRoot.resolve("java/sql"))
+        val isModulesParent = Files.isDirectory(jdkSourceRoot.resolve("java.sql/java/sql"))
+
+        val (sqlDir, javaxSqlDir, xaDir) = when {
+            isModuleDir -> Triple(
+                jdkSourceRoot.resolve("java/sql"),
+                jdkSourceRoot.resolve("javax/sql"),
+                jdkSourceRoot.parent?.resolve("java.transaction.xa/javax/transaction/xa"),
+            )
+            isModulesParent -> Triple(
+                jdkSourceRoot.resolve("java.sql/java/sql"),
+                jdkSourceRoot.resolve("java.sql/javax/sql"),
+                jdkSourceRoot.resolve("java.transaction.xa/javax/transaction/xa"),
+            )
+            else -> {
+                System.err.println("Warning: Cannot find java/sql/ under $jdkSourceRoot. " +
+                    "Expected either a module directory (java.sql/) or a modules parent directory.")
+                return emptyList()
             }
+        }
+
+        val dirs = mutableListOf<Path>()
+        listOf(sqlDir, javaxSqlDir).forEach { dir ->
+            if (Files.isDirectory(dir)) dirs.add(dir)
+            else System.err.println("Warning: Directory not found: $dir")
+        }
+        if (xaDir != null && Files.isDirectory(xaDir)) {
+            dirs.add(xaDir)
+            println("  Found java.transaction.xa module: $xaDir")
+        } else {
+            System.err.println("Warning: java.transaction.xa module not found " +
+                "(XAResource and Xid will not be extracted). " +
+                "Expected at: $xaDir")
+        }
+        return dirs
     }
 
     /**
@@ -177,6 +244,8 @@ class SpecExtractor(private val jdkSourceRoot: Path) {
             "javax.sql.PooledConnection" to JdbcVersion.V2_0,
             "javax.sql.XAConnection" to JdbcVersion.V2_0,
             "javax.sql.XADataSource" to JdbcVersion.V2_0,
+            "javax.transaction.xa.XAResource" to JdbcVersion.V2_0,
+            "javax.transaction.xa.Xid" to JdbcVersion.V2_0,
 
             // JDBC 3.0
             "java.sql.ParameterMetaData" to JdbcVersion.V3_0,

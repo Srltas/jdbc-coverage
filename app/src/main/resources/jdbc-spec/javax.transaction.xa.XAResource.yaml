@@ -1,0 +1,56 @@
+interfaceName: javax.transaction.xa.XAResource
+since: 3.0
+methodCount: 10
+methods:
+- name: commit
+  params:
+  - Xid
+  - boolean
+  returns: void
+  since: 3.0
+- name: end
+  params:
+  - Xid
+  - int
+  returns: void
+  since: 3.0
+- name: forget
+  params:
+  - Xid
+  returns: void
+  since: 3.0
+- name: getTransactionTimeout
+  params: []
+  returns: int
+  since: 3.0
+- name: isSameRM
+  params:
+  - XAResource
+  returns: boolean
+  since: 3.0
+- name: prepare
+  params:
+  - Xid
+  returns: int
+  since: 3.0
+- name: recover
+  params:
+  - int
+  returns: "Xid[]"
+  since: 3.0
+- name: rollback
+  params:
+  - Xid
+  returns: void
+  since: 3.0
+- name: setTransactionTimeout
+  params:
+  - int
+  returns: boolean
+  since: 3.0
+- name: start
+  params:
+  - Xid
+  - int
+  returns: void
+  since: 3.0

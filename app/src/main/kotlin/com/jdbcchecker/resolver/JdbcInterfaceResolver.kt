@@ -118,7 +118,7 @@ class JdbcInterfaceResolver {
                 SIMPLE_TO_FQN[simpleName]
             }
         }.filter { name ->
-            name.startsWith("java.sql.") || name.startsWith("javax.sql.")
+            isJdbcInterface(name)
         }.toSet()
     }
 
@@ -132,7 +132,7 @@ class JdbcInterfaceResolver {
             allAncestors.map { ancestor ->
                 ancestor.qualifiedName
             }.filter { name ->
-                name.startsWith("java.sql.") || name.startsWith("javax.sql.")
+                isJdbcInterface(name)
             }.toSet()
         } catch (e: Exception) {
             // Fallback: use direct implements only
@@ -187,15 +187,22 @@ class JdbcInterfaceResolver {
 
     companion object {
         private val JDBC_INTERFACE_SIMPLE_NAMES = setOf(
+            // java.sql
             "Connection", "Statement", "PreparedStatement", "CallableStatement",
             "ResultSet", "DatabaseMetaData", "ResultSetMetaData", "ParameterMetaData",
             "Driver", "Blob", "Clob", "NClob", "SQLXML", "Array", "Struct", "Ref",
-            "Wrapper", "DataSource", "ConnectionPoolDataSource", "CommonDataSource",
-            "PooledConnection", "XAConnection", "XADataSource",
+            "Wrapper",
+            // javax.sql
+            "DataSource", "ConnectionPoolDataSource", "CommonDataSource",
+            "PooledConnection", "PooledConnectionBuilder",
+            "XAConnection", "XAConnectionBuilder", "XADataSource",
+            // javax.transaction.xa
+            "XAResource", "Xid",
         )
 
         /** Simple name → fully qualified name mapping for fallback resolution */
         private val SIMPLE_TO_FQN = mapOf(
+            // java.sql
             "Connection" to "java.sql.Connection",
             "Statement" to "java.sql.Statement",
             "PreparedStatement" to "java.sql.PreparedStatement",
@@ -213,14 +220,31 @@ class JdbcInterfaceResolver {
             "Struct" to "java.sql.Struct",
             "Ref" to "java.sql.Ref",
             "Wrapper" to "java.sql.Wrapper",
+            // javax.sql
             "DataSource" to "javax.sql.DataSource",
             "ConnectionPoolDataSource" to "javax.sql.ConnectionPoolDataSource",
             "CommonDataSource" to "javax.sql.CommonDataSource",
+            "PooledConnection" to "javax.sql.PooledConnection",
+            "PooledConnectionBuilder" to "javax.sql.PooledConnectionBuilder",
+            "XAConnection" to "javax.sql.XAConnection",
+            "XAConnectionBuilder" to "javax.sql.XAConnectionBuilder",
+            "XADataSource" to "javax.sql.XADataSource",
+            // javax.transaction.xa
+            "XAResource" to "javax.transaction.xa.XAResource",
+            "Xid" to "javax.transaction.xa.Xid",
         )
 
-        /** Patterns indicating wrapper/adapter/proxy classes (not main impl) */
+        /** Returns true if the FQN belongs to a tracked JDBC/JTA package. */
+        fun isJdbcInterface(fqn: String): Boolean =
+            fqn.startsWith("java.sql.") ||
+                fqn.startsWith("javax.sql.") ||
+                fqn.startsWith("javax.transaction.xa.")
+
+        /** Patterns indicating wrapper/adapter/proxy classes (not main impl).
+         *  Note: "xa" is intentionally excluded — XA implementation classes
+         *  (e.g., MysqlXAResource, CUBRIDXAResource) are valid main implementations. */
         private val WRAPPER_PATTERNS = listOf(
-            "wrapper", "xa", "pooling", "proxy", "adapter", "delegate",
+            "wrapper", "pooling", "proxy", "adapter", "delegate",
         )
     }
 }

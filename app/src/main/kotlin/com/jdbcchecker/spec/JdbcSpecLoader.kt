@@ -87,8 +87,9 @@ class JdbcSpecLoader {
     }
 
     companion object {
-        /** Core JDBC interfaces to track */
+        /** Core JDBC interfaces to track (java.sql, javax.sql, javax.transaction.xa) */
         val JDBC_INTERFACES = listOf(
+            // java.sql — JDBC 1.0+
             "java.sql.Connection",
             "java.sql.Statement",
             "java.sql.PreparedStatement",
@@ -106,9 +107,18 @@ class JdbcSpecLoader {
             "java.sql.Struct",
             "java.sql.Ref",
             "java.sql.Wrapper",
+            // javax.sql — JDBC 2.0+
             "javax.sql.DataSource",
             "javax.sql.ConnectionPoolDataSource",
             "javax.sql.CommonDataSource",
+            "javax.sql.PooledConnection",
+            "javax.sql.PooledConnectionBuilder",
+            "javax.sql.XAConnection",
+            "javax.sql.XAConnectionBuilder",
+            "javax.sql.XADataSource",
+            // javax.transaction.xa — JTA (required by XAConnection)
+            "javax.transaction.xa.XAResource",
+            "javax.transaction.xa.Xid",
         )
     }
 }

@@ -17,7 +17,12 @@ class ExtractSpecCommand : Callable<Int> {
 
     @Parameters(
         index = "0",
-        description = ["Path to JDK source root (directory containing java/sql/ and javax/sql/)."],
+        description = [
+            "Path to JDK source root. Two layouts are supported:",
+            "  Module directory:  path/to/java.sql/  (java/sql/ directly inside)",
+            "  Modules parent:    path/to/src/        (java.sql/, java.transaction.xa/ as subdirs)",
+            "The java.transaction.xa module is auto-located as a sibling or child directory.",
+        ],
     )
     lateinit var jdkSourceRoot: Path
 

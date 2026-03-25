@@ -1,0 +1,16 @@
+interfaceName: javax.transaction.xa.Xid
+since: 3.0
+methodCount: 3
+methods:
+- name: getBranchQualifier
+  params: []
+  returns: "byte[]"
+  since: 3.0
+- name: getFormatId
+  params: []
+  returns: int
+  since: 3.0
+- name: getGlobalTransactionId
+  params: []
+  returns: "byte[]"
+  since: 3.0
