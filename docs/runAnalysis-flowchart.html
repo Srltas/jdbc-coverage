@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>runAnalysis() Flowchart — JDBC Compliance Checker</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px 40px;
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    }
+    h1 { color: #58a6ff; font-size: 1.6em; margin-bottom: 4px; }
+    h2 { color: #8b949e; font-size: 1.0em; font-weight: normal; margin-top: 0; }
+    .diagram-section { margin: 30px 0; }
+    .diagram-section h3 {
+      color: #79c0ff;
+      font-size: 1.15em;
+      border-bottom: 1px solid #21262d;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+    }
+    .mermaid {
+      background: #161b22;
+      border-radius: 8px;
+      padding: 24px;
+      border: 1px solid #30363d;
+      overflow-x: auto;
+    }
+    .legend {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin: 16px 0;
+      padding: 12px 16px;
+      background: #161b22;
+      border-radius: 6px;
+      border: 1px solid #30363d;
+      font-size: 0.85em;
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; }
+    .legend-color {
+      width: 14px; height: 14px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+
+<h1>runAnalysis() — Full Pipeline Flowchart</h1>
+<h2>JDBC Compliance Checker &middot; Main.kt internal fun runAnalysis()</h2>
+
+<div class="legend">
+  <div class="legend-item"><span class="legend-color" style="background:#238636"></span> Start / End</div>
+  <div class="legend-item"><span class="legend-color" style="background:#1f6feb"></span> Processing</div>
+  <div class="legend-item"><span class="legend-color" style="background:#8957e5"></span> Sub-routine (external class)</div>
+  <div class="legend-item"><span class="legend-color" style="background:#da3633"></span> Error / Early return null</div>
+  <div class="legend-item"><span class="legend-color" style="background:#d29922"></span> Decision</div>
+  <div class="legend-item"><span class="legend-color" style="background:#388bfd"></span> Data artifact</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- DIAGRAM 1: Top-Level Pipeline -->
+<!-- ============================================================ -->
+<div class="diagram-section">
+<h3>1. Top-Level Pipeline Overview</h3>
+<pre class="mermaid">
+%%{init: {'theme':'dark', 'themeVariables': {'fontSize':'13px'}}}%%
+flowchart TB
+    classDef startEnd fill:#238636,stroke:#2ea043,color:#fff
+    classDef process fill:#1f6feb,stroke:#388bfd,color:#fff
+    classDef subroutine fill:#8957e5,stroke:#a371f7,color:#fff
+    classDef error fill:#da3633,stroke:#f85149,color:#fff
+    classDef decision fill:#d29922,stroke:#e3b341,color:#000
+    classDef data fill:#388bfd,stroke:#58a6ff,color:#fff
+
+    START([runAnalysis 호출]):::startEnd
+    START --> INPUT
+
+    INPUT["입력 파라미터 수신
+    ─────────────────
+    sourcePaths: List&lt;Path&gt;
+    driverName: String?
+    entryClasses: List&lt;String&gt;
+    specDir: Path?
+    sourceDisplay: String?"]:::data
+
+    INPUT --> VALIDATE
+
+    subgraph VALIDATION ["경로 검증"]
+        VALIDATE{"sourcePaths 중
+        디렉터리가 아닌
+        경로 존재?"}:::decision
+        VALIDATE -- "Yes" --> ERR_PATH["stderr: Error 출력
+        return null"]:::error
+    end
+
+    VALIDATE -- "No (모두 유효)" --> STEP1
+
+    subgraph S1 ["Step 1: JDBC Spec 로딩"]
+        STEP1{"specDir
+        지정됨?"}:::decision
+        STEP1 -- "Yes" --> LOAD_EXT["JdbcSpecLoader
+        .loadAllFromDirectory(specDir)"]:::subroutine
+        STEP1 -- "No (null)" --> LOAD_BUNDLED["JdbcSpecLoader
+        .loadAll()
+        (bundled YAML)"]:::subroutine
+        LOAD_EXT --> CHECK_SPEC
+        LOAD_BUNDLED --> CHECK_SPEC
+        CHECK_SPEC{"specMethods
+        비어있음?"}:::decision
+        CHECK_SPEC -- "Yes" --> ERR_SPEC["stderr: Error
+        return null"]:::error
+        CHECK_SPEC -- "No" --> GROUP_SPEC["specByInterface =
+        specMethods.groupBy
+        { interfaceName }"]:::process
+    end
+
+    GROUP_SPEC --> STEP2
+
+    subgraph S2 ["Step 2: 소스 파일 파싱"]
+        STEP2["SourceParser(sourcePaths)
+        .parseAll()"]:::subroutine
+        STEP2 --> CHECK_CU{"compilationUnits
+        비어있음?"}:::decision
+        CHECK_CU -- "Yes" --> ERR_CU["stderr: Error
+        return null"]:::error
+    end
+
+    CHECK_CU -- "No" --> STEP3
+
+    subgraph S3 ["Step 3: JDBC 인터페이스 구현체 매핑"]
+        STEP3["Entry Class 파싱
+        + Override 구성"]:::process
+        STEP3 --> RESOLVE["JdbcInterfaceResolver
+        .resolve(CUs, allOverrides)"]:::subroutine
+        RESOLVE --> IMPL_MAP["implementors:
+        Map&lt;String, ClassDecl&gt;"]:::data
+    end
+
+    IMPL_MAP --> STEP4
+
+    subgraph S4 ["Step 4: 구현 상태 분석"]
+        STEP4["ImplementationDetector
+        .registerCompilationUnits()"]:::subroutine
+        STEP4 --> LOOP["specByInterface 순회
+        각 (interfaceName, methods)"]:::process
+        LOOP --> BUILD["InterfaceResult 리스트 생성"]:::process
+    end
+
+    BUILD --> RESULT
+
+    RESULT["AnalysisReport 생성 및 반환
+    ─────────────────
+    driverName, sourcePath,
+    analyzedAt, interfaces"]:::startEnd
+</pre>
+</div>
+
+<!-- ============================================================ -->
+<!-- DIAGRAM 2: Step 3 Detail — Entry Class Override Resolution -->
+<!-- ============================================================ -->
+<div class="diagram-section">
+<h3>2. Step 3 상세: Entry Class Override 해석 과정</h3>
+<pre class="mermaid">
+%%{init: {'theme':'dark', 'themeVariables': {'fontSize':'13px'}}}%%
+flowchart TB
+    classDef startEnd fill:#238636,stroke:#2ea043,color:#fff
+    classDef process fill:#1f6feb,stroke:#388bfd,color:#fff
+    classDef subroutine fill:#8957e5,stroke:#a371f7,color:#fff
+    classDef error fill:#da3633,stroke:#f85149,color:#fff
+    classDef decision fill:#d29922,stroke:#e3b341,color:#000
+    classDef data fill:#388bfd,stroke:#58a6ff,color:#fff
+
+    ENTRY(["entryClasses: List&lt;String&gt;"]):::startEnd
+
+    ENTRY --> SPLIT["entryClasses를 두 그룹으로 분리"]:::process
+
+    SPLIT --> EXPLICIT_FILTER
+
+    subgraph EXPLICIT ["Explicit Override 파싱 ('=' 포함)"]
+        EXPLICIT_FILTER["filter: '=' in it"]:::process
+        EXPLICIT_FILTER --> EXPLICIT_PARSE["split('=')로 분리
+        ─────────────────
+        key: java.sql.Connection
+        val: com.mysql.cj...ConnectionImpl"]:::process
+        EXPLICIT_PARSE --> EXPLICIT_MAP["explicitOverrides:
+        Map&lt;String, String&gt;"]:::data
+    end
+
+    SPLIT --> HINT_FILTER
+
+    subgraph HINT ["Hint Override 파싱 ('=' 미포함)"]
+        HINT_FILTER["filter: '=' !in it"]:::process
+        HINT_FILTER --> HINT_CHECK{"hintClasses
+        비어있음?"}:::decision
+        HINT_CHECK -- "Yes" --> HINT_EMPTY["emptyMap()"]:::data
+        HINT_CHECK -- "No" --> HINT_RESOLVE
+
+        subgraph HINT_RESOLVE_SUB ["resolveHintOverrides()"]
+            HINT_RESOLVE["각 FQCN에 대해 루프"]:::process
+            HINT_RESOLVE --> FIND_CLASS["compilationUnits에서
+            패키지명 + 클래스명으로
+            ClassDeclaration 검색"]:::process
+            FIND_CLASS --> FOUND{"클래스
+            찾음?"}:::decision
+            FOUND -- "No" --> WARN1["stderr: Warning
+            hint not found
+            → continue"]:::error
+            FOUND -- "Yes" --> TEMP_RESOLVE["JdbcInterfaceResolver
+            .resolve(해당 CU 1개)
+            → JDBC 인터페이스 자동감지"]:::subroutine
+            TEMP_RESOLVE --> DETECTED{"감지된
+            인터페이스
+            있음?"}:::decision
+            DETECTED -- "Yes" --> ADD_HINT["result에 추가
+            jdbcIface → fqcn"]:::process
+            DETECTED -- "No" --> WARN2["stderr: Warning
+            auto-detect 실패
+            '=' 형식 권장"]:::error
+        end
+
+        HINT_RESOLVE --> HINT_MAP["hintOverrides:
+        Map&lt;String, String&gt;"]:::data
+    end
+
+    EXPLICIT_MAP --> MERGE
+    HINT_EMPTY --> MERGE
+    HINT_MAP --> MERGE
+
+    MERGE["allOverrides =
+    hintOverrides + explicitOverrides
+    ─────────────────
+    explicit이 hint를 덮어씀
+    (+ 연산: 뒤가 우선)"]:::process
+
+    MERGE --> RESOLVER_CALL["JdbcInterfaceResolver
+    .resolve(compilationUnits, allOverrides)"]:::subroutine
+
+    RESOLVER_CALL --> RESULT(["implementors:
+    Map&lt;String, ClassDecl&gt;"]):::startEnd
+</pre>
+</div>
+
+<!-- ============================================================ -->
+<!-- DIAGRAM 3: JdbcInterfaceResolver.resolve() -->
+<!-- ============================================================ -->
+<div class="diagram-section">
+<h3>3. JdbcInterfaceResolver.resolve() 내부 흐름</h3>
+<pre class="mermaid">
+%%{init: {'theme':'dark', 'themeVariables': {'fontSize':'13px'}}}%%
+flowchart TB
+    classDef startEnd fill:#238636,stroke:#2ea043,color:#fff
+    classDef process fill:#1f6feb,stroke:#388bfd,color:#fff
+    classDef subroutine fill:#8957e5,stroke:#a371f7,color:#fff
+    classDef error fill:#da3633,stroke:#f85149,color:#fff
+    classDef decision fill:#d29922,stroke:#e3b341,color:#000
+    classDef data fill:#388bfd,stroke:#58a6ff,color:#fff
+
+    START(["resolve(CUs, overrides)"]):::startEnd
+
+    START --> EXTRACT["allClasses =
+    모든 CU에서 ClassDeclaration 추출
+    (인터페이스 제외, 클래스만)"]:::process
+
+    EXTRACT --> FIND_IMPL
+
+    subgraph AUTO ["자동 감지: findJdbcImplementors()"]
+        FIND_IMPL["각 클래스에 대해 루프"]:::process
+        FIND_IMPL --> DIRECT["resolveDirectJdbcInterfaces(class)
+        ─────────────────
+        implements 절에 선언된
+        JDBC 인터페이스 수집"]:::subroutine
+        FIND_IMPL --> ALL_IFACE["resolveAllJdbcInterfaces(class)
+        ─────────────────
+        getAllAncestors()로
+        전체 상속 트리 탐색"]:::subroutine
+
+        ALL_IFACE --> RESOLVE_OK{"getAllAncestors
+        성공?"}:::decision
+        RESOLVE_OK -- "Yes" --> FILTER_JDBC["ancestor 중
+        java.sql.* / javax.sql.*
+        javax.transaction.xa.*
+        필터링"]:::process
+        RESOLVE_OK -- "No (Exception)" --> FALLBACK["Fallback:
+        resolveDirectJdbcInterfaces
+        결과만 사용"]:::error
+
+        DIRECT --> COLLECT
+        FILTER_JDBC --> COLLECT
+        FALLBACK --> COLLECT
+
+        COLLECT["각 JDBC 인터페이스에 대해
+        ImplementorInfo(classDecl, isDirect)
+        수집 → Map 구성"]:::process
+    end
+
+    COLLECT --> SELECT
+
+    subgraph BEST ["selectBestImplementor()"]
+        SELECT{"후보가
+        1개?"}:::decision
+        SELECT -- "Yes" --> USE_ONLY["해당 클래스 선택"]:::process
+        SELECT -- "No (여러 개)" --> PREFER_DIRECT["1순위: direct implementor 선호
+        (implements 절에 직접 선언)"]:::process
+        PREFER_DIRECT --> PREFER_CLEAN["2순위: 'clean' 이름 선호
+        Wrapper/Pooling/Proxy/
+        Adapter/Delegate 제외"]:::process
+        PREFER_CLEAN --> PREFER_RICH["3순위: 메서드 수 최다
+        (가장 풍부한 구현)"]:::process
+        USE_ONLY --> AUTO_RESULT
+        PREFER_RICH --> AUTO_RESULT
+    end
+
+    AUTO_RESULT["result: MutableMap
+    (자동 감지 결과)"]:::data
+
+    AUTO_RESULT --> OVERRIDE_CHECK
+
+    subgraph OVERRIDE ["Override 적용"]
+        OVERRIDE_CHECK{"overrides
+        비어있음?"}:::decision
+        OVERRIDE_CHECK -- "Yes" --> SKIP_OVR["Override 없음 → 그대로"]:::process
+        OVERRIDE_CHECK -- "No" --> LOOP_OVR["각 (jdbcInterface, classFqcn)
+        에 대해 루프"]:::process
+        LOOP_OVR --> FIND_BY_FQCN["findClassByFqcn()
+        ─────────────────
+        패키지명 + 클래스명으로
+        allClasses에서 검색"]:::subroutine
+        FIND_BY_FQCN --> FOUND_OVR{"클래스
+        찾음?"}:::decision
+        FOUND_OVR -- "Yes" --> APPLY["result[jdbcInterface]
+        = classDecl
+        (강제 덮어쓰기)"]:::process
+        FOUND_OVR -- "No" --> WARN_OVR["stderr: Warning
+        not found"]:::error
+    end
+
+    SKIP_OVR --> RETURN
+    APPLY --> RETURN
+    WARN_OVR --> RETURN
+
+    RETURN(["return result
+    Map&lt;String, ClassDecl&gt;"]):::startEnd
+</pre>
+</div>
+
+<!-- ============================================================ -->
+<!-- DIAGRAM 4: Step 4 — Implementation Detection -->
+<!-- ============================================================ -->
+<div class="diagram-section">
+<h3>4. Step 4 상세: 구현 상태 분석 (ImplementationDetector)</h3>
+<pre class="mermaid">
+%%{init: {'theme':'dark', 'themeVariables': {'fontSize':'13px'}}}%%
+flowchart TB
+    classDef startEnd fill:#238636,stroke:#2ea043,color:#fff
+    classDef process fill:#1f6feb,stroke:#388bfd,color:#fff
+    classDef subroutine fill:#8957e5,stroke:#a371f7,color:#fff
+    classDef error fill:#da3633,stroke:#f85149,color:#fff
+    classDef decision fill:#d29922,stroke:#e3b341,color:#000
+    classDef data fill:#388bfd,stroke:#58a6ff,color:#fff
+    classDef status_impl fill:#238636,stroke:#2ea043,color:#fff
+    classDef status_stub fill:#da3633,stroke:#f85149,color:#fff
+    classDef status_partial fill:#d29922,stroke:#e3b341,color:#000
+
+    START(["specByInterface 순회 시작"]):::startEnd
+    START --> REG["registerCompilationUnits(CUs)
+    ─────────────────
+    모든 클래스를 parentClassRegistry에
+    simpleName → ClassDecl로 등록"]:::subroutine
+
+    REG --> LOOP["각 (interfaceName, methods)
+    에 대해 루프"]:::process
+
+    LOOP --> LOOKUP{"implementors에
+    interfaceName
+    매핑 존재?"}:::decision
+
+    LOOKUP -- "No (classDecl = null)" --> NOT_FOUND["모든 메서드:
+    ImplementationStatus.NotFound"]:::status_stub
+
+    LOOKUP -- "Yes (classDecl 있음)" --> METHOD_LOOP["각 specMethod에 대해
+    detector.detect(specMethod, classDecl)"]:::process
+
+    METHOD_LOOP --> FIND_METHOD
+
+    subgraph DETECT ["detect() 내부"]
+        FIND_METHOD["findMatchingMethod
+        (specMethod, classDecl)
+        ─────────────────
+        메서드명 + 파라미터 수
+        + 파라미터 타입 매칭"]:::subroutine
+
+        FIND_METHOD --> FOUND_M{"메서드
+        찾음?"}:::decision
+
+        FOUND_M -- "Yes" --> ANALYZE["analyzeMethodBody(method)"]:::subroutine
+
+        FOUND_M -- "No" --> SEARCH_PARENT["searchParentClasses()
+        ─────────────────
+        extends 체인을 따라
+        parentClassRegistry에서
+        상위 클래스 검색 (재귀)"]:::subroutine
+
+        SEARCH_PARENT --> FOUND_PARENT{"상위 클래스에서
+        메서드 찾음?"}:::decision
+        FOUND_PARENT -- "Yes" --> ANALYZE
+        FOUND_PARENT -- "No" --> RESULT_NF["NotFound"]:::status_stub
+    end
+
+    subgraph BODY_ANALYSIS ["analyzeMethodBody() — 메서드 본문 분석"]
+        ANALYZE --> HAS_BODY{"body
+        존재?"}:::decision
+        HAS_BODY -- "No" --> NF2["NotFound"]:::status_stub
+        HAS_BODY -- "Yes" --> EMPTY{"statements
+        비어있음?"}:::decision
+        EMPTY -- "Yes" --> RET_DEF["ReturnsDefault"]:::status_stub
+        EMPTY -- "No" --> SINGLE{"statements
+        == 1?"}:::decision
+
+        SINGLE -- "Yes" --> SINGLE_CHECK
+
+        subgraph SINGLE_STMT ["단일 문장 분석"]
+            SINGLE_CHECK{"문장 유형?"}:::decision
+            SINGLE_CHECK -- "throw" --> THROW_TYPE{"예외 종류?"}:::decision
+            THROW_TYPE -- "UnsupportedOperation
+            Exception" --> UNSUP["ThrowsUnsupported"]:::status_stub
+            THROW_TYPE -- "SQLException" --> SQL_EX["ThrowsSqlException"]:::status_stub
+            THROW_TYPE -- "기타" --> UNSUP2["ThrowsUnsupported"]:::status_stub
+
+            SINGLE_CHECK -- "return" --> RET_CHECK{"반환값?"}:::decision
+            RET_CHECK -- "null/0/false/
+            빈문자열" --> RET_DEF2["ReturnsDefault"]:::status_stub
+            RET_CHECK -- "메서드 호출" --> DELEG["Delegates"]:::status_partial
+            RET_CHECK -- "기타 값" --> IMPL1["FullyImplemented"]:::status_impl
+
+            SINGLE_CHECK -- "기타" --> IMPL_S["FullyImplemented"]:::status_impl
+        end
+
+        SINGLE -- "No (다중 문장)" --> MULTI_CHECK{"본문에
+        UnsupportedOperation
+        Exception 포함?"}:::decision
+        MULTI_CHECK -- "Yes" --> PARTIAL["Partial"]:::status_partial
+        MULTI_CHECK -- "No" --> FULL_IMPL["FullyImplemented"]:::status_impl
+    end
+
+    NOT_FOUND --> BUILD_IR
+    RESULT_NF --> BUILD_IR
+    NF2 --> BUILD_IR
+    RET_DEF --> BUILD_IR
+    UNSUP --> BUILD_IR
+    SQL_EX --> BUILD_IR
+    UNSUP2 --> BUILD_IR
+    RET_DEF2 --> BUILD_IR
+    DELEG --> BUILD_IR
+    IMPL1 --> BUILD_IR
+    IMPL_S --> BUILD_IR
+    PARTIAL --> BUILD_IR
+    FULL_IMPL --> BUILD_IR
+
+    BUILD_IR["InterfaceResult 구성
+    ─────────────────
+    interfaceName
+    implementingClass
+    methods: List&lt;MethodResult&gt;"]:::data
+
+    BUILD_IR --> REPORT(["AnalysisReport 반환
+    ─────────────────
+    driverName, sourcePath
+    analyzedAt, interfaces"]):::startEnd
+</pre>
+</div>
+
+<!-- ============================================================ -->
+<!-- DIAGRAM 5: End-to-End Caller Context -->
+<!-- ============================================================ -->
+<div class="diagram-section">
+<h3>5. End-to-End 흐름: AnalyzeCommand.call() → runAnalysis() → Output</h3>
+<pre class="mermaid">
+%%{init: {'theme':'dark', 'themeVariables': {'fontSize':'13px'}}}%%
+flowchart LR
+    classDef startEnd fill:#238636,stroke:#2ea043,color:#fff
+    classDef process fill:#1f6feb,stroke:#388bfd,color:#fff
+    classDef subroutine fill:#8957e5,stroke:#a371f7,color:#fff
+    classDef error fill:#da3633,stroke:#f85149,color:#fff
+    classDef decision fill:#d29922,stroke:#e3b341,color:#000
+    classDef data fill:#388bfd,stroke:#58a6ff,color:#fff
+
+    CLI(["사용자 CLI 입력
+    jdbc-checker analyze ..."]):::startEnd
+
+    CLI --> PARSE["Picocli 파라미터 파싱
+    source, outputs, driverName,
+    entryClasses, specDir,
+    branch, sourceSubdirs"]:::process
+
+    PARSE --> SOURCE_RESOLVE
+
+    subgraph SR ["SourceResolver"]
+        SOURCE_RESOLVE{"source 유형?"}:::decision
+        SOURCE_RESOLVE -- "Git URL" --> CLONE["GitCloneService
+        .clone(url, branch)
+        → tmpDir"]:::subroutine
+        SOURCE_RESOLVE -- "로컬 경로" --> LOCAL["Path.of(source)"]:::process
+        CLONE --> SUBDIR
+        LOCAL --> SUBDIR
+        SUBDIR{"sourceSubdirs
+        지정?"}:::decision
+        SUBDIR -- "Yes" --> MAP_SUB["각 subdir를
+        basePath.resolve(it)
+        → List&lt;Path&gt;"]:::process
+        SUBDIR -- "No" --> SINGLE_PATH["listOf(basePath)"]:::process
+    end
+
+    MAP_SUB --> RUN
+    SINGLE_PATH --> RUN
+
+    RUN["runAnalysis()
+    ═════════════
+    Step 1: Spec 로딩
+    Step 2: 소스 파싱
+    Step 3: 인터페이스 매핑
+    Step 4: 구현 분석"]:::subroutine
+
+    RUN --> REPORT_CHECK{"report
+    != null?"}:::decision
+    REPORT_CHECK -- "No" --> EXIT_1["return 1"]:::error
+
+    REPORT_CHECK -- "Yes" --> DISPATCH["dispatchOutputs()"]:::process
+
+    DISPATCH --> OUT_CONSOLE["ConsoleReporter
+    .report()"]:::subroutine
+    DISPATCH --> OUT_JSON["JsonReporter
+    .report(path)"]:::subroutine
+    DISPATCH --> OUT_HTML["HtmlReporter
+    .report(path)"]:::subroutine
+
+    OUT_CONSOLE --> DONE(["return 0"]):::startEnd
+    OUT_JSON --> DONE
+    OUT_HTML --> DONE
+</pre>
+</div>
+
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    flowchart: {
+      useMaxWidth: true,
+      htmlLabels: true,
+      curve: 'basis',
+      padding: 16,
+      nodeSpacing: 30,
+      rankSpacing: 40,
+    },
+    themeVariables: {
+      darkMode: true,
+      background: '#161b22',
+      primaryColor: '#1f6feb',
+      primaryTextColor: '#fff',
+      primaryBorderColor: '#388bfd',
+      lineColor: '#8b949e',
+      secondaryColor: '#8957e5',
+      tertiaryColor: '#238636',
+    },
+  });
+</script>
+
+</body>
+</html>

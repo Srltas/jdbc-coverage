@@ -86,8 +86,15 @@ internal fun runAnalysis(
 
     // Step 2: Parse source files
     print("Parsing source files... ")
-    val compilationUnits = SourceParser(sourcePaths).parseAll()
-    println("${compilationUnits.size} files parsed")
+    val parser = SourceParser(sourcePaths)
+    val compilationUnits = parser.parseAll()
+    val parseStats = parser.getParseStats()
+    println(parseStats.summary())
+    if (parseStats.failedFiles > 0) {
+        parseStats.failures.forEach { (file, msg) ->
+            System.err.println("  Warning: Failed to parse $file: $msg")
+        }
+    }
     if (compilationUnits.isEmpty()) {
         System.err.println("Error: No Java source files found in ${sourcePaths.joinToString()}")
         return null

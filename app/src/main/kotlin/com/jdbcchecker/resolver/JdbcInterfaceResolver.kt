@@ -8,11 +8,17 @@ import com.github.javaparser.resolution.types.ResolvedReferenceType
  * Resolves which classes in the source implement JDBC interfaces.
  *
  * Selection strategy (in priority order):
- * 1. Class that directly declares "implements <JdbcInterface>"
- * 2. If multiple direct implementors exist, prefer the one whose name
- *    doesn't contain Wrapper/XA/Pooling/Out (heuristic for main impl)
- * 3. If no direct implementor, fall back to the class with the most
- *    methods (likely the richest implementation)
+ * 1. Concrete (non-abstract) top-level classes are preferred over abstract classes.
+ *    If only abstract classes implement an interface, they are used as a fallback.
+ * 2. Direct implementor (declares "implements <JdbcInterface>") is preferred over
+ *    transitive implementors.
+ * 3. Among equally-ranked candidates, "clean" class names are preferred
+ *    (no Wrapper/Pooling/Proxy/Adapter/Delegate patterns).
+ * 4. Among remaining ties, the class with the most methods wins
+ *    (richest implementation heuristic).
+ *
+ * Inner/nested classes are excluded from candidate selection entirely because
+ * they are not standalone, instantiable JDBC implementations.
  *
  * Example (CUBRID):
  *   CUBRIDConnection implements Connection           → selected for Connection
@@ -37,7 +43,10 @@ class JdbcInterfaceResolver {
     ): Map<String, ClassOrInterfaceDeclaration> {
         val allClasses = compilationUnits.flatMap { cu ->
             cu.findAll(ClassOrInterfaceDeclaration::class.java)
-                .filter { !it.isInterface }
+                .filter { decl ->
+                    !decl.isInterface &&
+                        !decl.isNestedType // exclude inner/nested classes
+                }
         }
 
         val jdbcImplementors = findJdbcImplementors(allClasses)
@@ -144,10 +153,13 @@ class JdbcInterfaceResolver {
      * Select the best implementing class for each JDBC interface.
      *
      * Priority:
-     * 1. Direct implementor (declares "implements <Interface>")
-     * 2. Among direct implementors, prefer "clean" names (no Wrapper/XA/Pooling/Out)
-     * 3. If tie, prefer the class with more methods
-     * 4. If no direct implementor, select class with most methods
+     * 1. Concrete (non-abstract) classes preferred over abstract classes.
+     *    Abstract classes are used as fallback when no concrete implementor exists.
+     * 2. Direct implementor (declares "implements <Interface>") preferred over
+     *    transitive (via parent chain).
+     * 3. Among equally-ranked candidates, "clean" class names preferred
+     *    (no Wrapper/Pooling/Proxy/Adapter/Delegate).
+     * 4. Among remaining ties, class with most methods (richest implementation).
      */
     private fun selectBestImplementor(
         implementors: Map<String, List<ImplementorInfo>>,
@@ -156,15 +168,19 @@ class JdbcInterfaceResolver {
             if (infos.size == 1) {
                 infos.first().classDecl
             } else {
-                // Prefer direct implementors
-                val direct = infos.filter { it.isDirect }
-                val candidates = direct.ifEmpty { infos }
+                // Priority 1: prefer concrete over abstract
+                val concrete = infos.filter { !it.classDecl.isAbstract }
+                val afterAbstractFilter = concrete.ifEmpty { infos }
 
-                // Among candidates, prefer "clean" class names
+                // Priority 2: prefer direct implementors
+                val direct = afterAbstractFilter.filter { it.isDirect }
+                val candidates = direct.ifEmpty { afterAbstractFilter }
+
+                // Priority 3: prefer "clean" class names
                 val clean = candidates.filter { isMainImplClass(it.classDecl) }
                 val finalCandidates = clean.ifEmpty { candidates }
 
-                // Select the one with most methods (richest implementation)
+                // Priority 4: richest implementation
                 finalCandidates.maxByOrNull { it.classDecl.methods.size }?.classDecl
                     ?: infos.first().classDecl
             }
