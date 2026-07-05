@@ -1,0 +1,70 @@
+name: daily-coverage
+
+on:
+  schedule:
+    - cron: '0 0 * * *'   # 00:00 UTC = 09:00 KST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout checker
+        uses: actions/checkout@v4
+        with:
+          path: checker
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build checker
+        working-directory: checker
+        run: ./gradlew :app:installDist
+
+      # 타 드라이버는 default 브랜치 최신을 추적한다. 스냅샷에 commit hash가
+      # 각인되므로 수치 변동의 원인(드라이버 변경)을 추적할 수 있다.
+      - name: Checkout drivers
+        run: |
+          git clone --depth 1 https://github.com/CUBRID/cubrid-jdbc.git drivers/cubrid-jdbc
+          git clone --depth 1 https://github.com/pgjdbc/pgjdbc.git drivers/pgjdbc
+          git clone --depth 1 https://github.com/mysql/mysql-connector-j.git drivers/mysql-connector-j
+          git clone --depth 1 https://github.com/mariadb-corporation/mariadb-connector-j.git drivers/mariadb-connector-j
+          git clone --depth 1 https://github.com/microsoft/mssql-jdbc.git drivers/mssql-jdbc
+
+      - name: Checkout history (gh-pages)
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: site
+
+      # 소스 경로는 2026-05-21 검증 캠페인과 동일한 경로(수치 연속성).
+      # mysql은 멀티 모듈 루트를 통째로 넘기고 프로파일 핀에 의존한다.
+      - name: Analyze drivers
+        run: |
+          CHECKER=checker/app/build/install/jdbc-checker/bin/jdbc-checker
+          "$CHECKER" analyze drivers/cubrid-jdbc/src/jdbc              -n "CUBRID JDBC"                --history site
+          "$CHECKER" analyze drivers/pgjdbc/pgjdbc/src/main/java       -n "PostgreSQL JDBC"            --history site
+          "$CHECKER" analyze drivers/mysql-connector-j                 -n "MySQL Connector/J"          --history site
+          "$CHECKER" analyze drivers/mariadb-connector-j/src/main/java -n "MariaDB Connector/J"        --history site
+          "$CHECKER" analyze drivers/mssql-jdbc/src/main/java          -n "Microsoft SQL Server JDBC"  --history site
+
+      - name: Render dashboard
+        run: checker/app/build/install/jdbc-checker/bin/jdbc-checker dashboard site -o site/index.html
+
+      - name: Publish to gh-pages
+        working-directory: site
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "coverage: $(date -u +%F)" || echo "nothing to commit"
+          git push origin gh-pages
