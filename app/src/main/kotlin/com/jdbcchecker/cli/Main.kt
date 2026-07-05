@@ -31,6 +31,7 @@ const val TOOL_VERSION = "2.0.0"
     description = ["Measure how much of the JDBC API a driver's source code implements."],
     subcommands = [
         AnalyzeCommand::class,
+        DashboardCommand::class,
     ],
 )
 class JdbcCheckerCommand : Runnable {
