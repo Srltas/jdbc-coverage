@@ -913,7 +913,7 @@ Expected: BUILD SUCCESSFUL; `-o bogus`는 분석 시작 전 `exit=1`; 수치는 
 - [ ] **Step 5: 커밋**
 
 ```bash
-git add -A
+git add -A app gradle
 git commit -m "fix(cli): fail fast on bad outputs and stale pins, deterministic walk
 
 Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>"
@@ -1129,7 +1129,7 @@ Expected: 누적 표에 `<=4.2` 행 존재; `--jdbc-version 4.2`에서 `Total: 8
 - [ ] **Step 7: 커밋**
 
 ```bash
-git add -A
+git add -A app gradle
 git commit -m "feat(model): cumulative version coverage and --jdbc-version filter
 
 Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>"
@@ -1271,7 +1271,7 @@ Expected: `"specVersion" : "spec-1"`, `"toolVersion" : "2.0.0"`, sourceCommit은
 - [ ] **Step 5: 커밋**
 
 ```bash
-git add -A
+git add -A app gradle
 git commit -m "feat(report): stamp spec/tool/commit provenance into snapshots
 
 Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>"
@@ -1565,7 +1565,7 @@ Expected: 두 번째 실행 `(0 changes)`; jsonl은 1줄(같은 날짜 교체)
 - [ ] **Step 7: 커밋**
 
 ```bash
-git add -A
+git add -A app gradle
 git commit -m "feat(history): record daily history lines with method deltas
 
 Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>"
@@ -2067,7 +2067,7 @@ Expected: `Dashboard written to: ... (2 drivers)`. 브라우저에서 확인: �
 - [ ] **Step 7: 커밋**
 
 ```bash
-git add -A
+git add -A app gradle
 git commit -m "feat(dashboard): render self-contained trend dashboard html
 
 Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>"
