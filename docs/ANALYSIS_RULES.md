@@ -45,14 +45,14 @@
 | `24`, `25` | **4.4** | Java 24~25 (메서드 신규 추가 없음) |
 | `26` 이상 | **4.5** | Java 26+ |
 
-소스: [JdkVersionMapping.kt](../app/src/main/kotlin/com/jdbcchecker/spec/extractor/JdkVersionMapping.kt)
+소스: JdkVersionMapping.kt (스펙 추출 도구는 v2.0.0에서 제거 — git 히스토리에 보관)
 
 ### 1.2 포함 패키지
 
 | 패키지 | 인터페이스 수 | 비고 |
 |---|---|---|
-| `java.sql.*` | 27 | 모든 public interface |
-| `javax.sql.*` (RowSet 제외) | 10 | DataSource, PooledConnection, XA*, EventListener 등 |
+| `java.sql.*` | 24 | public interface 중 SQLData·NClob·ShardingKey 제외 |
+| `javax.sql.*` (RowSet 제외) | 8 | DataSource, PooledConnection, XA* 등 (EventListener 2종 제외) |
 | `javax.transaction.xa.*` | 2 | XAResource, Xid |
 | **합계** | **34** | |
 
@@ -60,9 +60,9 @@
 
 ### 1.3 인터페이스 전체 목록 (참고)
 
-`java.sql` (27): Connection, Statement, PreparedStatement, CallableStatement, ResultSet, DatabaseMetaData, Driver, SQLData, SQLInput, SQLOutput, Array, Struct, Ref, Blob, Clob, Savepoint, ParameterMetaData, ResultSetMetaData, NClob, SQLXML, RowId, Wrapper, DriverAction, SQLType, ConnectionBuilder, ShardingKey, ShardingKeyBuilder
+`java.sql` (24): Connection, Statement, PreparedStatement, CallableStatement, ResultSet, DatabaseMetaData, Driver, SQLInput, SQLOutput, Array, Struct, Ref, Blob, Clob, Savepoint, ParameterMetaData, ResultSetMetaData, SQLXML, RowId, Wrapper, DriverAction, SQLType, ConnectionBuilder, ShardingKeyBuilder
 
-`javax.sql` (10): CommonDataSource, DataSource, ConnectionPoolDataSource, PooledConnection, ConnectionEventListener, StatementEventListener, XAConnection, XADataSource, PooledConnectionBuilder, XAConnectionBuilder
+`javax.sql` (8): CommonDataSource, DataSource, ConnectionPoolDataSource, PooledConnection, XAConnection, XADataSource, PooledConnectionBuilder, XAConnectionBuilder
 
 `javax.transaction.xa` (2): XAResource, Xid
 
@@ -93,8 +93,7 @@
 
 `NClob`, `ShardingKey` 같은 marker interface는 자체 메서드가 0개입니다 (상위 인터페이스 메서드만 가짐). 이런 경우:
 - spec yaml 파일은 생성되지 않음 (메서드 0개라 의미 없음)
-- 분석 시 해당 인터페이스의 분모는 0
-- "implementing class를 찾는다"는 의미상 그대로 작동하지만 분석할 메서드가 없어 카운트에 영향 없음
+- 메서드 커버리지 지표에 아무 기여도 하지 않으므로, spec-1부터는 분석 대상 목록(`JDBC_INTERFACES`)에서도 제외됨
 
 ### 1.7 검증 (Layer 1)
 
@@ -404,7 +403,7 @@ none                    (generic 분석만)
 
 **예시**: MySQL의 `com.mysql.cj.MysqlType` enum이 `java.sql.SQLType`을 구현하지만 인식 안 됨.
 
-**영향**: 5드라이버 × 896 메서드 = 4,480 분류 중 **3건** (MySQL의 SQLType getName/getVendor/getVendorTypeNumber). 0.07%.
+**영향**: 5드라이버 × 896 메서드 = 4,480 분류 중 **3건** (MySQL의 SQLType getName/getVendor/getVendorTypeNumber). 0.07%. (2026-05-21 검증 당시 스펙 896 메서드 기준; 현행 spec-1은 889)
 
 **우회**: 해당 메서드를 NOT_FOUND로 보고. 실제 보고 시 별도 주석.
 
