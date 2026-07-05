@@ -1,0 +1,35 @@
+# Microsoft SQL Server JDBC driver profile.
+#
+# Source: https://github.com/microsoft/mssql-jdbc
+#
+# This profile addresses two driver-specific issues that the generic analyzer
+# cannot handle reliably:
+#
+# 1. Class hierarchy ambiguity. None of the SQLServer* classes directly
+#    implement java.sql.* — they implement Microsoft's ISQLServer*
+#    intermediate interfaces, which then extend the JDBC interfaces. The
+#    generic resolver's tie-breakers can pick the wrong class in this
+#    situation. We pin the canonical implementor for the four most-affected
+#    interfaces.
+#
+# 2. Stub helper method. SQLServerException.throwNotSupportedException(...)
+#    is a static helper that itself throws but doesn't contain the `throw`
+#    keyword textually. The generic detector classifies methods using it as
+#    Partial; this profile reclassifies them as stubs (THROWS_SQL_EXCEPTION).
+
+name: mssql
+displayName: "Microsoft SQL Server JDBC"
+
+detectBy:
+  packagePrefix:
+    - com.microsoft.sqlserver.jdbc
+
+entryClasses:
+  java.sql.Connection: com.microsoft.sqlserver.jdbc.SQLServerConnection43
+  java.sql.Statement: com.microsoft.sqlserver.jdbc.SQLServerStatement
+  java.sql.PreparedStatement: com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement
+  java.sql.CallableStatement: com.microsoft.sqlserver.jdbc.SQLServerCallableStatement
+
+stubHelpers:
+  - callPattern: "SQLServerException.throwNotSupportedException"
+    classify: THROWS_SQL_EXCEPTION

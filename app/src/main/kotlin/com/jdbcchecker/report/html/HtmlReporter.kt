@@ -52,6 +52,10 @@ class HtmlReporter {
                 +result.driverName
                 span("separator") { +" | " }
                 +result.analyzedAt.toString().substringBefore('.')
+                result.profileUsed?.let {
+                    span("separator") { +" | " }
+                    +"profile: $it"
+                }
             }
             p("source-path") { +"Source: ${result.sourcePath}" }
         }

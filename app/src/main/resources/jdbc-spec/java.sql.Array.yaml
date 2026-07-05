@@ -1,6 +1,6 @@
 interfaceName: java.sql.Array
 since: 2.0
-methodCount: 11
+methodCount: 12
 methods:
 - name: getArray
   params: []
@@ -58,3 +58,7 @@ methods:
   params: []
   returns: void
   since: 4.0
+- name: close
+  params: []
+  returns: void
+  since: 4.5

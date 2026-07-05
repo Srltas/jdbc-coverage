@@ -28,10 +28,10 @@ sealed interface ImplementationStatus {
         override val key = "THROWS_UNSUPPORTED"
     }
 
-    /** Method body throws SQLException with "not supported" message */
+    /** Method body throws SQLException (or driver-specific subclass) signalling unsupported */
     data object ThrowsSqlException : ImplementationStatus {
         override val label = "Throws SQLException"
-        override val key = "THROWS_SQLEXCEPTION"
+        override val key = "THROWS_SQL_EXCEPTION"
     }
 
     /** Method body only returns a default value (null, 0, false, "") */
@@ -96,7 +96,9 @@ sealed interface ImplementationStatus {
         fun fromKey(key: String): ImplementationStatus = when (key) {
             "NOT_FOUND" -> NotFound
             "THROWS_UNSUPPORTED" -> ThrowsUnsupported
-            "THROWS_SQLEXCEPTION" -> ThrowsSqlException
+            // Accept both new (snake_case) and legacy (one-word) keys for backward
+            // compatibility with baselines produced by older versions of the tool.
+            "THROWS_SQL_EXCEPTION", "THROWS_SQLEXCEPTION" -> ThrowsSqlException
             "RETURNS_DEFAULT" -> ReturnsDefault
             "DELEGATES" -> Delegates
             "PARTIAL" -> Partial

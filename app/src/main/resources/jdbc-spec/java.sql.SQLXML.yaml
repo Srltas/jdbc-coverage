@@ -1,6 +1,6 @@
 interfaceName: java.sql.SQLXML
 since: 4.0
-methodCount: 9
+methodCount: 10
 methods:
 - name: free
   params: []
@@ -41,3 +41,7 @@ methods:
   - String
   returns: void
   since: 4.0
+- name: close
+  params: []
+  returns: void
+  since: 4.5

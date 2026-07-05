@@ -97,8 +97,13 @@ jdbc-checker analyze <source> [options]
 | `--source-subdir <path>` | | 리포지토리 내 소스 서브디렉터리 | 루트 |
 | `--entry-class <fqcn>` | | 구현 클래스 수동 지정 (여러 번 지정 가능) | 자동 탐색 |
 | `--spec-dir <path>` | `-s` | 외부 JDBC 스펙 YAML 디렉터리 | 번들 스펙 |
+| `--profile <name>` | | 드라이버 프로파일 이름(`mssql`, `mysql`, `pgjdbc`, `mariadb`, `cubrid`) 명시 | 자동 감지 |
+| `--profile-file <path>` | | 사용자 정의 프로파일 YAML 경로 | — |
+| `--no-profile` | | 프로파일 자동 감지 비활성화 (generic 분석기만 사용) | off |
 
 **출력 형식** (`-o`): `console`, `json:<파일경로>`, `html:<파일경로>` — 여러 형식을 동시에 지정 가능
+
+**드라이버 프로파일**: 기본적으로 소스의 패키지명을 보고 5개 번들 프로파일(`mssql`/`mysql`/`pgjdbc`/`mariadb`/`cubrid`) 중 매칭되는 것을 자동 적용하여 드라이버별 관용구(예: MSSQL의 `SQLServerException.throwNotSupportedException` helper)를 정확히 분류합니다. `--no-profile`로 끄거나 `--profile-file <path>`로 사용자 정의 프로파일을 주입할 수 있습니다.
 
 ```bash
 # 로컬 소스 분석

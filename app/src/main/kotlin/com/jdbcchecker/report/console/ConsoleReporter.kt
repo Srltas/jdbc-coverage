@@ -27,6 +27,7 @@ class ConsoleReporter {
         println("  JDBC Compliance Report — ${result.driverName}")
         println("  Source: ${result.sourcePath}")
         println("  Analyzed: ${result.analyzedAt}")
+        result.profileUsed?.let { println("  Profile: $it") }
         println(separator)
     }
 

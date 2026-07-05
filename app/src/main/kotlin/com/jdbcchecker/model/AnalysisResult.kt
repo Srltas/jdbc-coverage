@@ -30,12 +30,18 @@ data class InterfaceResult(
 
 /**
  * Complete analysis result for a driver.
+ *
+ * @property profileUsed name of the driver profile that was applied to this
+ *     analysis (e.g., "mssql"), or null if profiles were disabled or no
+ *     bundled profile matched. Used by reporters to display the active
+ *     profile and by diff/compare to record provenance in serialized JSON.
  */
 data class AnalysisReport(
     val driverName: String,
     val sourcePath: String,
     val analyzedAt: Instant,
     val interfaces: List<InterfaceResult>,
+    val profileUsed: String? = null,
 ) {
     val totalMethods: Int get() = interfaces.sumOf { it.total }
     val totalImplemented: Int get() = interfaces.sumOf { it.implemented }

@@ -1,9 +1,0 @@
-interfaceName: javax.sql.RowSetReader
-since: 1.0
-methodCount: 1
-methods:
-- name: readData
-  params:
-  - RowSetInternal
-  returns: void
-  since: 1.0

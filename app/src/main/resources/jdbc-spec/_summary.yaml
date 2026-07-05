@@ -1,20 +1,20 @@
-totalInterfaces: 41
-totalMethods: 1017
+totalInterfaces: 43
+totalMethods: 1038
 interfaces:
 - name: java.sql.Array
-  methodCount: 11
+  methodCount: 12
   since: 2.0
 - name: java.sql.Blob
-  methodCount: 11
+  methodCount: 12
   since: 2.0
 - name: java.sql.CallableStatement
   methodCount: 121
   since: 1.0
 - name: java.sql.Clob
-  methodCount: 13
+  methodCount: 14
   since: 2.0
 - name: java.sql.Connection
-  methodCount: 58
+  methodCount: 62
   since: 1.0
 - name: java.sql.ConnectionBuilder
   methodCount: 5
@@ -59,7 +59,7 @@ interfaces:
   methodCount: 3
   since: 4.2
 - name: java.sql.SQLXML
-  methodCount: 9
+  methodCount: 10
   since: 4.0
 - name: java.sql.Savepoint
   methodCount: 2
@@ -123,4 +123,10 @@ interfaces:
   since: 4.3
 - name: javax.sql.XADataSource
   methodCount: 7
+  since: 3.0
+- name: javax.transaction.xa.XAResource
+  methodCount: 10
+  since: 3.0
+- name: javax.transaction.xa.Xid
+  methodCount: 3
   since: 3.0

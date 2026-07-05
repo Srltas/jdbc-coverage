@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.databind.ser.std.StdSerializer
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.jdbcchecker.model.ImplementationStatus
@@ -22,7 +23,18 @@ import com.jdbcchecker.model.ImplementationStatus
  * - Uses ISO-8601 timestamps (not Unix epoch)
  * - Ignores unknown JSON properties to support forward compatibility
  */
-fun createObjectMapper(): ObjectMapper {
+fun createObjectMapper(): ObjectMapper = baseConfiguration(ObjectMapper())
+
+/**
+ * Creates a Jackson ObjectMapper for YAML I/O, sharing the same configuration
+ * profile as [createObjectMapper] (Kotlin module, lenient unknown-property
+ * handling). Used for loading driver profiles from bundled YAML resources
+ * and user-supplied YAML files.
+ */
+fun createYamlObjectMapper(): ObjectMapper = baseConfiguration(ObjectMapper(YAMLFactory()))
+
+/** Apply the shared module/feature configuration to an ObjectMapper. */
+private fun baseConfiguration(mapper: ObjectMapper): ObjectMapper {
     val statusModule = SimpleModule("ImplementationStatusModule").apply {
         addSerializer(
             ImplementationStatus::class.java,
@@ -47,7 +59,7 @@ fun createObjectMapper(): ObjectMapper {
         )
     }
 
-    return ObjectMapper()
+    return mapper
         .registerKotlinModule()
         .registerModule(JavaTimeModule())
         .registerModule(statusModule)

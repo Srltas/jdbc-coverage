@@ -1,0 +1,11 @@
+# Bundled driver profile index. The DriverProfileLoader uses this list to
+# enumerate available bundled profiles for auto-detection and listing.
+#
+# When adding a new bundled profile YAML to this directory, ALSO add its
+# name here (otherwise the loader won't find it).
+profiles:
+  - mssql
+  - mysql
+  - pgjdbc
+  - mariadb
+  - cubrid

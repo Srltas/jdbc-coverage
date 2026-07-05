@@ -1,6 +1,6 @@
 interfaceName: java.sql.Blob
 since: 2.0
-methodCount: 11
+methodCount: 12
 methods:
 - name: getBinaryStream
   params: []
@@ -62,3 +62,7 @@ methods:
   - long
   returns: InputStream
   since: 4.0
+- name: close
+  params: []
+  returns: void
+  since: 4.5

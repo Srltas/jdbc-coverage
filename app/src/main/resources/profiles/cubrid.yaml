@@ -1,0 +1,30 @@
+# CUBRID JDBC driver profile.
+#
+# Source: https://github.com/CUBRID/cubrid-jdbc
+#
+# CUBRID uses standard throw patterns (throw new SQLException, throw new
+# UnsupportedOperationException, throw new SQLClientInfoException) which
+# the generic analyzer handles correctly after the bug fixes. No
+# driver-specific stub helpers exist.
+#
+# This profile is mostly metadata for auto-detection plus entry-class
+# pinning for stability.
+
+name: cubrid
+displayName: "CUBRID JDBC"
+
+detectBy:
+  packagePrefix:
+    - cubrid.jdbc
+
+entryClasses:
+  java.sql.Connection: cubrid.jdbc.driver.CUBRIDConnection
+  java.sql.Statement: cubrid.jdbc.driver.CUBRIDStatement
+  java.sql.PreparedStatement: cubrid.jdbc.driver.CUBRIDPreparedStatement
+  java.sql.CallableStatement: cubrid.jdbc.driver.CUBRIDCallableStatement
+  java.sql.ResultSet: cubrid.jdbc.driver.CUBRIDResultSet
+  java.sql.DatabaseMetaData: cubrid.jdbc.driver.CUBRIDDatabaseMetaData
+  java.sql.ResultSetMetaData: cubrid.jdbc.driver.CUBRIDResultSetMetaData
+  java.sql.Driver: cubrid.jdbc.driver.CUBRIDDriver
+  java.sql.Blob: cubrid.jdbc.driver.CUBRIDBlob
+  java.sql.Clob: cubrid.jdbc.driver.CUBRIDClob

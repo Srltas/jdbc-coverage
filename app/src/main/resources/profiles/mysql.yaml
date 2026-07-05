@@ -1,0 +1,40 @@
+# MySQL Connector/J driver profile.
+#
+# Source: https://github.com/mysql/mysql-connector-j
+#
+# The generic analyzer already picks correct entry classes after the resolver
+# fixes (StatementImpl over StatementWrapper, etc.) and recognises
+# NotUpdatable/OperationNotSupportedException through built-in patterns.
+#
+# This profile pins those entry classes so future tweaks to the generic
+# resolver heuristics can't silently change the result, and lists the
+# driver-specific stub exception names for documentation. The
+# stubExceptionClasses entries are redundant with the detector's defaults
+# today but make the driver-specific knowledge explicit and serve as a
+# safety net if the defaults change.
+
+name: mysql
+displayName: "MySQL Connector/J"
+
+detectBy:
+  packagePrefix:
+    - com.mysql.cj
+
+entryClasses:
+  java.sql.Connection: com.mysql.cj.jdbc.ConnectionImpl
+  java.sql.Statement: com.mysql.cj.jdbc.StatementImpl
+  java.sql.PreparedStatement: com.mysql.cj.jdbc.ClientPreparedStatement
+  java.sql.CallableStatement: com.mysql.cj.jdbc.CallableStatement
+  java.sql.ResultSet: com.mysql.cj.jdbc.result.UpdatableResultSet
+  java.sql.DatabaseMetaData: com.mysql.cj.jdbc.DatabaseMetaDataInformationSchema
+  java.sql.ResultSetMetaData: com.mysql.cj.jdbc.result.ResultSetMetaData
+  java.sql.ParameterMetaData: com.mysql.cj.jdbc.MysqlParameterMetadata
+  java.sql.Driver: com.mysql.cj.jdbc.Driver
+  java.sql.Blob: com.mysql.cj.jdbc.Blob
+  java.sql.Clob: com.mysql.cj.jdbc.Clob
+  java.sql.NClob: com.mysql.cj.jdbc.NClob
+  java.sql.SQLXML: com.mysql.cj.jdbc.MysqlSQLXML
+
+stubExceptionClasses:
+  - NotUpdatable
+  - OperationNotSupportedException

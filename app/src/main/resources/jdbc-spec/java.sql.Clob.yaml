@@ -1,6 +1,6 @@
 interfaceName: java.sql.Clob
 since: 2.0
-methodCount: 13
+methodCount: 14
 methods:
 - name: getAsciiStream
   params: []
@@ -71,3 +71,7 @@ methods:
   - long
   returns: Reader
   since: 4.0
+- name: close
+  params: []
+  returns: void
+  since: 4.5

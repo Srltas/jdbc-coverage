@@ -87,36 +87,59 @@ class JdbcSpecLoader {
     }
 
     companion object {
-        /** Core JDBC interfaces to track (java.sql, javax.sql, javax.transaction.xa) */
+        /**
+         * Core JDBC interfaces tracked by the spec loader.
+         *
+         * Source of truth: JDK 26 (Temurin 26.0.1), modules `java.sql` and
+         * `java.transaction.xa`. The `java.sql.rowset` module is intentionally
+         * excluded — RowSet is a client-side container API that JDBC drivers
+         * do not implement (verified against five major drivers: CUBRID,
+         * pgjdbc, MySQL, MariaDB, MSSQL — all zero implementations).
+         *
+         * 39 interfaces total. Versions noted are JDBC versions, not JDK
+         * versions (e.g. JDBC 4.3 ≈ Java 9, JDBC 4.5 ≈ Java 26).
+         */
         val JDBC_INTERFACES = listOf(
-            // java.sql — JDBC 1.0+
-            "java.sql.Connection",
-            "java.sql.Statement",
-            "java.sql.PreparedStatement",
-            "java.sql.CallableStatement",
-            "java.sql.ResultSet",
-            "java.sql.DatabaseMetaData",
-            "java.sql.ResultSetMetaData",
-            "java.sql.ParameterMetaData",
-            "java.sql.Driver",
-            "java.sql.Blob",
-            "java.sql.Clob",
-            "java.sql.NClob",
-            "java.sql.SQLXML",
-            "java.sql.Array",
-            "java.sql.Struct",
-            "java.sql.Ref",
-            "java.sql.Wrapper",
-            // javax.sql — JDBC 2.0+
-            "javax.sql.DataSource",
-            "javax.sql.ConnectionPoolDataSource",
-            "javax.sql.CommonDataSource",
-            "javax.sql.PooledConnection",
-            "javax.sql.PooledConnectionBuilder",
-            "javax.sql.XAConnection",
-            "javax.sql.XAConnectionBuilder",
-            "javax.sql.XADataSource",
-            // javax.transaction.xa — JTA (required by XAConnection)
+            // ── java.sql ─────────────────────────────────────────────────────
+            "java.sql.Connection",            // JDBC 1.0
+            "java.sql.Statement",             // JDBC 1.0
+            "java.sql.PreparedStatement",     // JDBC 1.0
+            "java.sql.CallableStatement",     // JDBC 1.0
+            "java.sql.ResultSet",             // JDBC 1.0
+            "java.sql.DatabaseMetaData",      // JDBC 1.0
+            "java.sql.Driver",                // JDBC 1.0
+            "java.sql.SQLData",               // JDBC 2.0
+            "java.sql.SQLInput",              // JDBC 2.0
+            "java.sql.SQLOutput",             // JDBC 2.0
+            "java.sql.Array",                 // JDBC 2.0
+            "java.sql.Struct",                // JDBC 2.0
+            "java.sql.Ref",                   // JDBC 2.0
+            "java.sql.Blob",                  // JDBC 2.0
+            "java.sql.Clob",                  // JDBC 2.0
+            "java.sql.Savepoint",             // JDBC 3.0
+            "java.sql.ParameterMetaData",     // JDBC 3.0
+            "java.sql.ResultSetMetaData",     // JDBC 1.0
+            "java.sql.NClob",                 // JDBC 4.0
+            "java.sql.SQLXML",                // JDBC 4.0
+            "java.sql.RowId",                 // JDBC 4.0
+            "java.sql.Wrapper",               // JDBC 4.0
+            "java.sql.DriverAction",          // JDBC 4.1 (Java 1.8)
+            "java.sql.SQLType",               // JDBC 4.2 (Java 1.8)
+            "java.sql.ConnectionBuilder",     // JDBC 4.3 (Java 9)
+            "java.sql.ShardingKey",           // JDBC 4.3 (Java 9)
+            "java.sql.ShardingKeyBuilder",    // JDBC 4.3 (Java 9)
+            // ── javax.sql ────────────────────────────────────────────────────
+            "javax.sql.CommonDataSource",     // JDBC 4.1 (refactor of DataSource)
+            "javax.sql.DataSource",           // JDBC 2.0
+            "javax.sql.ConnectionPoolDataSource", // JDBC 2.0
+            "javax.sql.PooledConnection",     // JDBC 2.0
+            "javax.sql.ConnectionEventListener",  // JDBC 2.0
+            "javax.sql.StatementEventListener",   // JDBC 4.0
+            "javax.sql.XAConnection",         // JDBC 2.0
+            "javax.sql.XADataSource",         // JDBC 2.0
+            "javax.sql.PooledConnectionBuilder",  // JDBC 4.3 (Java 9)
+            "javax.sql.XAConnectionBuilder",  // JDBC 4.3 (Java 9)
+            // ── javax.transaction.xa (JTA, required by XAConnection) ────────
             "javax.transaction.xa.XAResource",
             "javax.transaction.xa.Xid",
         )

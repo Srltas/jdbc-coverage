@@ -200,6 +200,7 @@ Level 1에서 IMPLEMENTED와 STUB으로 분류된 메서드를 더 세분화한 
 │  │ Step 2: 소스 파일 파싱           │                         │
 │  │ SourceParser (JavaParser)       │                         │
 │  │ → CompilationUnit 리스트        │                         │
+│  │ → ParseStats (성공/실패 통계)    │ ← 콘솔 즉시 출력         │
 │  └────────────────┬────────────────┘                         │
 │                   │ compilationUnits: List<CompilationUnit>   │
 │                   ▼                                          │
@@ -389,11 +390,44 @@ CUBRIDConnection implements Connection
                    java.sql.Connection ← JDBC 인터페이스임!
 ```
 
-### 6.3 파싱 결과
+### 6.3 파싱 결과와 ParseStats
 
 `parseAll()`은 지정된 소스 경로 아래의 모든 `.java` 파일을 재귀적으로 탐색하여 각각을 `CompilationUnit`(컴파일 단위)으로 변환한다. `CompilationUnit`은 하나의 Java 파일을 나타내는 AST 루트 노드이다.
 
-파싱 실패 시(문법 오류 등) 해당 파일은 경고를 출력하고 건너뛴다.
+파싱 과정에서 발생한 성공/실패 통계는 `ParseStats` 데이터 클래스에 수집된다:
+
+```kotlin
+data class ParseStats(
+    val totalFiles: Int,         // 발견된 .java 파일 수
+    val parsedFiles: Int,        // 성공적으로 파싱된 파일 수
+    val failedFiles: Int,        // 파싱 실패한 파일 수
+    val failures: List<Pair<Path, String>>, // (파일 경로, 오류 메시지) 목록
+) {
+    fun summary(): String  // 한 줄 요약: "190 / 192 files parsed (2 failed)"
+}
+```
+
+파싱 통계는 `parser.getParseStats()`로 조회하고, 콘솔에 즉시 출력된다:
+
+```
+Parsing source files... 190 / 192 files parsed (2 failed)
+```
+
+실패한 파일이 있고 `--verbose` 플래그가 켜져 있으면, 각 실패 파일의 경로와 오류 메시지가 `stderr`에 추가로 출력된다:
+
+```
+  Warning: Failed to parse /path/to/BrokenFile.java: Encountered unexpected token ...
+```
+
+파싱 실패는 보통 다음 원인으로 발생한다:
+
+| 원인 | 설명 |
+|------|------|
+| 문법 오류 | 특정 Java 버전 문법이 JavaParser에서 미지원 (preview 기능 등) |
+| 인코딩 문제 | UTF-8 이외의 파일 인코딩 |
+| 특수 어노테이션 | 컴파일러 전처리가 필요한 생성 코드 |
+
+파싱에 실패한 파일은 분석에서 제외되지만, **나머지 파일의 분석은 정상적으로 계속된다.**
 
 ---
 
@@ -421,7 +455,16 @@ java.sql.ResultSet       → CUBRIDResultSet
 
 #### Phase 1: 모든 JDBC 구현체 찾기 (`findJdbcImplementors`)
 
-파싱된 모든 CompilationUnit에서 클래스 선언(인터페이스 제외)을 추출한 후, 각 클래스가 어떤 JDBC 인터페이스를 구현하는지 두 가지 방법으로 확인한다:
+파싱된 모든 CompilationUnit에서 후보 클래스를 추출한다. 이때 다음 세 종류는 **구현체 후보에서 제외**한다:
+
+| 제외 대상 | 이유 |
+|----------|------|
+| `isInterface == true` | 인터페이스 자체는 구현체가 아님 |
+| `isNestedType == true` | inner/nested 클래스는 독립적으로 인스턴스화할 수 없는 보조 클래스 |
+
+**abstract 클래스**는 구현체 후보에 포함하되, Phase 2의 선택 우선순위에서 concrete 클래스보다 후순위로 처리한다 (fallback 역할).
+
+후보 클래스 목록이 준비되면, 각 클래스가 어떤 JDBC 인터페이스를 구현하는지 두 가지 방법으로 확인한다:
 
 **방법 A — Direct Interface 확인:**
 ```java
@@ -470,15 +513,21 @@ java.sql.Connection 구현체 후보:
 이때 **우선순위 기반 휴리스틱**으로 최적 구현체를 선택한다:
 
 ```
-우선순위 1: Direct implementor를 선호
+우선순위 1: Concrete 클래스를 선호 (abstract 패널티)
+  → !isAbstract()인 클래스가 먼저 선택됨
+  → concrete 후보가 하나도 없을 때만 abstract 클래스로 fallback
+  → 이유: abstract 클래스는 직접 인스턴스화되지 않음.
+          실제 사용되는 concrete 구현체를 우선 검사해야 정확함
+
+우선순위 2: Direct implementor를 선호
   → implements 절에 직접 선언된 클래스가 transitive보다 우선
 
-우선순위 2: "Clean" 이름을 선호
+우선순위 3: "Clean" 이름을 선호
   → 클래스명에 아래 패턴이 없는 것을 우선
      - wrapper, pooling, proxy, adapter, delegate
   → 이유: 이런 클래스는 보통 진짜 구현을 감싸는 래퍼이지 주 구현체가 아님
 
-우선순위 3: 메서드 수가 많은 것을 선호
+우선순위 4: 메서드 수가 많은 것을 선호
   → 가장 풍부한 구현을 가진 클래스가 주 구현체일 가능성이 높음
 ```
 
@@ -536,13 +585,28 @@ fun detect(specMethod: MethodSignature, classDecl: ClassOrInterfaceDeclaration):
 2. **파라미터 수 일치:** `method.parameters.size == specMethod.parameterTypes.size`
 3. **파라미터 타입 일치:** 각 파라미터의 타입 문자열을 비교
 
-타입 비교는 유연하게 처리한다:
+타입 비교는 두 단계로 처리한다:
+
+**1단계 — 제네릭 파라미터 제거 (`stripGenericParameters`):**
+
+YAML 스펙의 타입은 제네릭 없이 기술되어 있지만(`Class`), 드라이버 소스에는 제네릭이 포함되어 있다(`Class<T>`). 비교 전에 양쪽 모두에서 `<...>` 부분을 제거한다.
+
+```
+"Class<T>"            → "Class"
+"Map<String,Class<?>>"→ "Map"
+"String"              → "String"  (변화 없음)
+```
+
+**2단계 — 정규화된 타입으로 비교:**
+
 ```kotlin
-// 아래 세 경우 중 하나라도 true이면 일치로 판정
+// 아래 세 경우 중 하나라도 true이면 일치로 판정 (모두 제네릭 제거 후 비교)
 paramType == specType                    // 정확히 같음: "String" == "String"
 paramType.endsWith(".$specType")         // FQN → 단순명: "java.lang.String" → "String"
 specType.endsWith(".$paramType")         // 단순명 → FQN: "String" → "java.lang.String"
 ```
+
+이 처리 덕분에 `ResultSet.getObject(int, Class<T>)` 같은 제네릭 메서드가 YAML의 `getObject(int, Class)`와 정확히 매칭된다.
 
 ### 8.3 상속 체인 탐색
 
@@ -556,15 +620,29 @@ CUBRIDPreparedStatement extends CUBRIDStatement extends ...
         └───────────────────────────→ 부모 클래스에서 계속 검색
 ```
 
-이를 위해 `registerCompilationUnits()`로 모든 파싱된 클래스를 `parentClassRegistry`에 등록해둔다:
+이를 위해 `registerCompilationUnits()`로 모든 파싱된 클래스를 **이중 인덱스**에 등록해둔다:
 
 ```kotlin
-// simpleName → ClassOrInterfaceDeclaration
-parentClassRegistry["CUBRIDStatement"] = <CUBRIDStatement AST 노드>
-parentClassRegistry["CUBRIDConnection"] = <CUBRIDConnection AST 노드>
+// 인덱스 1: FQN → ClassDecl  (정확한 FQN 검색용)
+parentClassRegistryByFqn["cubrid.jdbc.driver.CUBRIDStatement"] = <AST 노드>
+
+// 인덱스 2: simpleName → List<ClassDecl>  (extends 절의 단순명 검색용)
+parentClassRegistryBySimple["CUBRIDStatement"] = [<CUBRIDStatement AST 노드>]
 ```
 
-`searchParentClasses()`는 클래스의 `extends` 절에서 부모 클래스명을 추출하고, 이 레지스트리에서 부모 클래스를 찾아 **재귀적으로** 탐색한다. 소스에 포함되지 않은 부모 클래스(예: JDK 표준 라이브러리 클래스)에 도달하면 탐색을 종료한다.
+이중 인덱스가 필요한 이유는 **패키지가 다른 동명 클래스**가 있을 때 발생하는 충돌을 막기 위해서다. 이전 방식(단순명 단일 맵)에서는 나중에 등록된 클래스가 앞의 클래스를 덮어썼다.
+
+```
+// 이전 방식의 문제 — 나중 등록이 먼저 등록을 덮어씀
+parentClassRegistry["Statement"] = com.mysql.cj.xdevapi.FilterableStatement  ← 잘못된 부모!
+                                    (com.mysql.cj.jdbc.StatementImpl을 덮어씀)
+
+// 새 방식 — List로 관리하고 같은 패키지를 우선 선택
+parentClassRegistryBySimple["Statement"] = [StatementImpl, FilterableStatement]
+→ 참조 클래스(StatementImpl)와 같은 패키지인 StatementImpl을 우선 선택
+```
+
+`searchParentClasses()`는 클래스의 `extends` 절에서 부모 클래스명을 추출하고, 이 레지스트리에서 **같은 패키지를 우선하여** 부모 클래스를 찾아 **재귀적으로** 탐색한다. 소스에 포함되지 않은 부모 클래스(예: JDK 표준 라이브러리 클래스)에 도달하면 탐색을 종료한다.
 
 ### 8.4 메서드 본문 분석 (analyzeMethodBody)
 
@@ -573,33 +651,77 @@ parentClassRegistry["CUBRIDConnection"] = <CUBRIDConnection AST 노드>
 ```
 analyzeMethodBody(method)
 │
-├── body가 없음?
+├── body가 없음? (abstract / interface default without impl)
 │   └── → NotFound
 │
 ├── statements가 비어있음? (빈 메서드 본문: { })
 │   └── → ReturnsDefault
 │
-├── statement가 정확히 1개?
+├── ── 단일 문장 (statements.size == 1) ──────────────────────────────
 │   │
 │   ├── throw문인 경우:
-│   │   ├── UnsupportedOperationException → ThrowsUnsupported
-│   │   ├── SQLException                  → ThrowsSqlException
-│   │   └── 기타 예외                      → ThrowsUnsupported
+│   │   ├── UnsupportedOperationException        → ThrowsUnsupported
+│   │   ├── SQLFeatureNotSupportedException       → ThrowsUnsupported  ★ 추가
+│   │   ├── SQLException (기타)                   → ThrowsSqlException
+│   │   └── 기타 예외                              → ThrowsUnsupported
 │   │
-│   └── return문인 경우:
-│       ├── return null/0/false/""  → ReturnsDefault
-│       ├── return someMethod()     → Delegates (위임)
-│       └── return <기타 표현식>     → FullyImplemented
+│   ├── return문인 경우:
+│   │   ├── return null / 0 / false / ""          → ReturnsDefault
+│   │   ├── return someMethod(...)                → Delegates (단순 위임)
+│   │   └── return <기타 표현식>                   → FullyImplemented
+│   │
+│   └── try문인 경우:  ★ 추가
+│       ├── try { return x.method() } catch {...} → Delegates (위임 + 예외처리)
+│       └── 기타 try 구조                          → 다중 문장 분석으로 fall-through
 │
-└── statement가 2개 이상 (다중 문장)?
+└── ── 다중 문장 (statements.size >= 2) ─────────────────────────────
     │
-    ├── 본문에 "UnsupportedOperationException" 또는
-    │   "SQLException" + "not supported" 문자열이 포함?
-    │   └── → Partial (일부만 구현)
+    ├── 본문 어딘가에 "not supported" 패턴이 있음?
+    │   검사 대상:
+    │     - "UnsupportedOperationException"
+    │     - "SQLFeatureNotSupportedException"       ★ 추가
+    │     - "SQLException" + "not supported" (대소문자 무시)
+    │   └── → Partial (일부 분기에서 미구현)
+    │
+    ├── void 메서드 + 2문장 이하 + 전부 check*/log*/assert* 호출?  ★ 추가
+    │   (예: checkOpen(); 만 있는 void 메서드)
+    │   └── → ReturnsDefault (실질적 구현 없음)
     │
     └── 위 패턴이 없음?
         └── → FullyImplemented (완전 구현)
 ```
+
+#### "not supported" 패턴 감지 대상
+
+`isUnsupportedThrow()` 헬퍼가 문자열 포함 여부로 판정한다:
+
+| 패턴 | 예시 |
+|------|------|
+| `UnsupportedOperationException` | `throw new UnsupportedOperationException(...)` |
+| `SQLFeatureNotSupportedException` | `throw new SQLFeatureNotSupportedException(...)` |
+| `SQLException` + `not supported` | `throw new SQLException("... not supported")` |
+
+`SQLFeatureNotSupportedException`은 JDBC 4.0(Java 6)부터 표준화된 "미구현 기능" 예외로, `UnsupportedOperationException`과 동등하게 취급한다.
+
+#### 검증/로깅 전용 void 메서드 판정
+
+`isValidationOrLoggingCall()` 헬퍼가 문장이 순수 검증/로깅 호출인지 확인한다:
+
+```
+check*   → checkOpen(), checkClosed(), checkValid() 등
+assert*  → assertTrue(), assertNotNull() 등
+verify*  → verifyConnection() 등
+log*     → log.debug(), log.info() 등
+trace*, debug*, warn*  → 로깅 메서드
+info, fine, finer, finest, entering, exiting, severe  → java.util.logging 패턴
+```
+
+이 조건이 적용되려면 **세 조건을 모두 충족**해야 한다:
+1. `void` 반환 타입인 메서드
+2. 총 statements 수가 2 이하
+3. 모든 statements가 위 패턴에 해당
+
+세 조건을 모두 요구하므로, 실제 로직이 있는 메서드에 잘못 적용될 위험이 낮다.
 
 ### 8.5 기본값 판정 (isDefaultValue)
 
@@ -621,33 +743,63 @@ analyzeMethodBody(method)
 
 ```java
 // 예시 1: FullyImplemented
+// 다중 문장, "not supported" 패턴 없음 → FullyImplemented
 public Statement createStatement() throws SQLException {
     checkIsOpen();
     CUBRIDStatement stmt = new CUBRIDStatement(this, ...);
     addStatement(stmt);
     return stmt;
 }
-// → 다중 문장, UnsupportedOperationException 없음 → FullyImplemented
 
-// 예시 2: ThrowsUnsupported
+// 예시 2: ThrowsUnsupported (UnsupportedOperationException)
+// 단일 throw → ThrowsUnsupported
 public Array createArrayOf(String typeName, Object[] elements) throws SQLException {
     throw new UnsupportedOperationException("Not supported");
 }
-// → 단일 throw, UnsupportedOperationException → ThrowsUnsupported
 
-// 예시 3: ReturnsDefault
+// 예시 3: ThrowsUnsupported (SQLFeatureNotSupportedException)  ★ 신규
+// JDBC 4.0 표준 예외도 ThrowsUnsupported로 동일하게 처리
+public void setNetworkTimeout(Executor executor, int ms) throws SQLException {
+    throw new SQLFeatureNotSupportedException();
+}
+
+// 예시 4: ThrowsUnsupported — 다중 문장 내 포함  ★ 신규
+// checkOpen() + throw SQLFeatureNotSupportedException → Partial
+public void beginRequest() throws SQLException {
+    checkOpen();
+    throw new SQLFeatureNotSupportedException("beginRequest not supported");
+}
+
+// 예시 5: ReturnsDefault (단순 null 반환)
+// 단일 return null → ReturnsDefault
 public String getSchema() throws SQLException {
     return null;
 }
-// → 단일 return null → ReturnsDefault
 
-// 예시 4: Delegates
+// 예시 6: ReturnsDefault (검증 전용 void 메서드)  ★ 신규
+// void + 2문장 이하 + 전부 check* 호출 → ReturnsDefault
+public void setSchema(String schema) throws SQLException {
+    checkOpen();   // check* 패턴
+}
+
+// 예시 7: Delegates (단순 위임)
+// 단일 return + 메서드 호출 → Delegates
 public void close() throws SQLException {
     return inner.close();
 }
-// → 단일 return + 메서드 호출 → Delegates
 
-// 예시 5: Partial
+// 예시 8: Delegates (try-catch 래핑 위임)  ★ 신규
+// try { return x.method() } catch → Delegates
+public ResultSet executeQuery(String sql) throws SQLException {
+    try {
+        return inner.executeQuery(sql);
+    } catch (Exception e) {
+        throw convertException(e);
+    }
+}
+
+// 예시 9: Partial
+// 다중 문장 + UnsupportedOperationException 포함 → Partial
 public void setSchema(String schema) throws SQLException {
     if (schema != null) {
         executeQuery("SET SCHEMA " + schema);
@@ -655,7 +807,6 @@ public void setSchema(String schema) throws SQLException {
         throw new UnsupportedOperationException("null schema not supported");
     }
 }
-// → 다중 문장 + UnsupportedOperationException 포함 → Partial
 ```
 
 ---
@@ -1168,11 +1319,17 @@ Java 21 toolchain이 설정되어 있어 JDK 21 이상이 필요하다.
 
 ### 16.3 메서드 본문 분석의 근사치 특성
 
-`analyzeMethodBody()`는 **휴리스틱**에 기반한다:
+`analyzeMethodBody()`는 **휴리스틱**에 기반한다. 현재 적용 중인 판정 방식과 그 한계는 다음과 같다:
 
-- 다중 문장 메서드에서 단순 문자열 매칭(`"UnsupportedOperationException" in it`)을 사용
-- 조건문 분기의 도달 가능성(reachability)은 분석하지 않음
-- `throw new SQLFeatureNotSupportedException()`도 `ThrowsUnsupported`로 분류되어야 하나, 현재는 문자열에 "UnsupportedOperationException"이 포함된 경우만 감지
+**적용 중인 휴리스틱:**
+- `UnsupportedOperationException`, `SQLFeatureNotSupportedException`, `"not supported"` 패턴을 포함한 SQLException을 모두 `ThrowsUnsupported` 또는 `Partial`로 감지 (문자열 매칭 방식)
+- void 메서드 + 1~2개의 check*/assert*/verify*/log* 계열 호출만 있으면 `ReturnsDefault`로 판정 (의미 없는 override 감지)
+- try { return x.method() } catch(...) 구조는 `Delegates`로 판정
+
+**현재 남아 있는 한계:**
+- **도달 가능성(reachability) 미분석**: 조건문 안에 unsupported throw가 있을 때 (`if (flag) throw new UnsupportedOperationException(...)`) 전체 메서드가 `Partial`로 분류됨. 실제로는 특정 조건에서만 throw할 수 있음
+- **복잡한 위임 패턴 미지원**: `return connection.prepareStatement(sql)` 같은 단일 위임은 감지하나, 여러 단계를 거친 간접 위임(adapter 체인 등)은 `FullyImplemented`로 판정됨
+- **단순 문자열 매칭 기반**: 런타임 동작이 아닌 소스 코드 텍스트를 기준으로 판정하므로, 매크로/코드 생성 패턴은 감지하지 못함
 
 이로 인해 소수의 메서드가 실제와 다르게 분류될 수 있다. 그러나 **수백~천 개 메서드의 전체 구현율을 계산하는 목적에서는 충분히 정확하다.**
 

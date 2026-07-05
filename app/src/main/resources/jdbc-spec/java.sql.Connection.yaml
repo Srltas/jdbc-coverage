@@ -1,6 +1,6 @@
 interfaceName: java.sql.Connection
 since: 1.0
-methodCount: 58
+methodCount: 62
 methods:
 - name: clearWarnings
   params: []
@@ -292,3 +292,24 @@ methods:
   - int
   returns: boolean
   since: 4.3
+- name: enquoteIdentifier
+  params:
+  - String
+  - boolean
+  returns: String
+  since: 4.5
+- name: enquoteLiteral
+  params:
+  - String
+  returns: String
+  since: 4.5
+- name: enquoteNCharLiteral
+  params:
+  - String
+  returns: String
+  since: 4.5
+- name: isSimpleIdentifier
+  params:
+  - String
+  returns: boolean
+  since: 4.5

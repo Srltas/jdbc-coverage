@@ -21,3 +21,6 @@ jdk-sources/
 
 # Fat JAR at project root (build artifact, not committed)
 jdbc-checker-*.jar
+
+# Study
+docs/gradle-kotlin-study-roadmap.md

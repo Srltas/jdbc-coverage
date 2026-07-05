@@ -1,0 +1,32 @@
+# MariaDB Connector/J driver profile.
+#
+# Source: https://github.com/mariadb-corporation/mariadb-connector-j
+#
+# The generic analyzer already handles MariaDB correctly after the resolver
+# fixes (in particular, Bug 2 — inner class support — picks up the XAResource
+# implementor that lives inside MariaDbPoolConnection as a nested class).
+# Bug 4 (throw-only body) catches `throw exceptionFactory().notSupported(...)`
+# because the `throw` keyword is present.
+#
+# This profile pins entry classes for stability and records the package
+# prefix for auto-detection. No stubHelpers needed.
+
+name: mariadb
+displayName: "MariaDB Connector/J"
+
+detectBy:
+  packagePrefix:
+    - org.mariadb.jdbc
+
+entryClasses:
+  java.sql.Connection: org.mariadb.jdbc.Connection
+  java.sql.Statement: org.mariadb.jdbc.Statement
+  java.sql.PreparedStatement: org.mariadb.jdbc.ServerPreparedStatement
+  java.sql.CallableStatement: org.mariadb.jdbc.FunctionStatement
+  java.sql.ResultSet: org.mariadb.jdbc.client.result.UpdatableResult
+  java.sql.DatabaseMetaData: org.mariadb.jdbc.DatabaseMetaData
+  java.sql.ResultSetMetaData: org.mariadb.jdbc.client.result.ResultSetMetaData
+  java.sql.ParameterMetaData: org.mariadb.jdbc.CallableParameterMetaData
+  java.sql.Driver: org.mariadb.jdbc.Driver
+  java.sql.Blob: org.mariadb.jdbc.MariaDbBlob
+  java.sql.Clob: org.mariadb.jdbc.MariaDbClob

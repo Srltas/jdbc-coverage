@@ -7,6 +7,8 @@ import com.jdbcchecker.model.ImplementationStatus
 import com.jdbcchecker.model.InterfaceResult
 import com.jdbcchecker.model.MethodResult
 import com.jdbcchecker.parser.SourceParser
+import com.jdbcchecker.profile.DriverProfile
+import com.jdbcchecker.profile.ProfileResolver
 import com.jdbcchecker.report.computeComparison
 import com.jdbcchecker.report.computeDiff
 import com.jdbcchecker.report.console.ComparisonReporter
@@ -56,6 +58,9 @@ class JdbcCheckerCommand : Runnable {
  * @param entryClasses optional manual class overrides for interface detection
  * @param specDir optional external spec YAML directory (uses bundled if null)
  * @param sourceDisplay original source string (URL or path) shown in the report
+ * @param profileName explicit bundled profile name (`--profile`); takes precedence over auto-detect
+ * @param profileFile explicit profile YAML file path (`--profile-file`); takes precedence over name
+ * @param disableProfile when true, skip auto-detect and use the generic analyzer only (`--no-profile`)
  * @return [AnalysisReport] or null if the pipeline fails
  */
 internal fun runAnalysis(
@@ -64,6 +69,9 @@ internal fun runAnalysis(
     entryClasses: List<String> = emptyList(),
     specDir: Path? = null,
     sourceDisplay: String? = null,
+    profileName: String? = null,
+    profileFile: Path? = null,
+    disableProfile: Boolean = false,
 ): AnalysisReport? {
     val invalidPaths = sourcePaths.filter { !Files.isDirectory(it) }
     if (invalidPaths.isNotEmpty()) {
@@ -100,8 +108,27 @@ internal fun runAnalysis(
         return null
     }
 
+    // Step 2.5: Resolve driver profile (auto-detect unless overridden).
+    // Profile selection precedence is documented on ProfileResolver:
+    //   profileFile > profileName > disableProfile > auto-detect > none.
+    val profile: DriverProfile? = try {
+        ProfileResolver().resolve(compilationUnits, profileName, profileFile, disableProfile)
+    } catch (e: IllegalArgumentException) {
+        System.err.println("Error: ${e.message}")
+        return null
+    }
+    println(
+        when {
+            profile != null && (profileName != null || profileFile != null) ->
+                "Profile: ${profile.name} (${profile.displayName}, explicit)"
+            profile != null -> "Profile: ${profile.name} (${profile.displayName}, auto-detected)"
+            disableProfile -> "Profile: disabled"
+            else -> "Profile: none (generic analyzer)"
+        },
+    )
+
     // Step 3: Resolve JDBC interface implementors
-    // Parse entry class overrides.
+    // Parse entry class overrides from CLI.
     // Supported formats:
     //   "java.sql.Connection=com.mysql.cj.jdbc.ConnectionImpl"  → explicit: forces the mapping
     //   "com.mysql.cj.jdbc.StatementImpl"                       → hint: auto-detects JDBC interface
@@ -115,22 +142,28 @@ internal fun runAnalysis(
 
     // For hint-only entries (no '='), resolve by finding the class in the parsed sources
     // and detecting which JDBC interface(s) it implements transitively.
-    // This works when the full inheritance chain is available in the parsed files.
     val hintOverrides = if (hintClasses.isNotEmpty()) {
         resolveHintOverrides(compilationUnits, hintClasses)
     } else {
         emptyMap()
     }
 
-    val allOverrides = hintOverrides + explicitOverrides // explicit takes precedence
+    // Merge overrides: profile entry classes → CLI hints → CLI explicit (last wins).
+    // CLI takes precedence over profile so users can override profile bindings
+    // for one-off analyses without editing the bundled YAML.
+    val profileOverrides = profile?.entryClasses ?: emptyMap()
+    val allOverrides = profileOverrides + hintOverrides + explicitOverrides
 
     print("Resolving JDBC interface implementations... ")
     val implementors = JdbcInterfaceResolver().resolve(compilationUnits, allOverrides)
     println("${implementors.size} interfaces matched")
 
-    // Step 4: Detect implementation status per method
+    // Step 4: Detect implementation status per method (with profile hooks if available)
     print("Analyzing implementation status... ")
-    val detector = ImplementationDetector()
+    val detector = ImplementationDetector(
+        stubHelpers = profile?.stubHelpers ?: emptyList(),
+        extraStubExceptionClasses = profile?.stubExceptionClasses ?: emptyList(),
+    )
     detector.registerCompilationUnits(compilationUnits)
 
     val interfaceResults = specByInterface.map { (interfaceName, methods) ->
@@ -170,6 +203,7 @@ internal fun runAnalysis(
         sourcePath = displaySource,
         analyzedAt = Instant.now(),
         interfaces = interfaceResults,
+        profileUsed = profile?.name,
     )
 }
 
@@ -321,6 +355,31 @@ class AnalyzeCommand : Callable<Int> {
     )
     var sourceSubdirs: List<String> = emptyList()
 
+    @Option(
+        names = ["--profile"],
+        description = [
+            "Driver profile name (e.g., mssql, mysql, pgjdbc, mariadb, cubrid).",
+            "Overrides auto-detection. Use 'jdbc-checker analyze --help' to see available profiles.",
+        ],
+    )
+    var profileName: String? = null
+
+    @Option(
+        names = ["--profile-file"],
+        description = [
+            "Path to a custom driver profile YAML file. Overrides --profile and auto-detection.",
+        ],
+    )
+    var profileFile: Path? = null
+
+    @Option(
+        names = ["--no-profile"],
+        description = [
+            "Disable driver profile auto-detection. Use the generic analyzer only.",
+        ],
+    )
+    var disableProfile: Boolean = false
+
     override fun call(): Int {
         println("JDBC Compliance Checker v1.0.0")
         println("Source: $source")
@@ -329,7 +388,16 @@ class AnalyzeCommand : Callable<Int> {
         SourceResolver().use { resolver ->
             val sourcePaths = resolver.resolve(source, branch, sourceSubdirs)
             val resolvedName = driverName ?: detectDriverName(source)
-            val report = runAnalysis(sourcePaths, resolvedName, entryClasses, specDir, source) ?: return 1
+            val report = runAnalysis(
+                sourcePaths = sourcePaths,
+                driverName = resolvedName,
+                entryClasses = entryClasses,
+                specDir = specDir,
+                sourceDisplay = source,
+                profileName = profileName,
+                profileFile = profileFile,
+                disableProfile = disableProfile,
+            ) ?: return 1
             println()
             dispatchOutputs(outputs, report)
         }
@@ -402,6 +470,15 @@ class DiffCommand : Callable<Int> {
     )
     var sourceSubdirs: List<String> = emptyList()
 
+    @Option(names = ["--profile"], description = ["Driver profile name to apply when analyzing source."])
+    var profileName: String? = null
+
+    @Option(names = ["--profile-file"], description = ["Custom driver profile YAML path."])
+    var profileFile: Path? = null
+
+    @Option(names = ["--no-profile"], description = ["Disable driver profile auto-detection."])
+    var disableProfile: Boolean = false
+
     override fun call(): Int {
         println("JDBC Compliance Checker — Diff")
         println()
@@ -442,7 +519,15 @@ class DiffCommand : Callable<Int> {
             SourceResolver().use { resolver ->
                 val sourcePaths = resolver.resolve(current, branch, sourceSubdirs)
                 val resolvedName = driverName ?: detectDriverName(current)
-                val report = runAnalysis(sourcePaths, resolvedName, specDir = specDir, sourceDisplay = current)
+                val report = runAnalysis(
+                    sourcePaths = sourcePaths,
+                    driverName = resolvedName,
+                    specDir = specDir,
+                    sourceDisplay = current,
+                    profileName = profileName,
+                    profileFile = profileFile,
+                    disableProfile = disableProfile,
+                )
                 if (report == null) return 1
                 currentReport = report
             }
@@ -524,6 +609,15 @@ class CompareCommand : Callable<Int> {
     )
     var sourceSubdirs: List<String> = emptyList()
 
+    @Option(names = ["--profile"], description = ["Driver profile name applied to all analyzed sources."])
+    var profileName: String? = null
+
+    @Option(names = ["--profile-file"], description = ["Custom driver profile YAML path."])
+    var profileFile: Path? = null
+
+    @Option(names = ["--no-profile"], description = ["Disable driver profile auto-detection."])
+    var disableProfile: Boolean = false
+
     override fun call(): Int {
         println("JDBC Compliance Checker — Compare")
         println()
@@ -555,7 +649,15 @@ class CompareCommand : Callable<Int> {
                     println()
                     val sourcePaths = resolver.resolve(source, branch, sourceSubdirs)
                     val resolvedName = nameOverride ?: detectDriverName(source)
-                    runAnalysis(sourcePaths, resolvedName, specDir = specDir, sourceDisplay = source)
+                    runAnalysis(
+                        sourcePaths = sourcePaths,
+                        driverName = resolvedName,
+                        specDir = specDir,
+                        sourceDisplay = source,
+                        profileName = profileName,
+                        profileFile = profileFile,
+                        disableProfile = disableProfile,
+                    )
                         ?: return 1
                 }
             }

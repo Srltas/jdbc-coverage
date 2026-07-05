@@ -4,9 +4,12 @@ import com.github.javaparser.ast.CompilationUnit
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration
 import com.github.javaparser.ast.body.MethodDeclaration
 import com.github.javaparser.ast.expr.Expression
+import com.github.javaparser.ast.stmt.ReturnStmt
 import com.github.javaparser.ast.stmt.Statement
 import com.jdbcchecker.model.ImplementationStatus
 import com.jdbcchecker.model.MethodSignature
+import com.jdbcchecker.profile.ClassifyAs
+import com.jdbcchecker.profile.StubHelper
 
 /**
  * Detects the implementation level of JDBC methods in driver source code.
@@ -16,8 +19,23 @@ import com.jdbcchecker.model.MethodSignature
  * - Stubs (throw UnsupportedOperationException/SQLFeatureNotSupportedException,
  *   return default, etc.)
  * - Implemented (actual logic present)
+ *
+ * Driver profiles can extend the detector's recognition via two hooks:
+ *
+ * @param stubHelpers driver-specific helper-method calls that themselves
+ *     throw an exception (e.g., MSSQL's
+ *     `SQLServerException.throwNotSupportedException`). When a method body's
+ *     terminal statement is a call matching one of these patterns, the
+ *     method is classified as a stub of the helper's declared type.
+ *
+ * @param extraStubExceptionClasses driver-specific exception class names
+ *     that signal a stub when thrown (in addition to the built-in
+ *     `STUB_EXCEPTION_NAME_REGEX` defaults).
  */
-class ImplementationDetector {
+class ImplementationDetector(
+    private val stubHelpers: List<StubHelper> = emptyList(),
+    private val extraStubExceptionClasses: List<String> = emptyList(),
+) {
 
     /**
      * Detect implementation status for a spec method in the given class.
@@ -197,9 +215,11 @@ class ImplementationDetector {
      * 3f. try wrapping a single delegation → Delegates
      *
      * Multi-statement methods:
-     * 4a. Contains "not supported" throw pattern anywhere → Partial
-     * 4b. void method with only validation/logging calls  → ReturnsDefault
-     * 4c. otherwise                   → FullyImplemented
+     * 4a. Throw-only body (setup/logging + final throw) → stub
+     *     (classified as ThrowsUnsupported / ThrowsSqlException based on throw type)
+     * 4b. Contains "not supported" throw pattern AND other real logic → Partial
+     * 4c. void method with only validation/logging calls               → ReturnsDefault
+     * 4d. otherwise                                                    → FullyImplemented
      */
     internal fun analyzeMethodBody(method: MethodDeclaration): ImplementationStatus {
         val body = method.body.orElse(null)
@@ -216,13 +236,7 @@ class ImplementationDetector {
 
             // throw new UnsupportedOperationException / SQLFeatureNotSupportedException / etc.
             if (stmt.isThrowStmt) {
-                val throwExpr = stmt.asThrowStmt().expression.toString()
-                return when {
-                    "UnsupportedOperationException" in throwExpr -> ImplementationStatus.ThrowsUnsupported
-                    "SQLFeatureNotSupportedException" in throwExpr -> ImplementationStatus.ThrowsUnsupported
-                    "SQLException" in throwExpr -> ImplementationStatus.ThrowsSqlException
-                    else -> ImplementationStatus.ThrowsUnsupported
-                }
+                return classifyThrow(stmt.asThrowStmt().expression.toString())
             }
 
             // return null / return 0 / return false / return someMethod()
@@ -251,22 +265,144 @@ class ImplementationDetector {
         }
 
         // ── Multi-statement analysis ──────────────────────────────────────
-        val hasUnsupportedThrow = statements.any { stmt -> isUnsupportedThrow(stmt) }
+        // Bug 4: If body is "throw-only" (setup/logging + terminal throw with no real
+        // logic path), classify as a stub by the throw type rather than Partial.
+        // This catches MSSQL stubs like:
+        //   if (logger...) logger.entering(...);
+        //   MessageFormat form = new MessageFormat(...);
+        //   Object[] msgArgs = { "method()" };
+        //   throw new SQLServerException(this, form.format(msgArgs), null, 0, false);
+        val throwOnlyClassification = classifyAsThrowOnlyIfApplicable(statements)
+        if (throwOnlyClassification != null) {
+            return throwOnlyClassification
+        }
 
+        val hasUnsupportedThrow = statements.any { stmt -> isUnsupportedThrow(stmt) }
         if (hasUnsupportedThrow) {
             return ImplementationStatus.Partial
         }
 
-        // Void methods consisting solely of validation/logging calls are effectively
-        // no-ops and should not be counted as "fully implemented".
-        if (method.type.isVoidType &&
-            statements.size <= 2 &&
-            statements.all { isValidationOrLoggingCall(it) }
-        ) {
+        // Bug 8: methods whose body is "validation/logging calls + (terminal
+        // no-op)" are effectively stubs that return a placeholder value. Cover
+        // both void methods (last stmt absent or any) and non-void methods
+        // whose last stmt is `return <literal>`.
+        //
+        // Examples caught:
+        //   public String getCatalog()                    // CUBRID
+        //   { checkIsOpen(); return ""; }                  → ReturnsDefault
+        //
+        //   public boolean isReadOnly()                   // CUBRID
+        //   { checkIsOpen(); return false; }              → ReturnsDefault
+        //
+        //   public void setSchema(String s)               // generic JDBC stub
+        //   { checkOpen(); }                              → ReturnsDefault (void)
+        //
+        // Bounded to short bodies (<=3 statements) so that genuine logic isn't
+        // mistakenly demoted.
+        if (statements.size <= 3 && looksLikeNoopWithValidation(method, statements)) {
             return ImplementationStatus.ReturnsDefault
         }
 
         return ImplementationStatus.FullyImplemented
+    }
+
+    /**
+     * Bug 1 + 4: classify a `throw <expr>` based on the thrown type's textual name.
+     *
+     * Recognised patterns (string-based, since type resolution may not be available
+     * for driver-specific exception classes):
+     * - UnsupportedOperationException             → ThrowsUnsupported
+     * - SQLFeatureNotSupportedException           → ThrowsUnsupported  (JDBC standard)
+     * - SQLException / *SQLException* (suffix)    → ThrowsSqlException
+     *   (catches PSQLException, SQLServerException, SQLPrepareException, …)
+     * - NotUpdatable / OperationNotSupportedException / *NotSupported* / *NotImplemented*
+     *                                             → ThrowsSqlException (driver-specific)
+     * - anything else                             → ThrowsUnsupported (default)
+     */
+    private fun classifyThrow(throwExpr: String): ImplementationStatus = when {
+        "UnsupportedOperationException" in throwExpr -> ImplementationStatus.ThrowsUnsupported
+        "SQLFeatureNotSupportedException" in throwExpr -> ImplementationStatus.ThrowsUnsupported
+        // Match SQLException and any driver-specific subclass whose name ends with
+        // "SQLException" (PSQLException, SQLServerException, BatchUpdateException-style, …).
+        // We use a regex anchored on word boundary + a *SQLException* suffix.
+        SQL_EXCEPTION_REGEX.containsMatchIn(throwExpr) -> ImplementationStatus.ThrowsSqlException
+        // Driver-specific "not supported" / "not updatable" exception names that don't
+        // contain "SQLException" textually but signal an unsupported operation.
+        STUB_EXCEPTION_NAME_REGEX.containsMatchIn(throwExpr) -> ImplementationStatus.ThrowsSqlException
+        // Profile-provided exception class names (driver-specific stubs that the
+        // built-in patterns don't recognize).
+        matchesExtraStubException(throwExpr) -> ImplementationStatus.ThrowsSqlException
+        else -> ImplementationStatus.ThrowsUnsupported
+    }
+
+    /** True if `text` mentions any profile-provided stub-exception class name. */
+    private fun matchesExtraStubException(text: String): Boolean {
+        if (extraStubExceptionClasses.isEmpty()) return false
+        return extraStubExceptionClasses.any { className ->
+            // Word-boundary check so "Foo" doesn't match "FooBar"
+            Regex("\\b" + Regex.escape(className) + "\\b").containsMatchIn(text)
+        }
+    }
+
+    /**
+     * Bug 4: detect "throw-only" multi-statement methods — the body's final
+     * statement is a throw and there is no `return` anywhere reachable, so all
+     * paths end in throwing. Returns the appropriate stub status (by throw
+     * type) when applicable, otherwise null.
+     *
+     * Examples matched:
+     *   MSSQL stub:
+     *     if (loggerExternal.isLoggable(FINER)) loggerExternal.entering(...);
+     *     MessageFormat form = new MessageFormat(...);
+     *     Object[] msgArgs = {"executeQuery()"};
+     *     throw new SQLServerException(this, form.format(msgArgs), null, 0, false);
+     *
+     *   CUBRID stub:
+     *     SQLClientInfoException clientEx = new SQLClientInfoException();
+     *     clientEx.initCause(new UnsupportedOperationException());
+     *     throw clientEx;
+     *
+     * Examples NOT matched (fall through to Partial / FullyImplemented):
+     *   - try { … return x; } catch { throw … }   — body's last stmt is try, not throw
+     *   - if (x) throw …; return real;            — has a return path
+     */
+    private fun classifyAsThrowOnlyIfApplicable(
+        statements: List<Statement>,
+    ): ImplementationStatus? {
+        val last = statements.lastOrNull() ?: return null
+        // If any statement (anywhere, including nested) returns a value, the
+        // method has at least one non-throwing path → not a pure stub.
+        val hasReturn = statements.any { it.findAll(ReturnStmt::class.java).isNotEmpty() }
+        if (hasReturn) return null
+
+        // (a) Direct `throw …` statement at the end
+        if (last.isThrowStmt) {
+            return classifyThrow(last.asThrowStmt().expression.toString())
+        }
+
+        // (b) Driver-specific stub helper call at the end (e.g. MSSQL's
+        //     SQLServerException.throwNotSupportedException(con, this);). The
+        //     helper itself throws but the keyword `throw` is absent.
+        val helperMatch = matchStubHelper(last)
+        if (helperMatch != null) {
+            return when (helperMatch.classify) {
+                ClassifyAs.THROWS_UNSUPPORTED -> ImplementationStatus.ThrowsUnsupported
+                ClassifyAs.THROWS_SQL_EXCEPTION -> ImplementationStatus.ThrowsSqlException
+            }
+        }
+
+        return null
+    }
+
+    /**
+     * Returns the first [StubHelper] whose `callPattern` textually appears in
+     * the given statement, or null when no profile helper matches. Used to
+     * detect driver-specific "throwing helper" method calls.
+     */
+    private fun matchStubHelper(stmt: Statement): StubHelper? {
+        if (stubHelpers.isEmpty()) return null
+        val text = stmt.toString()
+        return stubHelpers.firstOrNull { text.contains(it.callPattern) }
     }
 
     /**
@@ -276,13 +412,104 @@ class ImplementationDetector {
      * Recognised patterns:
      * - UnsupportedOperationException (any context)
      * - SQLFeatureNotSupportedException (any context)
-     * - SQLException with "not supported" in the message
+     * - SQLException (or subclass) with "not supported" in the message text
+     * - Driver-specific names like NotUpdatable / OperationNotSupportedException
      */
     private fun isUnsupportedThrow(stmt: Statement): Boolean {
         val text = stmt.toString()
-        return "UnsupportedOperationException" in text ||
-            "SQLFeatureNotSupportedException" in text ||
-            ("SQLException" in text && "not supported" in text.lowercase())
+        if ("UnsupportedOperationException" in text) return true
+        if ("SQLFeatureNotSupportedException" in text) return true
+        // SQLException or *SQLException* subclass throw with "not supported" message
+        if (SQL_EXCEPTION_REGEX.containsMatchIn(text) &&
+            ("not supported" in text.lowercase() || "notsupported" in text.lowercase())
+        ) {
+            return true
+        }
+        // Driver-specific stub-style exception names (built-in defaults)
+        if (STUB_EXCEPTION_NAME_REGEX.containsMatchIn(text)) return true
+        // Driver-specific stub-style exception names supplied by the active profile
+        if (matchesExtraStubException(text)) return true
+        return false
+    }
+
+    private companion object {
+        /**
+         * Matches exception class names in the broader "SQL-related" family.
+         * The pattern is "any prefix" + "SQL" + "any suffix" + "Exception".
+         *
+         * Matches (some examples):
+         *   SQLException           → "" + SQL + "" + Exception
+         *   PSQLException          → "P" + SQL + "" + Exception
+         *   SQLServerException     → "" + SQL + "Server" + Exception
+         *   SQLClientInfoException → "" + SQL + "ClientInfo" + Exception
+         *   SQLPrepareException    → "" + SQL + "Prepare" + Exception
+         *   MySQLException         → "My" + SQL + "" + Exception
+         *   SQLNonTransientConnectionException, SQLRecoverableException, …
+         *
+         * This catches both java.sql.SQLException and any driver-specific subclass
+         * with "SQL" in its name (Microsoft SQLServerException, PostgreSQL
+         * PSQLException, MariaDB SQLPrepareException, MySQL's *SQLException, …).
+         */
+        val SQL_EXCEPTION_REGEX = Regex("""\b[A-Za-z0-9_]*SQL[A-Za-z0-9_]*Exception\b""")
+
+        /**
+         * Driver-specific exception names that signal "unsupported / cannot do
+         * this" but don't contain "SQL" textually. These are functionally stubs.
+         *
+         * Examples:
+         *   NotUpdatable (MySQL — used inside ResultSetImpl.updateXxx stubs)
+         *   OperationNotSupportedException (MySQL)
+         *   NotImplementedException / NotSupportedException (common 3rd-party)
+         */
+        val STUB_EXCEPTION_NAME_REGEX = Regex(
+            """\b(?:NotUpdatable|OperationNotSupportedException|NotImplementedException|NotSupportedException)\b""",
+        )
+    }
+
+    /**
+     * Bug 8 + Bug 9: returns true when a method body is "validation/logging
+     * calls only, with an optional terminal literal return". Such bodies
+     * are functionally no-ops — the method has no real logic, just a
+     * hardcoded answer.
+     *
+     * Bug 9 update: `return true`, `return 1`, `return any literal` are
+     * also recognised (not only the default-value literals). Pattern like
+     *   public boolean supportsX() {
+     *       checkIsOpen();
+     *       return true;     // hardcoded answer, no real logic
+     *   }
+     * is functionally identical to `return false` and should be classified
+     * the same way (RETURNS_DEFAULT). Previously, the rule looked only at
+     * "default" literals (false/null/0/"") which left ~250 supports*
+     * methods misclassified as FullyImplemented.
+     *
+     * Recognised shapes (all classified as ReturnsDefault):
+     *   - void method,  all stmts are validation/logging
+     *   - non-void method, preceding stmts are validation/logging AND
+     *     last stmt is `return <literal>`
+     *   - empty body — already handled before this point
+     */
+    private fun looksLikeNoopWithValidation(
+        method: MethodDeclaration,
+        statements: List<Statement>,
+    ): Boolean {
+        if (statements.isEmpty()) return false
+        val last = statements.last()
+        val preceding = statements.dropLast(1)
+
+        // Last statement must be either a no-op terminator or itself validation/logging.
+        val lastIsNoopReturn = last.isReturnStmt && run {
+            val expr = last.asReturnStmt().expression.orElse(null)
+            expr == null || isLiteralExpression(expr)
+        }
+        val terminalOk = when {
+            method.type.isVoidType -> isValidationOrLoggingCall(last) || lastIsNoopReturn
+            lastIsNoopReturn -> true
+            else -> false
+        }
+        if (!terminalOk) return false
+
+        return preceding.all { isValidationOrLoggingCall(it) }
     }
 
     /**
@@ -315,6 +542,26 @@ class ImplementationDetector {
         expr.isLongLiteralExpr -> expr.asLongLiteralExpr().value in listOf("0L", "0l", "0")
         expr.isDoubleLiteralExpr -> expr.asDoubleLiteralExpr().value in listOf("0.0", "0.0d", "0.0D")
         expr.isStringLiteralExpr -> expr.asStringLiteralExpr().value.isEmpty()
+        else -> false
+    }
+
+    /**
+     * Bug 9: returns true for ANY literal expression (true, false, null,
+     * any int/long/double/string literal). Used by
+     * [looksLikeNoopWithValidation] — when a method's last statement is
+     * `return <literal>`, the method is effectively a no-op stub
+     * regardless of whether the literal happens to be the "default" value
+     * for its type. Examples: `return true` (hardcoded supports*),
+     * `return 1` (constant version), `return "CUBRID"` (constant name).
+     */
+    private fun isLiteralExpression(expr: Expression): Boolean = when {
+        expr.isNullLiteralExpr -> true
+        expr.isBooleanLiteralExpr -> true   // both true and false count
+        expr.isIntegerLiteralExpr -> true
+        expr.isLongLiteralExpr -> true
+        expr.isDoubleLiteralExpr -> true
+        expr.isStringLiteralExpr -> true
+        expr.isCharLiteralExpr -> true
         else -> false
     }
 }
