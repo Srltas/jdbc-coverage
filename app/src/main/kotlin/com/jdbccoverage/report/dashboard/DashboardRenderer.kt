@@ -25,7 +25,7 @@ class DashboardRenderer {
                 "last" to last,
                 "prevPercent" to prev?.overallPercent,
                 "interfaces" to (
-                    d.latest?.interfaces?.map { iface ->
+                    d.latest?.interfaces?.sortedBy { it.interfaceName.substringAfterLast('.') }?.map { iface ->
                         mapOf(
                             "name" to iface.interfaceName.substringAfterLast('.'),
                             "percent" to iface.coveragePercent,
@@ -257,16 +257,23 @@ data.forEach(function (d) {
   sum.textContent = d.name;
   det.appendChild(sum);
   var cum = d.last.cumulative || [];
-  var rows = cum.map(function (c) {
-    return "<tr><td>&le;" + c.version + '</td><td class="num">' +
-      (100 * c.implemented / c.total).toFixed(1) + '%</td><td class="num">' +
-      c.implemented + "/" + c.total + "</td></tr>";
+  // Per-version, not cumulative: each boundary minus the previous one. The
+  // cumulative list only holds versions present in the spec, so consecutive
+  // differences are exactly the methods introduced at that version.
+  var rows = cum.map(function (c, i) {
+    var prev = i > 0 ? cum[i - 1] : null;
+    var impl = c.implemented - (prev ? prev.implemented : 0);
+    var total = c.total - (prev ? prev.total : 0);
+    var pct = total === 0 ? 0 : 100 * impl / total;
+    return "<tr><td>" + c.version + '</td><td class="num">' +
+      pct.toFixed(1) + '%</td><td class="num">' +
+      impl + "/" + total + "</td></tr>";
   }).join("");
   var ifaceRows = (d.interfaces || []).map(function (f) {
     return "<tr><td>" + f.name + '</td><td class="num">' + fmt(f.percent) + '%</td><td class="num">' +
       f.implemented + '</td><td class="num">' + f.stub + '</td><td class="num">' + f.notFound + "</td></tr>";
   }).join("");
-  det.innerHTML += '<table><thead><tr><th>Cumulative</th><th class="num">Coverage</th><th class="num">Impl/Total</th></tr></thead><tbody>' + rows + "</tbody></table>";
+  det.innerHTML += '<table><thead><tr><th>Version</th><th class="num">Coverage</th><th class="num">Impl/Total</th></tr></thead><tbody>' + rows + "</tbody></table>";
   if (ifaceRows) {
     det.innerHTML += '<table style="margin-top:.75rem"><thead><tr><th>Interface</th><th class="num">Coverage</th><th class="num">Impl</th><th class="num">Stub</th><th class="num">Missing</th></tr></thead><tbody>' + ifaceRows + "</tbody></table>";
   }
