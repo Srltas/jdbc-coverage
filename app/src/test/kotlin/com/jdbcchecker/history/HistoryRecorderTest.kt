@@ -87,4 +87,18 @@ class HistoryRecorderTest {
         assertThat(entry.specChanged).isTrue()
         assertThat(entry.changes).isEmpty()
     }
+
+    @Test
+    fun `corrupt history line is dropped instead of crashing`() {
+        val recorder = HistoryRecorder(dir)
+        recorder.record(report(ImplementationStatus.ThrowsUnsupported), LocalDate.parse("2026-07-05"))
+        val jsonl = dir.resolve("history/cubrid-jdbc.jsonl")
+        Files.write(jsonl, Files.readAllLines(jsonl) + "{not valid json")
+
+        val entry = recorder.record(report(ImplementationStatus.FullyImplemented), LocalDate.parse("2026-07-06"))
+
+        assertThat(entry.changes).hasSize(1)
+        val lines = Files.readAllLines(jsonl).filter { it.isNotBlank() }
+        assertThat(lines).hasSize(2)
+    }
 }

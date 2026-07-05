@@ -60,10 +60,22 @@ class HistoryRecorder(private val historyDir: Path) {
 
         val jsonlPath = historyDir.resolve("history").resolve("$slug.jsonl")
         Files.createDirectories(jsonlPath.parent)
+        // Per-line defensive parse: a corrupt line (partial write, hand edit) is
+        // dropped with a warning instead of poisoning every future daily run.
         val kept = if (Files.exists(jsonlPath)) {
             Files.readAllLines(jsonlPath)
                 .filter { it.isNotBlank() }
-                .filter { lineMapper.readValue(it, HistoryEntry::class.java).date != entry.date }
+                .filter { line ->
+                    val parsed = try {
+                        lineMapper.readValue(line, HistoryEntry::class.java)
+                    } catch (e: Exception) {
+                        System.err.println(
+                            "Warning: dropping corrupt history line in $jsonlPath: ${e.message?.take(80)}",
+                        )
+                        return@filter false
+                    }
+                    parsed.date != entry.date
+                }
         } else {
             emptyList()
         }
