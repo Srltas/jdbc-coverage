@@ -137,7 +137,7 @@ result.also { logger.info("Analysis complete: ${it.summary()}") }
 ## File Structure Convention
 
 ```kotlin
-package com.jdbcchecker.analyzer
+package com.jdbccoverage.analyzer
 
 import ...
 
@@ -163,7 +163,7 @@ data class AnalysisConfig(...)
 
 | Element | Style | Example |
 |---|---|---|
-| Package | lowercase, dot-separated | `com.jdbcchecker.analyzer` |
+| Package | lowercase, dot-separated | `com.jdbccoverage.analyzer` |
 | Class | PascalCase | `SourceAnalyzer` |
 | Function | camelCase | `analyzeSource()` |
 | Property | camelCase | `methodCount` |

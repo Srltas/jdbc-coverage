@@ -33,7 +33,7 @@ java {
 }
 
 application {
-    mainClass = "com.jdbcchecker.cli.MainKt"
+    mainClass = "com.jdbccoverage.cli.MainKt"
     applicationName = "jdbc-coverage"
 }
 
@@ -43,6 +43,6 @@ tasks.named<Test>("test") {
 
 tasks.jar {
     manifest {
-        attributes["Main-Class"] = "com.jdbcchecker.cli.MainKt"
+        attributes["Main-Class"] = "com.jdbccoverage.cli.MainKt"
     }
 }

@@ -56,7 +56,7 @@
 | `javax.transaction.xa.*` | 2 | XAResource, Xid |
 | **합계** | **34** | |
 
-소스: [JdbcSpecLoader.kt:91-130](../app/src/main/kotlin/com/jdbcchecker/spec/JdbcSpecLoader.kt:91)
+소스: [JdbcSpecLoader.kt:91-130](../app/src/main/kotlin/com/jdbccoverage/spec/JdbcSpecLoader.kt:91)
 
 ### 1.3 인터페이스 전체 목록 (참고)
 
@@ -111,7 +111,7 @@ CompilationUnit으로 파싱된 모든 `.java` 파일에서:
 - `class` 키워드 사용 (enum/interface 제외)
 - 그 클래스가 **목표 JDBC 인터페이스를 직접 또는 transitive로 구현**
 
-[JdbcInterfaceResolver.kt:43-50](../app/src/main/kotlin/com/jdbcchecker/resolver/JdbcInterfaceResolver.kt:43)
+[JdbcInterfaceResolver.kt:43-50](../app/src/main/kotlin/com/jdbccoverage/resolver/JdbcInterfaceResolver.kt:43)
 
 > **알려진 한계**: `enum` 클래스는 후보에서 빠짐. MySQL의 `MysqlType` enum이 `java.sql.SQLType`을 구현하지만 인식 안 됨. 영향: 4,480 분류 중 3건(0.07%). § 6 참조.
 
@@ -129,13 +129,13 @@ CompilationUnit으로 파싱된 모든 `.java` 파일에서:
 | 6 | **Leaf subclass > superclass** | `SQLServerConnection43`이 `SQLServerConnection`보다 우선 (JDBC 4.3+ 메서드 포함) |
 | 7 | **메서드 수 많은 것** | 그래도 동률이면 가장 풍부한 구현 |
 
-[JdbcInterfaceResolver.kt:167-225](../app/src/main/kotlin/com/jdbcchecker/resolver/JdbcInterfaceResolver.kt:167)
+[JdbcInterfaceResolver.kt:167-225](../app/src/main/kotlin/com/jdbccoverage/resolver/JdbcInterfaceResolver.kt:167)
 
 #### Primary interface match (우선순위 5) 세부
 
 각 클래스의 "primary JDBC interface"는 그 클래스가 구현하는 JDBC 인터페이스 중 **가장 specific한 것** (다른 후보가 extend하지 않는 leaf).
 
-`JDBC_INTERFACE_ANCESTORS` 테이블 ([resolver:382-431](../app/src/main/kotlin/com/jdbcchecker/resolver/JdbcInterfaceResolver.kt:382)):
+`JDBC_INTERFACE_ANCESTORS` 테이블 ([resolver:382-431](../app/src/main/kotlin/com/jdbccoverage/resolver/JdbcInterfaceResolver.kt:382)):
 - `CallableStatement → {PreparedStatement, Statement, Wrapper}`
 - `PreparedStatement → {Statement, Wrapper}`
 - `NClob → {Clob}`
@@ -172,7 +172,7 @@ Entry class에서 시작해서 spec method와 일치하는 소스 method를 찾�
 2. **파라미터 개수 일치**
 3. **파라미터 타입 일치** (정규화 후)
 
-[ImplementationDetector.kt:139-148](../app/src/main/kotlin/com/jdbcchecker/detector/ImplementationDetector.kt:139)
+[ImplementationDetector.kt:139-148](../app/src/main/kotlin/com/jdbccoverage/detector/ImplementationDetector.kt:139)
 
 ### 3.2 파라미터 타입 정규화
 
@@ -184,7 +184,7 @@ Entry class에서 시작해서 spec method와 일치하는 소스 method를 찾�
 | FQN ↔ Simple name 양방 매칭 | `java.lang.String` ↔ `String` |
 | Varargs 변환 | `String...` → `String[]` |
 
-[ImplementationDetector.kt:158-179](../app/src/main/kotlin/com/jdbcchecker/detector/ImplementationDetector.kt:158)
+[ImplementationDetector.kt:158-179](../app/src/main/kotlin/com/jdbccoverage/detector/ImplementationDetector.kt:158)
 
 ### 3.3 상속 체인 탐색
 
@@ -198,7 +198,7 @@ SQLServerPreparedStatement
 SQLServerStatement       ← 여기서 executeQuery(String) 발견
 ```
 
-[ImplementationDetector.kt:47-65](../app/src/main/kotlin/com/jdbcchecker/detector/ImplementationDetector.kt:47)
+[ImplementationDetector.kt:47-65](../app/src/main/kotlin/com/jdbccoverage/detector/ImplementationDetector.kt:47)
 
 ### 3.4 같은 simple name이 여러 package에 있을 때
 
@@ -206,7 +206,7 @@ SQLServerStatement       ← 여기서 executeQuery(String) 발견
 - 참조 클래스(자식 클래스)와 **같은 패키지**의 것을 우선
 - 그래도 없으면 첫 번째 후보
 
-[ImplementationDetector.kt:76-102](../app/src/main/kotlin/com/jdbcchecker/detector/ImplementationDetector.kt:76)
+[ImplementationDetector.kt:76-102](../app/src/main/kotlin/com/jdbccoverage/detector/ImplementationDetector.kt:76)
 
 ### 3.5 매칭 실패 시
 
@@ -230,7 +230,7 @@ SQLServerStatement       ← 여기서 executeQuery(String) 발견
 | `THROWS_SQL_EXCEPTION` | SQLException 계열 throw (실질적으로 미지원) | 1 | STUB |
 | `NOT_FOUND` | spec에 있지만 source에서 매칭 실패 | 0 | NOT_FOUND |
 
-점수는 diff 비교(IMPROVED/REGRESSED 판정)에 사용. 소스: [ImplementationStatus.kt](../app/src/main/kotlin/com/jdbcchecker/model/ImplementationStatus.kt)
+점수는 diff 비교(IMPROVED/REGRESSED 판정)에 사용. 소스: [ImplementationStatus.kt](../app/src/main/kotlin/com/jdbccoverage/model/ImplementationStatus.kt)
 
 ### 4.2 분류 의사결정 흐름 (Decision Tree)
 
@@ -265,7 +265,7 @@ analyzeMethodBody(method)
     └─ E. 그 외 → FULLY_IMPLEMENTED
 ```
 
-[ImplementationDetector.kt:204-307](../app/src/main/kotlin/com/jdbcchecker/detector/ImplementationDetector.kt:204)
+[ImplementationDetector.kt:204-307](../app/src/main/kotlin/com/jdbccoverage/detector/ImplementationDetector.kt:204)
 
 ### 4.3 throw 분류 (classifyThrow)
 
@@ -280,7 +280,7 @@ analyzeMethodBody(method)
 | Profile `stubExceptionClasses`에 명시된 이름 | `THROWS_SQL_EXCEPTION` |
 | 그 외 | `THROWS_UNSUPPORTED` (fallback) |
 
-[ImplementationDetector.kt:322-345](../app/src/main/kotlin/com/jdbcchecker/detector/ImplementationDetector.kt:322)
+[ImplementationDetector.kt:322-345](../app/src/main/kotlin/com/jdbccoverage/detector/ImplementationDetector.kt:322)
 
 ### 4.4 "Validation/Logging call" 정의
 
@@ -289,7 +289,7 @@ analyzeMethodBody(method)
 - `log*`, `trace*`, `debug*`, `warn*`
 - 정확히 일치: `info`, `fine`, `finer`, `finest`, `entering`, `exiting`, `severe`
 
-[ImplementationDetector.kt:537-550](../app/src/main/kotlin/com/jdbcchecker/detector/ImplementationDetector.kt:537)
+[ImplementationDetector.kt:537-550](../app/src/main/kotlin/com/jdbccoverage/detector/ImplementationDetector.kt:537)
 
 ### 4.5 "Literal expression" 정의 (Bug 9)
 
@@ -302,7 +302,7 @@ analyzeMethodBody(method)
 - 모든 string literal (빈 문자열뿐만 아니라 `"CUBRID"` 등)
 - 모든 char literal
 
-[ImplementationDetector.kt:560-578](../app/src/main/kotlin/com/jdbcchecker/detector/ImplementationDetector.kt:560)
+[ImplementationDetector.kt:560-578](../app/src/main/kotlin/com/jdbccoverage/detector/ImplementationDetector.kt:560)
 
 ### 4.6 Throw-only body 판정 (Bug 4)
 
@@ -320,7 +320,7 @@ public final ResultSet executeQuery(String sql) {
 
 본문에 `return`이 있으면 (어딘가에 정상 경로 존재) → PARTIAL로 fallback.
 
-[ImplementationDetector.kt:354-395](../app/src/main/kotlin/com/jdbcchecker/detector/ImplementationDetector.kt:354)
+[ImplementationDetector.kt:354-395](../app/src/main/kotlin/com/jdbccoverage/detector/ImplementationDetector.kt:354)
 
 ### 4.7 검증 (Layer 3)
 
@@ -344,7 +344,7 @@ L3_independent_classifier.py(검증 스크립트는 리포 외부 아카이브�
 | `org.mariadb.jdbc` | mariadb |
 | `cubrid.jdbc` | cubrid |
 
-[ProfileResolver.kt](../app/src/main/kotlin/com/jdbcchecker/profile/ProfileResolver.kt), 번들 YAML: [resources/profiles/](../app/src/main/resources/profiles/)
+[ProfileResolver.kt](../app/src/main/kotlin/com/jdbccoverage/profile/ProfileResolver.kt), 번들 YAML: [resources/profiles/](../app/src/main/resources/profiles/)
 
 ### 5.2 Profile의 영향
 
