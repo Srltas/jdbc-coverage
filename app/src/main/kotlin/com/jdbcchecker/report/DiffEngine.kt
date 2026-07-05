@@ -2,11 +2,8 @@ package com.jdbcchecker.report
 
 import com.jdbcchecker.model.AnalysisReport
 import com.jdbcchecker.model.DiffReport
-import com.jdbcchecker.model.DriverComparisonReport
-import com.jdbcchecker.model.DriverSummary
 import com.jdbcchecker.model.ImplementationStatus
 import com.jdbcchecker.model.MethodChangeType
-import com.jdbcchecker.model.MethodComparisonRow
 import com.jdbcchecker.model.MethodDiff
 import com.jdbcchecker.model.MethodSignature
 
@@ -74,62 +71,4 @@ fun computeDiff(baseline: AnalysisReport, current: AnalysisReport): DiffReport {
         currentCoverage = current.overallCoveragePercent,
         diffs = diffs,
     )
-}
-
-/**
- * Computes a side-by-side comparison across two or more [AnalysisReport] instances.
- *
- * Methods missing from a driver are represented as [ImplementationStatus.NotFound].
- */
-fun computeComparison(reports: List<AnalysisReport>): DriverComparisonReport {
-    require(reports.size >= 2) { "At least 2 reports are required for comparison" }
-
-    data class MethodKey(val interfaceName: String, val matchKey: String)
-
-    val methodIndex = mutableMapOf<MethodKey, MethodSignature>()
-    val driverMaps: Map<String, MutableMap<MethodKey, ImplementationStatus>> =
-        reports.associate { it.driverName to mutableMapOf() }
-
-    for (report in reports) {
-        val driverMap = driverMaps[report.driverName]!!
-        for (iface in report.interfaces) {
-            for (method in iface.methods) {
-                val mk = MethodKey(iface.interfaceName, method.specMethod.matchKey)
-                methodIndex[mk] = method.specMethod
-                driverMap[mk] = method.status
-            }
-        }
-    }
-
-    val methodRows = methodIndex.entries
-        .sortedWith(
-            compareBy(
-                { it.key.interfaceName },
-                { it.value.jdbcVersion.ordinal },
-                { it.value.displayName },
-            ),
-        )
-        .map { (mk, spec) ->
-            MethodComparisonRow(
-                interfaceName = mk.interfaceName,
-                methodDisplayName = spec.displayName,
-                jdbcVersion = spec.jdbcVersion,
-                statuses = reports.associate { report ->
-                    report.driverName to (driverMaps[report.driverName]!![mk] ?: ImplementationStatus.NotFound)
-                },
-            )
-        }
-
-    val drivers = reports.map { report ->
-        DriverSummary(
-            driverName = report.driverName,
-            sourcePath = report.sourcePath,
-            coveragePercent = report.overallCoveragePercent,
-            interfaceCoverages = report.interfaces.associate {
-                it.interfaceName.substringAfterLast('.') to it.coveragePercent
-            },
-        )
-    }
-
-    return DriverComparisonReport(drivers = drivers, methodRows = methodRows)
 }

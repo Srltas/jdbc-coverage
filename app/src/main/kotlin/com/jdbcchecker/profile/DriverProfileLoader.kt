@@ -5,8 +5,7 @@ import com.jdbcchecker.report.json.createYamlObjectMapper
 import java.io.InputStream
 
 /**
- * Loads [DriverProfile] instances from bundled resources or from a
- * user-supplied file path.
+ * Loads [DriverProfile] instances from bundled YAML resources.
  *
  * Bundled profiles live under the `/profiles/` resource directory, one
  * `<name>.yaml` file per profile. The list of bundled names is read from
