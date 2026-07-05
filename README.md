@@ -6,7 +6,7 @@ CUBRID JDBC의 스펙 확장(→ JDBC 4.2, 이후 4.3+) 진행률을 매일 추�
 
 - 메서드 본문을 분석해 7단계로 분류하고(구현/스텁/부재), 스텁(`throw UnsupportedOperationException`,
   기본값만 반환 등)은 구현으로 치지 않습니다. 분류 규칙: [docs/ANALYSIS_RULES.md](docs/ANALYSIS_RULES.md)
-- 스펙은 JDK 26 기준 36개 인터페이스 **889 메서드로 동결**(`spec-1`)되어 있습니다. 스펙이나
+- 스펙은 JDK 26 기준 34개 인터페이스 **889 메서드로 동결**(`spec-1`)되어 있습니다. 스펙이나
   분류 규칙이 바뀌면 히스토리 전체의 의미가 변하므로, 변경 시 spec 버전을 올려야 합니다.
 - 모든 스냅샷에 spec 버전·도구 버전·소스 git commit이 각인됩니다.
 

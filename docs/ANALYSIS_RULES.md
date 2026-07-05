@@ -5,8 +5,8 @@
 기준 버전:
 - **JDK**: 26 (Temurin 26.0.1)
 - **JDBC API**: 1.0 ~ 4.5
-- **분석 대상 인터페이스 수**: 39개 (RowSet 계열 제외)
-- **분석 대상 메서드 수**: 896개 (각 시그니처 단위)
+- **분석 대상 인터페이스 수**: 34개 (RowSet 계열 제외)
+- **분석 대상 메서드 수**: 889개 (각 시그니처 단위)
 
 ---
 
@@ -29,7 +29,7 @@
 
 ### 1.1 기준 JDK와 JDBC 버전
 
-- **JDK 26 src.zip**에서 `extract-spec` 명령으로 직접 추출
+- **JDK 26 src.zip**에서 직접 추출 (스펙 재생성 로직은 git 히스토리에 보관)
 - JavaDoc의 `@since` 태그를 JDBC 버전으로 매핑
 - 매핑 표:
 
@@ -54,7 +54,7 @@
 | `java.sql.*` | 27 | 모든 public interface |
 | `javax.sql.*` (RowSet 제외) | 10 | DataSource, PooledConnection, XA*, EventListener 등 |
 | `javax.transaction.xa.*` | 2 | XAResource, Xid |
-| **합계** | **39** | |
+| **합계** | **34** | |
 
 소스: [JdbcSpecLoader.kt:91-130](../app/src/main/kotlin/com/jdbcchecker/spec/JdbcSpecLoader.kt:91)
 
@@ -98,7 +98,7 @@
 
 ### 1.7 검증 (Layer 1)
 
-[verification/scripts/L1_compare_reflection.py](../verification/scripts/L1_compare_reflection.py)가 JDK 26 reflection ground truth와 우리 spec yaml을 비교. 최신 검증 결과 **39/39 인터페이스, 896/896 메서드 100% 일치**.
+L1_compare_reflection.py(검증 스크립트는 리포 외부 아카이브에 보관)가 JDK 26 reflection ground truth와 우리 spec yaml을 비교. 최신 검증 결과 **34/34 인터페이스, 889/889 메서드 100% 일치**.
 
 ---
 
@@ -157,7 +157,7 @@ CompilationUnit으로 파싱된 모든 `.java` 파일에서:
 
 ### 2.4 검증 (Layer 2)
 
-[verification/scripts/L2_source_matching.py](../verification/scripts/L2_source_matching.py)가 NOT_FOUND로 분류된 메서드 전부를 인터페이스 구현체 소스 트리에서 type-aware grep으로 cross-check. 최신 결과: **5드라이버 658개 NOT_FOUND 중 진짜 false negative는 3개 (0.46%)**.
+L2_source_matching.py(검증 스크립트는 리포 외부 아카이브에 보관)가 NOT_FOUND로 분류된 메서드 전부를 인터페이스 구현체 소스 트리에서 type-aware grep으로 cross-check. 최신 결과: **5드라이버 658개 NOT_FOUND 중 진짜 false negative는 3개 (0.46%)**.
 
 ---
 
@@ -325,7 +325,7 @@ public final ResultSet executeQuery(String sql) {
 
 ### 4.7 검증 (Layer 3)
 
-[verification/scripts/L3_independent_classifier.py](../verification/scripts/L3_independent_classifier.py)가 우리 detector와 별개 알고리즘으로 분류 → cross-check. 최신 결과: **4,480쌍 중 87.1% 동의, 진짜 분석기 오류 추정 ~40건 = 정확도 ~99%**.
+L3_independent_classifier.py(검증 스크립트는 리포 외부 아카이브에 보관)가 우리 detector와 별개 알고리즘으로 분류 → cross-check. 최신 결과: **4,480쌍 중 87.1% 동의, 진짜 분석기 오류 추정 ~40건 = 정확도 ~99%**.
 
 ---
 
@@ -375,11 +375,7 @@ stubHelpers:
 ### 5.3 우선순위
 
 ```
---profile-file <path>   (최우선, 사용자 지정 YAML)
-    ↓
---profile <name>        (번들 profile 이름 명시)
-    ↓
---no-profile            (자동 감지 비활성화)
+--profile <name>        (번들 profile 이름 명시, 최우선)
     ↓
 auto-detect             (package prefix 매칭)
     ↓
@@ -480,13 +476,13 @@ public Array getArray(int i) throws SQLException {
                       ▼
 ┌─────────────────────────────────────────────────────────────┐
 │ 1. SPEC LOAD                                                │
-│   - JDK 26 기반 39개 인터페이스, 896개 메서드               │
+│   - JDK 26 기반 34개 인터페이스, 889개 메서드               │
 │   - RowSet 제외                                             │
 └─────────────────────┬───────────────────────────────────────┘
                       ▼
 ┌─────────────────────────────────────────────────────────────┐
 │ 2. PROFILE RESOLVE                                          │
-│   --profile-file > --profile > --no-profile > auto-detect   │
+│   --profile <name> > auto-detect                            │
 │   → entry class 매핑 + stub helper 목록 확정                │
 └─────────────────────┬───────────────────────────────────────┘
                       ▼
@@ -523,19 +519,19 @@ public Array getArray(int i) throws SQLException {
 
 | 검증 단계 | 측정 | 결과 |
 |---|---|---|
-| Layer 1 — Spec 완전성 | JDK 26 reflection ground truth vs 우리 spec | **100% 일치** (39/39, 896/896) |
+| Layer 1 — Spec 완전성 | JDK 26 reflection ground truth vs 우리 spec | **100% 일치** (34/34, 889/889) |
 | Layer 2 — Source Matching | 5드라이버 658 NOT_FOUND를 grep으로 cross-check | False NOT_FOUND **3 / 658 (0.46%)** |
 | Layer 3 — Classification | 독립 분류기와 4,480쌍 비교 | 동의율 **87.1%**, 진짜 오류 ~40건 |
 | **종합 정확도 (보수적)** | | **~98.6%** |
 
-검증 스크립트:
-- [verification/scripts/JdbcSpecReflection.java](../verification/scripts/JdbcSpecReflection.java) — JDK 26 ground truth 생성
-- [verification/scripts/L1_compare_reflection.py](../verification/scripts/L1_compare_reflection.py)
-- [verification/scripts/L2_source_matching.py](../verification/scripts/L2_source_matching.py)
-- [verification/scripts/L3_independent_classifier.py](../verification/scripts/L3_independent_classifier.py)
-- [verification/scripts/L3_compare.py](../verification/scripts/L3_compare.py)
+검증 스크립트 (검증 스크립트는 리포 외부 아카이브에 보관):
+- verification/scripts/JdbcSpecReflection.java — JDK 26 ground truth 생성
+- verification/scripts/L1_compare_reflection.py
+- verification/scripts/L2_source_matching.py
+- verification/scripts/L3_independent_classifier.py
+- verification/scripts/L3_compare.py
 
-상세 결과: [verification/REPORT.html](../verification/REPORT.html) / [REPORT.pdf](../verification/REPORT.pdf)
+상세 결과: verification/REPORT.html / REPORT.pdf (리포 외부 아카이브에 보관)
 
 ---
 
