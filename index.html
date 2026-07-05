@@ -1,0 +1,224 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JDBC API Coverage</title>
+<style>
+:root {
+  --surface: #fcfcfb; --text: #1a1a19; --text-2: #57564e; --grid: #e4e3dd; --card: #f4f3ef;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --surface: #1a1a19; --text: #ffffff; --text-2: #c3c2b7; --grid: #3a3935; --card: #242320; }
+}
+* { box-sizing: border-box; }
+body { margin: 2rem auto; max-width: 1000px; padding: 0 1rem; background: var(--surface);
+       color: var(--text); font: 15px/1.55 system-ui, sans-serif; }
+h1 { font-size: 1.5rem; margin-bottom: .25rem; }
+h2 { font-size: 1.1rem; margin: 2rem 0 .5rem; }
+.meta { color: var(--text-2); font-size: .85rem; margin-top: 0; }
+#chart-wrap { position: relative; overflow-x: auto; }
+#tip { position: absolute; pointer-events: none; background: var(--card); color: var(--text);
+       border: 1px solid var(--grid); border-radius: 6px; padding: .4rem .6rem;
+       font-size: .8rem; white-space: nowrap; }
+#legend { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: .5rem; font-size: .85rem; }
+#legend .chip { display: inline-block; width: 12px; height: 12px; border-radius: 3px;
+                margin-right: .35rem; vertical-align: -1px; }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { text-align: left; padding: .35rem .6rem; border-bottom: 1px solid var(--grid); }
+th { color: var(--text-2); font-weight: 600; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.up { color: #008300; } .down { color: #b3261e; } .flat { color: var(--text-2); }
+details { margin: .5rem 0; } summary { cursor: pointer; font-weight: 600; }
+.change { font-family: ui-monospace, monospace; font-size: .82rem; }
+.spec-note { color: var(--text-2); font-size: .8rem; }
+</style>
+</head>
+<body>
+<h1>JDBC API Coverage</h1>
+<p class="meta" id="meta"></p>
+
+<h2>Trend</h2>
+<div id="chart-wrap">
+  <svg id="chart" viewBox="0 0 960 380" width="960" height="380" role="img" aria-label="Coverage trend by driver"></svg>
+  <div id="tip" hidden></div>
+</div>
+<div id="legend"></div>
+
+<h2>Today</h2>
+<table id="today">
+  <thead><tr><th>Driver</th><th class="num">Coverage</th><th class="num">vs prev</th>
+  <th class="num">&le;4.2</th><th class="num">Impl</th><th class="num">Stub</th>
+  <th class="num">Missing</th><th>Commit</th></tr></thead>
+  <tbody></tbody>
+</table>
+
+<h2>Changes since previous run</h2>
+<div id="changes"></div>
+
+<h2>Per-driver detail</h2>
+<div id="details"></div>
+
+<script type="application/json" id="data">[{"name":"CUBRID JDBC","slug":"cubrid-jdbc","color":"#2a78d6","colorDark":"#3987e5","series":[{"date":"2026-07-05","percent":40.719910011248594}],"last":{"date":"2026-07-05","driverName":"CUBRID JDBC","specVersion":"spec-1","toolVersion":"2.0.0","sourceCommit":"e4947d1a4aafe93239542405d28567c59adca0ea","profileUsed":"cubrid","overallPercent":40.719910011248594,"totalMethods":889,"implemented":362,"stub":360,"notFound":167,"cumulative":[{"version":"1.0","implemented":149,"total":281},{"version":"2.0","implemented":276,"total":491},{"version":"3.0","implemented":344,"total":650},{"version":"4.0","implemented":362,"total":803},{"version":"4.1","implemented":362,"total":818},{"version":"4.2","implemented":362,"total":849},{"version":"4.3","implemented":362,"total":881},{"version":"4.5","implemented":362,"total":889}],"specChanged":false,"changes":[]},"prevPercent":null,"interfaces":[{"name":"Connection","percent":41.935483870967744,"implemented":26,"stub":26,"notFound":10,"total":62},{"name":"Statement","percent":61.111111111111114,"implemented":33,"stub":9,"notFound":12,"total":54},{"name":"PreparedStatement","percent":62.06896551724138,"implemented":36,"stub":19,"notFound":3,"total":58},{"name":"CallableStatement","percent":19.00826446280992,"implemented":23,"stub":90,"notFound":8,"total":121},{"name":"ResultSet","percent":63.212435233160626,"implemented":122,"stub":67,"notFound":4,"total":193},{"name":"DatabaseMetaData","percent":24.293785310734464,"implemented":43,"stub":131,"notFound":3,"total":177},{"name":"Driver","percent":71.42857142857143,"implemented":5,"stub":2,"notFound":0,"total":7},{"name":"SQLInput","percent":0.0,"implemented":0,"stub":0,"notFound":28,"total":28},{"name":"SQLOutput","percent":0.0,"implemented":0,"stub":0,"notFound":28,"total":28},{"name":"Array","percent":0.0,"implemented":0,"stub":0,"notFound":12,"total":12},{"name":"Struct","percent":0.0,"implemented":0,"stub":0,"notFound":3,"total":3},{"name":"Ref","percent":0.0,"implemented":0,"stub":0,"notFound":4,"total":4},{"name":"Blob","percent":66.66666666666666,"implemented":8,"stub":3,"notFound":1,"total":12},{"name":"Clob","percent":71.42857142857143,"implemented":10,"stub":3,"notFound":1,"total":14},{"name":"Savepoint","percent":0.0,"implemented":0,"stub":0,"notFound":2,"total":2},{"name":"ParameterMetaData","percent":0.0,"implemented":0,"stub":0,"notFound":9,"total":9},{"name":"ResultSetMetaData","percent":76.19047619047619,"implemented":16,"stub":5,"notFound":0,"total":21},{"name":"SQLXML","percent":0.0,"implemented":0,"stub":0,"notFound":10,"total":10},{"name":"RowId","percent":0.0,"implemented":0,"stub":0,"notFound":4,"total":4},{"name":"Wrapper","percent":0.0,"implemented":0,"stub":2,"notFound":0,"total":2},{"name":"DriverAction","percent":0.0,"implemented":0,"stub":0,"notFound":1,"total":1},{"name":"SQLType","percent":0.0,"implemented":0,"stub":0,"notFound":3,"total":3},{"name":"ConnectionBuilder","percent":0.0,"implemented":0,"stub":0,"notFound":5,"total":5},{"name":"ShardingKeyBuilder","percent":0.0,"implemented":0,"stub":0,"notFound":2,"total":2},{"name":"CommonDataSource","percent":66.66666666666666,"implemented":4,"stub":1,"notFound":1,"total":6},{"name":"DataSource","percent":85.71428571428571,"implemented":6,"stub":0,"notFound":1,"total":7},{"name":"ConnectionPoolDataSource","percent":85.71428571428571,"implemented":6,"stub":0,"notFound":1,"total":7},{"name":"PooledConnection","percent":66.66666666666666,"implemented":4,"stub":2,"notFound":0,"total":6},{"name":"XAConnection","percent":100.0,"implemented":1,"stub":0,"notFound":0,"total":1},{"name":"XADataSource","percent":85.71428571428571,"implemented":6,"stub":0,"notFound":1,"total":7},{"name":"PooledConnectionBuilder","percent":0.0,"implemented":0,"stub":0,"notFound":5,"total":5},{"name":"XAConnectionBuilder","percent":0.0,"implemented":0,"stub":0,"notFound":5,"total":5},{"name":"XAResource","percent":100.0,"implemented":10,"stub":0,"notFound":0,"total":10},{"name":"Xid","percent":100.0,"implemented":3,"stub":0,"notFound":0,"total":3}]},{"name":"MariaDB Connector/J","slug":"mariadb-connector-j","color":"#1baf7a","colorDark":"#199e70","series":[{"date":"2026-07-05","percent":67.60404949381328}],"last":{"date":"2026-07-05","driverName":"MariaDB Connector/J","specVersion":"spec-1","toolVersion":"2.0.0","sourceCommit":"c9377bc8659c5547834fc18507824bacd10464a0","profileUsed":"mariadb","overallPercent":67.60404949381328,"totalMethods":889,"implemented":601,"stub":172,"notFound":116,"cumulative":[{"version":"1.0","implemented":180,"total":281},{"version":"2.0","implemented":322,"total":491},{"version":"3.0","implemented":454,"total":650},{"version":"4.0","implemented":561,"total":803},{"version":"4.1","implemented":573,"total":818},{"version":"4.2","implemented":596,"total":849},{"version":"4.3","implemented":599,"total":881},{"version":"4.5","implemented":601,"total":889}],"specChanged":false,"changes":[]},"prevPercent":null,"interfaces":[{"name":"Connection","percent":77.41935483870968,"implemented":48,"stub":4,"notFound":10,"total":62},{"name":"Statement","percent":87.03703703703704,"implemented":47,"stub":6,"notFound":1,"total":54},{"name":"PreparedStatement","percent":94.82758620689656,"implemented":55,"stub":3,"notFound":0,"total":58},{"name":"CallableStatement","percent":91.73553719008265,"implemented":111,"stub":10,"notFound":0,"total":121},{"name":"ResultSet","percent":92.74611398963731,"implemented":179,"stub":14,"notFound":0,"total":193},{"name":"DatabaseMetaData","percent":35.59322033898305,"implemented":63,"stub":112,"notFound":2,"total":177},{"name":"Driver","percent":71.42857142857143,"implemented":5,"stub":2,"notFound":0,"total":7},{"name":"SQLInput","percent":0.0,"implemented":0,"stub":0,"notFound":28,"total":28},{"name":"SQLOutput","percent":0.0,"implemented":0,"stub":0,"notFound":28,"total":28},{"name":"Array","percent":41.66666666666667,"implemented":5,"stub":6,"notFound":1,"total":12},{"name":"Struct","percent":0.0,"implemented":0,"stub":0,"notFound":3,"total":3},{"name":"Ref","percent":0.0,"implemented":0,"stub":0,"notFound":4,"total":4},{"name":"Blob","percent":100.0,"implemented":12,"stub":0,"notFound":0,"total":12},{"name":"Clob","percent":100.0,"implemented":14,"stub":0,"notFound":0,"total":14},{"name":"Savepoint","percent":100.0,"implemented":2,"stub":0,"notFound":0,"total":2},{"name":"ParameterMetaData","percent":100.0,"implemented":9,"stub":0,"notFound":0,"total":9},{"name":"ResultSetMetaData","percent":85.71428571428571,"implemented":18,"stub":3,"notFound":0,"total":21},{"name":"SQLXML","percent":0.0,"implemented":0,"stub":0,"notFound":10,"total":10},{"name":"RowId","percent":0.0,"implemented":0,"stub":0,"notFound":4,"total":4},{"name":"Wrapper","percent":100.0,"implemented":2,"stub":0,"notFound":0,"total":2},{"name":"DriverAction","percent":0.0,"implemented":0,"stub":0,"notFound":1,"total":1},{"name":"SQLType","percent":0.0,"implemented":0,"stub":0,"notFound":3,"total":3},{"name":"ConnectionBuilder","percent":0.0,"implemented":0,"stub":0,"notFound":5,"total":5},{"name":"ShardingKeyBuilder","percent":0.0,"implemented":0,"stub":0,"notFound":2,"total":2},{"name":"CommonDataSource","percent":33.33333333333333,"implemented":2,"stub":3,"notFound":1,"total":6},{"name":"DataSource","percent":57.14285714285714,"implemented":4,"stub":2,"notFound":1,"total":7},{"name":"ConnectionPoolDataSource","percent":57.14285714285714,"implemented":4,"stub":2,"notFound":1,"total":7},{"name":"PooledConnection","percent":100.0,"implemented":6,"stub":0,"notFound":0,"total":6},{"name":"XAConnection","percent":100.0,"implemented":1,"stub":0,"notFound":0,"total":1},{"name":"XADataSource","percent":57.14285714285714,"implemented":4,"stub":2,"notFound":1,"total":7},{"name":"PooledConnectionBuilder","percent":0.0,"implemented":0,"stub":0,"notFound":5,"total":5},{"name":"XAConnectionBuilder","percent":0.0,"implemented":0,"stub":0,"notFound":5,"total":5},{"name":"XAResource","percent":70.0,"implemented":7,"stub":3,"notFound":0,"total":10},{"name":"Xid","percent":100.0,"implemented":3,"stub":0,"notFound":0,"total":3}]},{"name":"Microsoft SQL Server JDBC","slug":"microsoft-sql-server-jdbc","color":"#eda100","colorDark":"#c98500","series":[{"date":"2026-07-05","percent":72.21597300337457}],"last":{"date":"2026-07-05","driverName":"Microsoft SQL Server JDBC","specVersion":"spec-1","toolVersion":"2.0.0","sourceCommit":"76ac1582ed9daf03340f716535555af2a043e45f","profileUsed":"mssql","overallPercent":72.21597300337457,"totalMethods":889,"implemented":642,"stub":132,"notFound":115,"cumulative":[{"version":"1.0","implemented":176,"total":281},{"version":"2.0","implemented":323,"total":491},{"version":"3.0","implemented":465,"total":650},{"version":"4.0","implemented":597,"total":803},{"version":"4.1","implemented":611,"total":818},{"version":"4.2","implemented":635,"total":849},{"version":"4.3","implemented":642,"total":881},{"version":"4.5","implemented":642,"total":889}],"specChanged":false,"changes":[]},"prevPercent":null,"interfaces":[{"name":"Connection","percent":91.93548387096774,"implemented":57,"stub":1,"notFound":4,"total":62},{"name":"Statement","percent":92.5925925925926,"implemented":50,"stub":0,"notFound":4,"total":54},{"name":"PreparedStatement","percent":91.37931034482759,"implemented":53,"stub":5,"notFound":0,"total":58},{"name":"CallableStatement","percent":99.17355371900827,"implemented":120,"stub":1,"notFound":0,"total":121},{"name":"ResultSet","percent":96.89119170984456,"implemented":187,"stub":6,"notFound":0,"total":193},{"name":"DatabaseMetaData","percent":33.89830508474576,"implemented":60,"stub":117,"notFound":0,"total":177},{"name":"Driver","percent":100.0,"implemented":7,"stub":0,"notFound":0,"total":7},{"name":"SQLInput","percent":0.0,"implemented":0,"stub":0,"notFound":28,"total":28},{"name":"SQLOutput","percent":0.0,"implemented":0,"stub":0,"notFound":28,"total":28},{"name":"Array","percent":0.0,"implemented":0,"stub":0,"notFound":12,"total":12},{"name":"Struct","percent":0.0,"implemented":0,"stub":0,"notFound":3,"total":3},{"name":"Ref","percent":0.0,"implemented":0,"stub":0,"notFound":4,"total":4},{"name":"Blob","percent":91.66666666666666,"implemented":11,"stub":0,"notFound":1,"total":12},{"name":"Clob","percent":92.85714285714286,"implemented":13,"stub":0,"notFound":1,"total":14},{"name":"Savepoint","percent":100.0,"implemented":2,"stub":0,"notFound":0,"total":2},{"name":"ParameterMetaData","percent":100.0,"implemented":9,"stub":0,"notFound":0,"total":9},{"name":"ResultSetMetaData","percent":100.0,"implemented":21,"stub":0,"notFound":0,"total":21},{"name":"SQLXML","percent":90.0,"implemented":9,"stub":0,"notFound":1,"total":10},{"name":"RowId","percent":0.0,"implemented":0,"stub":0,"notFound":4,"total":4},{"name":"Wrapper","percent":100.0,"implemented":2,"stub":0,"notFound":0,"total":2},{"name":"DriverAction","percent":0.0,"implemented":0,"stub":0,"notFound":1,"total":1},{"name":"SQLType","percent":0.0,"implemented":0,"stub":0,"notFound":3,"total":3},{"name":"ConnectionBuilder","percent":0.0,"implemented":0,"stub":0,"notFound":5,"total":5},{"name":"ShardingKeyBuilder","percent":0.0,"implemented":0,"stub":0,"notFound":2,"total":2},{"name":"CommonDataSource","percent":83.33333333333334,"implemented":5,"stub":0,"notFound":1,"total":6},{"name":"DataSource","percent":85.71428571428571,"implemented":6,"stub":0,"notFound":1,"total":7},{"name":"ConnectionPoolDataSource","percent":85.71428571428571,"implemented":6,"stub":0,"notFound":1,"total":7},{"name":"PooledConnection","percent":66.66666666666666,"implemented":4,"stub":2,"notFound":0,"total":6},{"name":"XAConnection","percent":100.0,"implemented":1,"stub":0,"notFound":0,"total":1},{"name":"XADataSource","percent":85.71428571428571,"implemented":6,"stub":0,"notFound":1,"total":7},{"name":"PooledConnectionBuilder","percent":0.0,"implemented":0,"stub":0,"notFound":5,"total":5},{"name":"XAConnectionBuilder","percent":0.0,"implemented":0,"stub":0,"notFound":5,"total":5},{"name":"XAResource","percent":100.0,"implemented":10,"stub":0,"notFound":0,"total":10},{"name":"Xid","percent":100.0,"implemented":3,"stub":0,"notFound":0,"total":3}]},{"name":"MySQL Connector/J","slug":"mysql-connector-j","color":"#008300","colorDark":"#008300","series":[{"date":"2026-07-05","percent":70.75365579302587}],"last":{"date":"2026-07-05","driverName":"MySQL Connector/J","specVersion":"spec-1","toolVersion":"2.0.0","sourceCommit":"1363d9bf5412c9adb246756a8334ee2d584a3c8f","profileUsed":"mysql","overallPercent":70.75365579302587,"totalMethods":889,"implemented":629,"stub":139,"notFound":121,"cumulative":[{"version":"1.0","implemented":193,"total":281},{"version":"2.0","implemented":328,"total":491},{"version":"3.0","implemented":460,"total":650},{"version":"4.0","implemented":586,"total":803},{"version":"4.1","implemented":598,"total":818},{"version":"4.2","implemented":621,"total":849},{"version":"4.3","implemented":625,"total":881},{"version":"4.5","implemented":629,"total":889}],"specChanged":false,"changes":[]},"prevPercent":null,"interfaces":[{"name":"Connection","percent":82.25806451612904,"implemented":51,"stub":5,"notFound":6,"total":62},{"name":"Statement","percent":98.14814814814815,"implemented":53,"stub":1,"notFound":0,"total":54},{"name":"PreparedStatement","percent":94.82758620689656,"implemented":55,"stub":3,"notFound":0,"total":58},{"name":"CallableStatement","percent":100.0,"implemented":121,"stub":0,"notFound":0,"total":121},{"name":"ResultSet","percent":92.2279792746114,"implemented":178,"stub":15,"notFound":0,"total":193},{"name":"DatabaseMetaData","percent":41.24293785310734,"implemented":73,"stub":101,"notFound":3,"total":177},{"name":"Driver","percent":71.42857142857143,"implemented":5,"stub":2,"notFound":0,"total":7},{"name":"SQLInput","percent":0.0,"implemented":0,"stub":0,"notFound":28,"total":28},{"name":"SQLOutput","percent":0.0,"implemented":0,"stub":0,"notFound":28,"total":28},{"name":"Array","percent":0.0,"implemented":0,"stub":0,"notFound":12,"total":12},{"name":"Struct","percent":0.0,"implemented":0,"stub":0,"notFound":3,"total":3},{"name":"Ref","percent":0.0,"implemented":0,"stub":0,"notFound":4,"total":4},{"name":"Blob","percent":91.66666666666666,"implemented":11,"stub":0,"notFound":1,"total":12},{"name":"Clob","percent":92.85714285714286,"implemented":13,"stub":0,"notFound":1,"total":14},{"name":"Savepoint","percent":50.0,"implemented":1,"stub":1,"notFound":0,"total":2},{"name":"ParameterMetaData","percent":100.0,"implemented":9,"stub":0,"notFound":0,"total":9},{"name":"ResultSetMetaData","percent":90.47619047619048,"implemented":19,"stub":2,"notFound":0,"total":21},{"name":"SQLXML","percent":90.0,"implemented":9,"stub":0,"notFound":1,"total":10},{"name":"RowId","percent":0.0,"implemented":0,"stub":0,"notFound":4,"total":4},{"name":"Wrapper","percent":100.0,"implemented":2,"stub":0,"notFound":0,"total":2},{"name":"DriverAction","percent":0.0,"implemented":0,"stub":0,"notFound":1,"total":1},{"name":"SQLType","percent":0.0,"implemented":0,"stub":0,"notFound":3,"total":3},{"name":"ConnectionBuilder","percent":0.0,"implemented":0,"stub":0,"notFound":5,"total":5},{"name":"ShardingKeyBuilder","percent":0.0,"implemented":0,"stub":0,"notFound":2,"total":2},{"name":"CommonDataSource","percent":0.0,"implemented":0,"stub":0,"notFound":6,"total":6},{"name":"DataSource","percent":57.14285714285714,"implemented":4,"stub":2,"notFound":1,"total":7},{"name":"ConnectionPoolDataSource","percent":57.14285714285714,"implemented":4,"stub":2,"notFound":1,"total":7},{"name":"PooledConnection","percent":100.0,"implemented":6,"stub":0,"notFound":0,"total":6},{"name":"XAConnection","percent":100.0,"implemented":1,"stub":0,"notFound":0,"total":1},{"name":"XADataSource","percent":57.14285714285714,"implemented":4,"stub":2,"notFound":1,"total":7},{"name":"PooledConnectionBuilder","percent":0.0,"implemented":0,"stub":0,"notFound":5,"total":5},{"name":"XAConnectionBuilder","percent":0.0,"implemented":0,"stub":0,"notFound":5,"total":5},{"name":"XAResource","percent":70.0,"implemented":7,"stub":3,"notFound":0,"total":10},{"name":"Xid","percent":100.0,"implemented":3,"stub":0,"notFound":0,"total":3}]},{"name":"PostgreSQL JDBC","slug":"postgresql-jdbc","color":"#4a3aa7","colorDark":"#9085e9","series":[{"date":"2026-07-05","percent":53.768278965129355}],"last":{"date":"2026-07-05","driverName":"PostgreSQL JDBC","specVersion":"spec-1","toolVersion":"2.0.0","sourceCommit":"d93d370984fbbccd099fc6466e4075ba46d8ec59","profileUsed":"pgjdbc","overallPercent":53.768278965129355,"totalMethods":889,"implemented":478,"stub":300,"notFound":111,"cumulative":[{"version":"1.0","implemented":177,"total":281},{"version":"2.0","implemented":320,"total":491},{"version":"3.0","implemented":394,"total":650},{"version":"4.0","implemented":459,"total":803},{"version":"4.1","implemented":471,"total":818},{"version":"4.2","implemented":478,"total":849},{"version":"4.3","implemented":478,"total":881},{"version":"4.5","implemented":478,"total":889}],"specChanged":false,"changes":[]},"prevPercent":null,"interfaces":[{"name":"Connection","percent":75.80645161290323,"implemented":47,"stub":5,"notFound":10,"total":62},{"name":"Statement","percent":87.03703703703704,"implemented":47,"stub":3,"notFound":4,"total":54},{"name":"PreparedStatement","percent":72.41379310344827,"implemented":42,"stub":16,"notFound":0,"total":58},{"name":"CallableStatement","percent":21.487603305785125,"implemented":26,"stub":95,"notFound":0,"total":121},{"name":"ResultSet","percent":80.31088082901555,"implemented":155,"stub":38,"notFound":0,"total":193},{"name":"DatabaseMetaData","percent":30.508474576271187,"implemented":54,"stub":122,"notFound":1,"total":177},{"name":"Driver","percent":85.71428571428571,"implemented":6,"stub":1,"notFound":0,"total":7},{"name":"SQLInput","percent":0.0,"implemented":0,"stub":0,"notFound":28,"total":28},{"name":"SQLOutput","percent":0.0,"implemented":0,"stub":0,"notFound":28,"total":28},{"name":"Array","percent":91.66666666666666,"implemented":11,"stub":0,"notFound":1,"total":12},{"name":"Struct","percent":0.0,"implemented":0,"stub":0,"notFound":3,"total":3},{"name":"Ref","percent":0.0,"implemented":0,"stub":0,"notFound":4,"total":4},{"name":"Blob","percent":91.66666666666666,"implemented":11,"stub":0,"notFound":1,"total":12},{"name":"Clob","percent":92.85714285714286,"implemented":13,"stub":0,"notFound":1,"total":14},{"name":"Savepoint","percent":100.0,"implemented":2,"stub":0,"notFound":0,"total":2},{"name":"ParameterMetaData","percent":77.77777777777779,"implemented":7,"stub":2,"notFound":0,"total":9},{"name":"ResultSetMetaData","percent":76.19047619047619,"implemented":16,"stub":5,"notFound":0,"total":21},{"name":"SQLXML","percent":90.0,"implemented":9,"stub":0,"notFound":1,"total":10},{"name":"RowId","percent":0.0,"implemented":0,"stub":0,"notFound":4,"total":4},{"name":"Wrapper","percent":100.0,"implemented":2,"stub":0,"notFound":0,"total":2},{"name":"DriverAction","percent":0.0,"implemented":0,"stub":0,"notFound":1,"total":1},{"name":"SQLType","percent":0.0,"implemented":0,"stub":0,"notFound":3,"total":3},{"name":"ConnectionBuilder","percent":0.0,"implemented":0,"stub":0,"notFound":5,"total":5},{"name":"ShardingKeyBuilder","percent":0.0,"implemented":0,"stub":0,"notFound":2,"total":2},{"name":"CommonDataSource","percent":50.0,"implemented":3,"stub":2,"notFound":1,"total":6},{"name":"DataSource","percent":57.14285714285714,"implemented":4,"stub":2,"notFound":1,"total":7},{"name":"ConnectionPoolDataSource","percent":57.14285714285714,"implemented":4,"stub":2,"notFound":1,"total":7},{"name":"PooledConnection","percent":66.66666666666666,"implemented":4,"stub":2,"notFound":0,"total":6},{"name":"XAConnection","percent":100.0,"implemented":1,"stub":0,"notFound":0,"total":1},{"name":"XADataSource","percent":57.14285714285714,"implemented":4,"stub":2,"notFound":1,"total":7},{"name":"PooledConnectionBuilder","percent":0.0,"implemented":0,"stub":0,"notFound":5,"total":5},{"name":"XAConnectionBuilder","percent":0.0,"implemented":0,"stub":0,"notFound":5,"total":5},{"name":"XAResource","percent":70.0,"implemented":7,"stub":3,"notFound":0,"total":10},{"name":"Xid","percent":100.0,"implemented":3,"stub":0,"notFound":0,"total":3}]}]</script>
+<script>
+"use strict";
+var data = JSON.parse(document.getElementById("data").textContent);
+var dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+function colorOf(d) { return dark ? d.colorDark : d.color; }
+function fmt(x) { return x == null ? "-" : x.toFixed(1); }
+
+// meta line
+var allDates = [];
+data.forEach(function (d) { d.series.forEach(function (p) { allDates.push(p.date); }); });
+allDates = Array.from(new Set(allDates)).sort();
+document.getElementById("meta").textContent =
+  "Generated " + allDates[allDates.length - 1] + " - spec " + data[0].last.specVersion +
+  " - tool v" + data[0].last.toolVersion;
+
+// ---- trend chart -----------------------------------------------------------
+var W = 960, H = 380, PAD = { l: 48, r: 130, t: 16, b: 32 };
+var iw = W - PAD.l - PAD.r, ih = H - PAD.t - PAD.b;
+var svgNS = "http://www.w3.org/2000/svg";
+var svg = document.getElementById("chart");
+function el(tag, attrs, text) {
+  var e = document.createElementNS(svgNS, tag);
+  Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+  if (text) e.textContent = text;
+  return e;
+}
+function x(i) { return PAD.l + (allDates.length < 2 ? iw / 2 : i * iw / (allDates.length - 1)); }
+function y(p) { return PAD.t + ih - (p / 100) * ih; }
+var css = getComputedStyle(document.documentElement);
+var gridColor = css.getPropertyValue("--grid").trim();
+var text2 = css.getPropertyValue("--text-2").trim();
+[0, 20, 40, 60, 80, 100].forEach(function (v) {
+  svg.appendChild(el("line", { x1: PAD.l, y1: y(v), x2: W - PAD.r, y2: y(v), stroke: gridColor, "stroke-width": 1 }));
+  svg.appendChild(el("text", { x: PAD.l - 8, y: y(v) + 4, "text-anchor": "end", fill: text2, "font-size": 11 }, String(v)));
+});
+var first = allDates[0], mid = allDates[Math.floor((allDates.length - 1) / 2)], lastD = allDates[allDates.length - 1];
+[[first, 0], [mid, Math.floor((allDates.length - 1) / 2)], [lastD, allDates.length - 1]].forEach(function (pair) {
+  svg.appendChild(el("text", { x: x(pair[1]), y: H - 8, "text-anchor": "middle", fill: text2, "font-size": 11 }, pair[0]));
+});
+data.forEach(function (d) {
+  var pts = d.series.map(function (p) { return x(allDates.indexOf(p.date)) + "," + y(p.percent); }).join(" ");
+  svg.appendChild(el("polyline", { points: pts, fill: "none", stroke: colorOf(d), "stroke-width": 2,
+    "stroke-linejoin": "round", "stroke-linecap": "round" }));
+  var lastP = d.series[d.series.length - 1];
+  var lx = x(allDates.indexOf(lastP.date)), ly = y(lastP.percent);
+  svg.appendChild(el("circle", { cx: lx, cy: ly, r: 4, fill: colorOf(d) }));
+  svg.appendChild(el("text", { x: lx + 8, y: ly + 4, fill: colorOf(d), "font-size": 12, "font-weight": 600 },
+    d.name + " " + fmt(lastP.percent)));
+});
+
+// hover crosshair + tooltip
+var tip = document.getElementById("tip");
+var cross = el("line", { y1: PAD.t, y2: PAD.t + ih, stroke: text2, "stroke-width": 1, "stroke-dasharray": "3,3" });
+cross.setAttribute("visibility", "hidden");
+svg.appendChild(cross);
+svg.addEventListener("mousemove", function (ev) {
+  var rect = svg.getBoundingClientRect();
+  var mx = (ev.clientX - rect.left) * (W / rect.width);
+  var idx = 0, best = 1e9;
+  allDates.forEach(function (d, i) { var dist = Math.abs(x(i) - mx); if (dist < best) { best = dist; idx = i; } });
+  cross.setAttribute("x1", x(idx)); cross.setAttribute("x2", x(idx));
+  cross.setAttribute("visibility", "visible");
+  var lines = ["<b>" + allDates[idx] + "</b>"];
+  data.forEach(function (d) {
+    var p = d.series.filter(function (s) { return s.date === allDates[idx]; })[0];
+    if (p) lines.push('<span class="chip" style="background:' + colorOf(d) + '"></span>' + d.name + " " + fmt(p.percent) + "%");
+  });
+  tip.innerHTML = lines.join("<br>");
+  tip.hidden = false;
+  tip.style.left = Math.min(x(idx) / W * 100, 75) + "%";
+  tip.style.top = "10px";
+});
+svg.addEventListener("mouseleave", function () { tip.hidden = true; cross.setAttribute("visibility", "hidden"); });
+
+// legend
+var legend = document.getElementById("legend");
+data.forEach(function (d) {
+  var span = document.createElement("span");
+  span.innerHTML = '<span class="chip" style="background:' + colorOf(d) + '"></span>' + d.name;
+  legend.appendChild(span);
+});
+
+// ---- today table -----------------------------------------------------------
+var tbody = document.querySelector("#today tbody");
+data.forEach(function (d) {
+  var last = d.last;
+  var delta = d.prevPercent == null ? null : last.overallPercent - d.prevPercent;
+  var deltaHtml = delta == null ? '<span class="flat">-</span>'
+    : Math.abs(delta) < 0.05 ? '<span class="flat">=</span>'
+    : delta > 0 ? '<span class="up">+' + delta.toFixed(1) + '</span>'
+    : '<span class="down">' + delta.toFixed(1) + '</span>';
+  var c42 = (last.cumulative || []).filter(function (c) { return c.version === "4.2"; })[0];
+  var c42Html = c42 ? (100 * c42.implemented / c42.total).toFixed(1) : "-";
+  var commit = last.sourceCommit ? last.sourceCommit.substring(0, 10) : "-";
+  var tr = document.createElement("tr");
+  tr.innerHTML = '<td><span class="chip" style="background:' + colorOf(d) + '"></span>' + last.driverName + "</td>" +
+    '<td class="num"><b>' + fmt(last.overallPercent) + '%</b></td>' +
+    '<td class="num">' + deltaHtml + "</td>" +
+    '<td class="num">' + c42Html + "%</td>" +
+    '<td class="num">' + last.implemented + "</td>" +
+    '<td class="num">' + last.stub + "</td>" +
+    '<td class="num">' + last.notFound + "</td>" +
+    "<td><code>" + commit + "</code></td>";
+  tbody.appendChild(tr);
+});
+
+// ---- changes ---------------------------------------------------------------
+var changesDiv = document.getElementById("changes");
+data.forEach(function (d) {
+  var h = document.createElement("h3");
+  h.textContent = d.name;
+  h.style.fontSize = ".95rem";
+  changesDiv.appendChild(h);
+  if (d.last.specChanged) {
+    var note = document.createElement("p");
+    note.className = "spec-note";
+    note.textContent = "Spec version changed - deltas not comparable for this run.";
+    changesDiv.appendChild(note);
+  }
+  var changes = d.last.changes || [];
+  if (changes.length === 0) {
+    var p = document.createElement("p");
+    p.className = "spec-note";
+    p.textContent = "No changes.";
+    changesDiv.appendChild(p);
+  } else {
+    changes.forEach(function (c) {
+      var line = document.createElement("div");
+      line.className = "change";
+      line.textContent = c.method + ": " + c.before + " -> " + c.after;
+      changesDiv.appendChild(line);
+    });
+  }
+});
+
+// ---- per-driver detail -----------------------------------------------------
+var details = document.getElementById("details");
+data.forEach(function (d) {
+  var det = document.createElement("details");
+  var sum = document.createElement("summary");
+  sum.textContent = d.name;
+  det.appendChild(sum);
+  var cum = d.last.cumulative || [];
+  var rows = cum.map(function (c) {
+    return "<tr><td>&le;" + c.version + '</td><td class="num">' +
+      (100 * c.implemented / c.total).toFixed(1) + '%</td><td class="num">' +
+      c.implemented + "/" + c.total + "</td></tr>";
+  }).join("");
+  var ifaceRows = (d.interfaces || []).map(function (f) {
+    return "<tr><td>" + f.name + '</td><td class="num">' + fmt(f.percent) + '%</td><td class="num">' +
+      f.implemented + '</td><td class="num">' + f.stub + '</td><td class="num">' + f.notFound + "</td></tr>";
+  }).join("");
+  det.innerHTML += '<table><thead><tr><th>Cumulative</th><th class="num">Coverage</th><th class="num">Impl/Total</th></tr></thead><tbody>' + rows + "</tbody></table>";
+  if (ifaceRows) {
+    det.innerHTML += '<table style="margin-top:.75rem"><thead><tr><th>Interface</th><th class="num">Coverage</th><th class="num">Impl</th><th class="num">Stub</th><th class="num">Missing</th></tr></thead><tbody>' + ifaceRows + "</tbody></table>";
+  }
+  details.appendChild(det);
+});
+</script>
+</body>
+</html>
