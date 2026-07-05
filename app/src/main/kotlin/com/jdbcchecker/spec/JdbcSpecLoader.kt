@@ -102,10 +102,12 @@ class JdbcSpecLoader {
          * do not implement (verified against five major drivers: CUBRID,
          * pgjdbc, MySQL, MariaDB, MSSQL — all zero implementations).
          *
-         * 36 interfaces total. Like RowSet, java.sql.SQLData (implemented by
+         * 34 interfaces total. Like RowSet, java.sql.SQLData (implemented by
          * application code) and javax.sql.Connection/StatementEventListener
          * (implemented by pool managers) are excluded — drivers do not
-         * implement them.
+         * implement them. java.sql.NClob and java.sql.ShardingKey are also
+         * excluded: they declare no methods of their own, so they contribute
+         * nothing to a method-coverage metric.
          */
         val JDBC_INTERFACES = listOf(
             // ── java.sql ─────────────────────────────────────────────────────

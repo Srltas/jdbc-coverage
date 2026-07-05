@@ -116,6 +116,18 @@ class JdbcSpecLoaderTest {
     }
 
     @Test
+    fun `frozen spec-1 interface list is pinned`() {
+        assertThat(JdbcSpecLoader.JDBC_INTERFACES).hasSize(34)
+        assertThat(JdbcSpecLoader.JDBC_INTERFACES).doesNotContain(
+            "java.sql.SQLData",
+            "javax.sql.ConnectionEventListener",
+            "javax.sql.StatementEventListener",
+            "java.sql.NClob",
+            "java.sql.ShardingKey",
+        )
+    }
+
+    @Test
     fun `frozen spec-1 has exactly 889 methods`() {
         assertThat(loader.loadAll()).hasSize(889)
     }
