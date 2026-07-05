@@ -470,7 +470,7 @@ public Array getArray(int i) throws SQLException {
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ Input: JDBC driver source (path or Git URL)                 │
+│ Input: JDBC driver source (package-root paths)              │
 └─────────────────────┬───────────────────────────────────────┘
                       ▼
 ┌─────────────────────────────────────────────────────────────┐
@@ -508,7 +508,7 @@ public Array getArray(int i) throws SQLException {
 │ Output: AnalysisReport                                      │
 │   - 인터페이스별 + 버전별 + 전체 coverage                   │
 │   - 메서드별 7단계 분류                                     │
-│   - console / json / html / (docx — 별도 스크립트)          │
+│   - console / json / (dashboard — 별도 커맨드)              │
 └─────────────────────────────────────────────────────────────┘
 ```
 
