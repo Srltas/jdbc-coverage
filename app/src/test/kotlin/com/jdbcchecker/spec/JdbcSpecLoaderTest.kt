@@ -136,4 +136,10 @@ class JdbcSpecLoaderTest {
     fun `spec version constant is spec-1`() {
         assertThat(JdbcSpecLoader.SPEC_VERSION).isEqualTo("spec-1")
     }
+
+    @Test
+    fun `spec-1 has 849 methods at or below JDBC 4-2`() {
+        val upTo42 = loader.loadAll().filter { it.jdbcVersion.ordinal <= JdbcVersion.V4_2.ordinal }
+        assertThat(upTo42).hasSize(849)
+    }
 }

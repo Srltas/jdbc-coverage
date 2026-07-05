@@ -57,6 +57,7 @@ internal fun runAnalysis(
     driverName: String?,
     entryClasses: List<String> = emptyList(),
     profileName: String? = null,
+    maxVersion: com.jdbcchecker.model.JdbcVersion? = null,
 ): AnalysisReport? {
     val invalidPaths = sourcePaths.filter { !Files.isDirectory(it) }
     if (invalidPaths.isNotEmpty()) {
@@ -68,7 +69,12 @@ internal fun runAnalysis(
 
     // Step 1: Load the frozen JDBC spec
     print("Loading JDBC specification... ")
-    val specMethods = JdbcSpecLoader().loadAll()
+    val allSpecMethods = JdbcSpecLoader().loadAll()
+    val specMethods = if (maxVersion == null) {
+        allSpecMethods
+    } else {
+        allSpecMethods.filter { it.jdbcVersion.ordinal <= maxVersion.ordinal }
+    }
     if (specMethods.isEmpty()) {
         System.err.println("Error: No spec methods loaded. Check spec YAML files.")
         return null
@@ -298,6 +304,15 @@ class AnalyzeCommand : Callable<Int> {
     )
     var profileName: String? = null
 
+    @Option(
+        names = ["--jdbc-version"],
+        description = [
+            "Only include spec methods introduced at or before this JDBC version (e.g. 4.2).",
+            "Default: the full bundled spec (latest version).",
+        ],
+    )
+    var jdbcVersion: String? = null
+
     override fun call(): Int {
         println("JDBC Compliance Checker v$TOOL_VERSION")
         println("Source: ${sources.joinToString(", ")}")
@@ -317,11 +332,22 @@ class AnalyzeCommand : Callable<Int> {
             return 1
         }
 
+        val maxVersion = jdbcVersion?.let { requested ->
+            com.jdbcchecker.model.JdbcVersion.fromString(requested) ?: run {
+                System.err.println(
+                    "Error: Unknown JDBC version: $requested " +
+                        "(known: ${com.jdbcchecker.model.JdbcVersion.entries.joinToString { it.display }})",
+                )
+                return 1
+            }
+        }
+
         val report = runAnalysis(
             sourcePaths = sources,
             driverName = driverName,
             entryClasses = entryClasses,
             profileName = profileName,
+            maxVersion = maxVersion,
         ) ?: return 1
         println()
         dispatchOutputs(outputs, report)

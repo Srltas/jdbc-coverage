@@ -15,6 +15,7 @@ class ConsoleReporter {
         printHeader(result)
         printOverallSummary(result)
         printVersionBreakdown(result)
+        printCumulativeCoverage(result)
         printInterfaceDetails(result)
         printStatusDistribution(result)
         printFooter(result)
@@ -59,6 +60,19 @@ class ConsoleReporter {
                     coverage.total,
                 ),
             )
+        }
+        println()
+    }
+
+    private fun printCumulativeCoverage(result: AnalysisReport) {
+        val separator = "-".repeat(70)
+        println(separator)
+        println("  Cumulative Coverage (all methods introduced at or before version):")
+        println(separator)
+
+        for (c in result.cumulativeCoverage) {
+            val bar = progressBar(c.coveragePercent, 20)
+            println("  <=%-4s  %s  %4d/%4d".format(c.version.display, bar, c.implemented, c.total))
         }
         println()
     }

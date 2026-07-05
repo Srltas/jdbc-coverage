@@ -71,6 +71,26 @@ data class AnalysisReport(
             val allMethods = interfaces.flatMap { it.methods }
             return allMethods.groupBy { it.status.label }.mapValues { it.value.size }
         }
+
+    /**
+     * Cumulative coverage at each JDBC version boundary present in the spec set:
+     * "of all methods introduced at or before version V, how many are implemented".
+     * This is the number to watch while expanding toward a target version (e.g. 4.2).
+     */
+    val cumulativeCoverage: List<CumulativeCoverage>
+        get() {
+            val allMethods = interfaces.flatMap { it.methods }
+            return JdbcVersion.entries
+                .filter { v -> allMethods.any { it.specMethod.jdbcVersion == v } }
+                .map { boundary ->
+                    val upTo = allMethods.filter { it.specMethod.jdbcVersion.ordinal <= boundary.ordinal }
+                    CumulativeCoverage(
+                        version = boundary,
+                        total = upTo.size,
+                        implemented = upTo.count { it.status.isImplemented() },
+                    )
+                }
+        }
 }
 
 /**
@@ -81,6 +101,18 @@ data class VersionCoverage(
     val implemented: Int,
     val stub: Int,
     val notFound: Int,
+) {
+    val coveragePercent: Double
+        get() = if (total == 0) 0.0 else (implemented.toDouble() / total) * 100.0
+}
+
+/**
+ * Cumulative coverage of all methods introduced at or before [version].
+ */
+data class CumulativeCoverage(
+    val version: JdbcVersion,
+    val total: Int,
+    val implemented: Int,
 ) {
     val coveragePercent: Double
         get() = if (total == 0) 0.0 else (implemented.toDouble() / total) * 100.0
