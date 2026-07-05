@@ -370,6 +370,14 @@ class AnalyzeCommand : Callable<Int> {
             }
         }
 
+        if (historyDir != null && maxVersion != null) {
+            System.err.println(
+                "Error: --history records full-spec snapshots; --jdbc-version would change " +
+                    "the denominator and silently distort the trend. Run them separately.",
+            )
+            return 1
+        }
+
         val report = runAnalysis(
             sourcePaths = sources,
             driverName = driverName,
