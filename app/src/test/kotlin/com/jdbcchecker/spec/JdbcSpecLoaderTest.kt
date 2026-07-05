@@ -101,4 +101,27 @@ class JdbcSpecLoaderTest {
         assertThat(doNothing.returnType).isEqualTo("void")
         assertThat(doNothing.jdbcVersion).isEqualTo(JdbcVersion.V1_0)
     }
+
+    @Test
+    fun `spec scope excludes non-driver interfaces`() {
+        val interfaces = loader.loadAll().map { it.interfaceName }.distinct()
+        assertThat(interfaces).doesNotContain(
+            "java.sql.SQLData",
+            "javax.sql.ConnectionEventListener",
+            "javax.sql.StatementEventListener",
+            "java.sql.NClob",
+            "java.sql.ShardingKey",
+        )
+        assertThat(interfaces).hasSize(34)
+    }
+
+    @Test
+    fun `frozen spec-1 has exactly 889 methods`() {
+        assertThat(loader.loadAll()).hasSize(889)
+    }
+
+    @Test
+    fun `spec version constant is spec-1`() {
+        assertThat(JdbcSpecLoader.SPEC_VERSION).isEqualTo("spec-1")
+    }
 }
