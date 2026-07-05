@@ -25,9 +25,9 @@ import java.util.concurrent.Callable
 const val TOOL_VERSION = "2.0.0"
 
 @Command(
-    name = "jdbc-checker",
+    name = "jdbc-coverage",
     mixinStandardHelpOptions = true,
-    version = ["jdbc-compliance-checker $TOOL_VERSION"],
+    version = ["jdbc-coverage $TOOL_VERSION"],
     description = ["Measure how much of the JDBC API a driver's source code implements."],
     subcommands = [
         AnalyzeCommand::class,
@@ -281,7 +281,7 @@ internal fun dispatchOutputs(outputs: List<String>, report: AnalysisReport) {
 
 @Command(
     name = "analyze",
-    description = ["Analyze JDBC driver source code for spec compliance."],
+    description = ["Analyze a JDBC driver's source and report JDBC API implementation coverage."],
     mixinStandardHelpOptions = true,
 )
 class AnalyzeCommand : Callable<Int> {
@@ -342,7 +342,7 @@ class AnalyzeCommand : Callable<Int> {
     var historyDir: Path? = null
 
     override fun call(): Int {
-        println("JDBC Compliance Checker v$TOOL_VERSION")
+        println("JDBC Coverage v$TOOL_VERSION")
         println("Source: ${sources.joinToString(", ")}")
         println()
 

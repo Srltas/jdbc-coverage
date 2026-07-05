@@ -50,7 +50,7 @@ jobs:
       # mysql은 멀티 모듈 루트를 통째로 넘기고 프로파일 핀에 의존한다.
       - name: Analyze drivers
         run: |
-          CHECKER=checker/app/build/install/jdbc-checker/bin/jdbc-checker
+          CHECKER=checker/app/build/install/jdbc-coverage/bin/jdbc-coverage
           "$CHECKER" analyze drivers/cubrid-jdbc/src/jdbc              -n "CUBRID JDBC"                --history site
           "$CHECKER" analyze drivers/pgjdbc/pgjdbc/src/main/java       -n "PostgreSQL JDBC"            --history site
           "$CHECKER" analyze drivers/mysql-connector-j                 -n "MySQL Connector/J"          --history site
@@ -58,7 +58,7 @@ jobs:
           "$CHECKER" analyze drivers/mssql-jdbc/src/main/java          -n "Microsoft SQL Server JDBC"  --history site
 
       - name: Render dashboard
-        run: checker/app/build/install/jdbc-checker/bin/jdbc-checker dashboard site -o site/index.html
+        run: checker/app/build/install/jdbc-coverage/bin/jdbc-coverage dashboard site -o site/index.html
 
       - name: Publish to gh-pages
         working-directory: site

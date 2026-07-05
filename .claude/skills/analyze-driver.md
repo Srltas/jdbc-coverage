@@ -1,7 +1,7 @@
 ---
 name: analyze-driver
 description: >
-  Run JDBC compliance analysis on a driver source and summarize results.
+  Run JDBC API coverage analysis on a driver source and summarize results.
   Use when the user asks to analyze a driver, check coverage, or run the tool.
   Trigger on: "분석해줘", "분석 실행", "커버리지 확인", "돌려봐", "analyze", "run analysis".
 trigger: always
@@ -11,7 +11,7 @@ trigger: always
 
 ## Purpose
 
-Run JDBC compliance analysis against a driver source directory and present
+Run JDBC API coverage analysis against a driver source directory and present
 the results in a human-readable summary.
 
 ## Execution Steps
@@ -20,22 +20,22 @@ the results in a human-readable summary.
 
 ```bash
 cd /Users/cubrid/Devel/JDBC/java-compliance-checker
-./gradlew build -x test
+./gradlew :app:installDist
 ```
 
 ### 2. Run analysis
 
 ```bash
-# Local source analysis
-java -jar build/libs/jdbc-compliance-checker.jar \
-  analyze /path/to/driver/src \
-  --output console \
-  --output json:result.json
+# Local source analysis (source dir must be a package root, e.g. src/main/java)
+app/build/install/jdbc-coverage/bin/jdbc-coverage \
+  analyze /path/to/driver/src/main/java \
+  -o console \
+  -o json:result.json
 
-# Common driver source paths
-# CUBRID:     /Users/cubrid/Devel/JDBC/cubrid-jdbc/src/main/java
-# MySQL:      src/main/user-impl/java
-# PostgreSQL: pgjdbc/src/main/java
+# Common driver source paths (package roots)
+# CUBRID:     /Users/cubrid/Devel/JDBC/cubrid-jdbc/src/jdbc
+# MySQL:      mysql-connector-j            (multi-module root; profile pins the impl classes)
+# PostgreSQL: pgjdbc/pgjdbc/src/main/java
 ```
 
 ### 3. Summarize results
@@ -43,7 +43,7 @@ java -jar build/libs/jdbc-compliance-checker.jar \
 Present the output in the following format:
 
 ```
-## JDBC Compliance Report — [Driver Name]
+## JDBC API Coverage Report — [Driver Name]
 
 ### Overall Coverage
 - Total: XX / YYY methods (XX.X%)

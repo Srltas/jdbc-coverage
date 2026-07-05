@@ -25,7 +25,7 @@ class ConsoleReporter {
         val separator = "=".repeat(70)
         println()
         println(separator)
-        println("  JDBC Compliance Report — ${result.driverName}")
+        println("  JDBC API Coverage Report — ${result.driverName}")
         println("  Source: ${result.sourcePath}")
         println("  Analyzed: ${result.analyzedAt}")
         result.profileUsed?.let { println("  Profile: $it") }

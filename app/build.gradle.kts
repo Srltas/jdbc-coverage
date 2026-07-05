@@ -34,7 +34,7 @@ java {
 
 application {
     mainClass = "com.jdbcchecker.cli.MainKt"
-    applicationName = "jdbc-checker"
+    applicationName = "jdbc-coverage"
 }
 
 tasks.named<Test>("test") {

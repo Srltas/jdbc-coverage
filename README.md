@@ -1,4 +1,4 @@
-# JDBC Compliance Checker
+# JDBC Coverage
 
 JDBC 드라이버의 **소스 코드**를 정적 분석하여 JDBC API 구현 비율을 측정하는 CLI 도구입니다.
 CUBRID JDBC의 스펙 확장(→ JDBC 4.2, 이후 4.3+) 진행률을 매일 추적하고, 다른 오픈소스
@@ -14,23 +14,23 @@ CUBRID JDBC의 스펙 확장(→ JDBC 4.2, 이후 4.3+) 진행률을 매일 추�
 
 ```bash
 ./gradlew :app:installDist
-export PATH="$PWD/app/build/install/jdbc-checker/bin:$PATH"
+export PATH="$PWD/app/build/install/jdbc-coverage/bin:$PATH"
 ```
 
 ## 사용법
 
 ```bash
 # 분석 (소스 디렉터리는 패키지 루트여야 함 — 예: src/main/java)
-jdbc-checker analyze ~/src/cubrid-jdbc/src/jdbc -n "CUBRID JDBC"
+jdbc-coverage analyze ~/src/cubrid-jdbc/src/jdbc -n "CUBRID JDBC"
 
 # JSON 저장 + JDBC 4.2까지만 측정
-jdbc-checker analyze ~/src/cubrid-jdbc/src/jdbc --jdbc-version 4.2 -o console -o json:report.json
+jdbc-coverage analyze ~/src/cubrid-jdbc/src/jdbc --jdbc-version 4.2 -o console -o json:report.json
 
 # 히스토리 기록 (전일 대비 델타 계산 + history/*.jsonl 추가 + latest/*.json 갱신)
-jdbc-checker analyze ~/src/cubrid-jdbc/src/jdbc -n "CUBRID JDBC" --history ./reports
+jdbc-coverage analyze ~/src/cubrid-jdbc/src/jdbc -n "CUBRID JDBC" --history ./reports
 
 # 트렌드 대시보드 렌더링 (자기완결 HTML)
-jdbc-checker dashboard ./reports -o ./reports/index.html
+jdbc-coverage dashboard ./reports -o ./reports/index.html
 ```
 
 | `analyze` 옵션 | 설명 | 기본값 |
