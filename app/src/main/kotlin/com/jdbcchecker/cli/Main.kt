@@ -331,6 +331,15 @@ class AnalyzeCommand : Callable<Int> {
     )
     var jdbcVersion: String? = null
 
+    @Option(
+        names = ["--history"],
+        description = [
+            "History directory: appends a compact line to history/<driver>.jsonl",
+            "(with deltas vs the previous run) and overwrites latest/<driver>.json.",
+        ],
+    )
+    var historyDir: Path? = null
+
     override fun call(): Int {
         println("JDBC Compliance Checker v$TOOL_VERSION")
         println("Source: ${sources.joinToString(", ")}")
@@ -369,6 +378,11 @@ class AnalyzeCommand : Callable<Int> {
         ) ?: return 1
         println()
         dispatchOutputs(outputs, report)
+        historyDir?.let { dir ->
+            val entry = com.jdbcchecker.history.HistoryRecorder(dir).record(report)
+            val slug = com.jdbcchecker.history.HistoryRecorder.slugOf(report.driverName)
+            println("History recorded: ${dir.resolve("history").resolve("$slug.jsonl")} (${entry.changes.size} changes)")
+        }
         return 0
     }
 }
