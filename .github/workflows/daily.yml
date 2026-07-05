@@ -8,6 +8,12 @@ on:
 permissions:
   contents: write
 
+# Serialize runs so a manual dispatch overlapping the scheduled run can't race
+# on the gh-pages push. Let an in-flight publish finish rather than cancelling it.
+concurrency:
+  group: daily-coverage
+  cancel-in-progress: false
+
 jobs:
   coverage:
     runs-on: ubuntu-latest
