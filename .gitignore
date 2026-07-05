@@ -16,11 +16,8 @@ Thumbs.db
 *.log
 *.tmp
 
-# Extracted JDK sources (regeneratable)
-jdk-sources/
-
-# Fat JAR at project root (build artifact, not committed)
-jdbc-checker-*.jar
+# Local analysis output (daily history lives on the gh-pages branch, not here)
+reports/
 
 # Study
 docs/gradle-kotlin-study-roadmap.md
