@@ -1,6 +1,7 @@
 package com.jdbcchecker.report.json
 
 import com.jdbcchecker.model.AnalysisReport
+import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.io.path.readText
 import kotlin.io.path.writeText
@@ -16,6 +17,7 @@ class JsonReporter {
      * Write analysis report to a JSON file.
      */
     fun report(result: AnalysisReport, outputPath: Path) {
+        outputPath.toAbsolutePath().parent?.let { Files.createDirectories(it) }
         outputPath.writeText(mapper.writeValueAsString(result))
         println("JSON report written to: $outputPath")
     }

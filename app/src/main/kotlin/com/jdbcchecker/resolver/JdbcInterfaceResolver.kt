@@ -66,7 +66,11 @@ class JdbcInterfaceResolver {
             if (classDecl != null) {
                 result[jdbcInterface] = classDecl
             } else {
-                System.err.println("Warning: Entry class '$classFqcn' not found in parsed sources (for $jdbcInterface)")
+                throw IllegalStateException(
+                    "Entry class '$classFqcn' (pinned for $jdbcInterface) not found in parsed sources. " +
+                        "Refusing to fall back to heuristics so daily numbers can't silently shift — " +
+                        "update the profile/--entry-class pin.",
+                )
             }
         }
 

@@ -119,7 +119,13 @@ internal fun runAnalysis(
     val allOverrides = (profile?.entryClasses ?: emptyMap()) + explicitOverrides
 
     print("Resolving JDBC interface implementations... ")
-    val implementors = JdbcInterfaceResolver().resolve(compilationUnits, allOverrides)
+    val implementors = try {
+        JdbcInterfaceResolver().resolve(compilationUnits, allOverrides)
+    } catch (e: IllegalStateException) {
+        println()
+        System.err.println("Error: ${e.message}")
+        return null
+    }
     println("${implementors.size} interfaces matched")
 
     // Step 4: Detect implementation status per method
@@ -216,6 +222,20 @@ internal fun detectDriverName(source: Path): String {
     return source.toAbsolutePath().fileName?.toString() ?: "Unknown"
 }
 
+/**
+ * Validate -o specs BEFORE analysis runs, so a typo can't silently drop a
+ * daily snapshot (previously unknown formats warned but exited 0).
+ * Returns one error message per invalid spec; empty = all valid.
+ */
+internal fun validateOutputs(outputs: List<String>): List<String> =
+    outputs.mapNotNull { output ->
+        when {
+            output == "console" -> null
+            output.startsWith("json:") && output.removePrefix("json:").isNotBlank() -> null
+            else -> "Unknown output format: $output (expected console or json:<path>)"
+        }
+    }
+
 /** Dispatch report outputs (console / json:<path>). */
 internal fun dispatchOutputs(outputs: List<String>, report: AnalysisReport) {
     for (output in outputs) {
@@ -225,7 +245,7 @@ internal fun dispatchOutputs(outputs: List<String>, report: AnalysisReport) {
                 val path = Path.of(output.removePrefix("json:"))
                 JsonReporter().report(report, path)
             }
-            else -> System.err.println("Warning: Unknown output format: $output")
+            else -> error("Unvalidated output format: $output")
         }
     }
 }
@@ -288,6 +308,12 @@ class AnalyzeCommand : Callable<Int> {
             badEntries.forEach {
                 System.err.println("Error: --entry-class requires 'iface=class' format, got: $it")
             }
+            return 1
+        }
+
+        val outputErrors = validateOutputs(outputs)
+        if (outputErrors.isNotEmpty()) {
+            outputErrors.forEach { System.err.println("Error: $it") }
             return 1
         }
 

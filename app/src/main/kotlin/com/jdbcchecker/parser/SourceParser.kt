@@ -33,8 +33,7 @@ data class ParseStats(
     /** Returns a one-line summary suitable for console output. */
     fun summary(): String {
         val base = "$parsedFiles / $totalFiles files parsed"
-        return if (failedFiles == 0) base
-        else "$base ($failedFiles failed — run with --verbose for details)"
+        return if (failedFiles == 0) base else "$base ($failedFiles failed)"
     }
 }
 
@@ -88,6 +87,7 @@ class SourceParser(private val sourcePaths: List<Path>) {
      */
     fun parseDirectory(directory: Path): List<CompilationUnit> =
         Files.walk(directory)
+            .sorted()
             .asSequence()
             .filter { it.isRegularFile() && it.extension == "java" }
             .mapNotNull { parseFile(it) }
