@@ -1,7 +1,6 @@
 package com.jdbcchecker.cli
 
 import com.jdbcchecker.detector.ImplementationDetector
-import com.jdbcchecker.git.GitCloneService
 import com.jdbcchecker.model.AnalysisReport
 import com.jdbcchecker.model.ImplementationStatus
 import com.jdbcchecker.model.InterfaceResult
@@ -9,13 +8,7 @@ import com.jdbcchecker.model.MethodResult
 import com.jdbcchecker.parser.SourceParser
 import com.jdbcchecker.profile.DriverProfile
 import com.jdbcchecker.profile.ProfileResolver
-import com.jdbcchecker.report.computeComparison
-import com.jdbcchecker.report.computeDiff
-import com.jdbcchecker.report.console.ComparisonReporter
 import com.jdbcchecker.report.console.ConsoleReporter
-import com.jdbcchecker.report.console.DiffReporter
-import com.jdbcchecker.report.html.HtmlReporter
-import com.jdbcchecker.report.json.DiffJsonReporter
 import com.jdbcchecker.report.json.JsonReporter
 import com.jdbcchecker.resolver.JdbcInterfaceResolver
 import com.jdbcchecker.spec.JdbcSpecLoader
@@ -28,16 +21,16 @@ import java.nio.file.Path
 import java.time.Instant
 import java.util.concurrent.Callable
 
+/** Single source of truth for the tool version (shown in --version and stamped into reports). */
+const val TOOL_VERSION = "2.0.0"
+
 @Command(
     name = "jdbc-checker",
     mixinStandardHelpOptions = true,
-    version = ["jdbc-compliance-checker 1.0.0"],
-    description = ["Analyze JDBC driver source code for spec compliance."],
+    version = ["jdbc-compliance-checker $TOOL_VERSION"],
+    description = ["Measure how much of the JDBC API a driver's source code implements."],
     subcommands = [
         AnalyzeCommand::class,
-        DiffCommand::class,
-        CompareCommand::class,
-        ExtractSpecCommand::class,
     ],
 )
 class JdbcCheckerCommand : Runnable {
@@ -47,31 +40,23 @@ class JdbcCheckerCommand : Runnable {
 }
 
 // ---------------------------------------------------------------------------
-// Shared analysis pipeline
+// Analysis pipeline
 // ---------------------------------------------------------------------------
 
 /**
- * Runs the full analysis pipeline on one or more JDBC driver source directories.
+ * Runs the full analysis pipeline over one or more package-root source directories.
  *
- * @param sourcePaths resolved local paths to the source roots (multiple for multi-module drivers)
- * @param driverName optional driver name override (auto-detected from [sourceDisplay] if null)
- * @param entryClasses optional manual class overrides for interface detection
- * @param specDir optional external spec YAML directory (uses bundled if null)
- * @param sourceDisplay original source string (URL or path) shown in the report
- * @param profileName explicit bundled profile name (`--profile`); takes precedence over auto-detect
- * @param profileFile explicit profile YAML file path (`--profile-file`); takes precedence over name
- * @param disableProfile when true, skip auto-detect and use the generic analyzer only (`--no-profile`)
+ * @param sourcePaths package roots (e.g. driver/src/main/java); each must be a directory
+ * @param driverName report display name (auto-detected from the first path if null)
+ * @param entryClasses explicit "iface=class" pins from the CLI (win over profile pins)
+ * @param profileName bundled profile name; null = auto-detect by package prefix
  * @return [AnalysisReport] or null if the pipeline fails
  */
 internal fun runAnalysis(
     sourcePaths: List<Path>,
     driverName: String?,
     entryClasses: List<String> = emptyList(),
-    specDir: Path? = null,
-    sourceDisplay: String? = null,
     profileName: String? = null,
-    profileFile: Path? = null,
-    disableProfile: Boolean = false,
 ): AnalysisReport? {
     val invalidPaths = sourcePaths.filter { !Files.isDirectory(it) }
     if (invalidPaths.isNotEmpty()) {
@@ -81,10 +66,9 @@ internal fun runAnalysis(
         return null
     }
 
-    // Step 1: Load JDBC spec
+    // Step 1: Load the frozen JDBC spec
     print("Loading JDBC specification... ")
-    val specLoader = JdbcSpecLoader()
-    val specMethods = specDir?.let { specLoader.loadAllFromDirectory(it) } ?: specLoader.loadAll()
+    val specMethods = JdbcSpecLoader().loadAll()
     if (specMethods.isEmpty()) {
         System.err.println("Error: No spec methods loaded. Check spec YAML files.")
         return null
@@ -107,58 +91,38 @@ internal fun runAnalysis(
         System.err.println("Error: No Java source files found in ${sourcePaths.joinToString()}")
         return null
     }
+    warnIfNotPackageRoot(sourcePaths, compilationUnits)
 
-    // Step 2.5: Resolve driver profile (auto-detect unless overridden).
-    // Profile selection precedence is documented on ProfileResolver:
-    //   profileFile > profileName > disableProfile > auto-detect > none.
+    // Step 2.5: Resolve driver profile (auto-detect unless --profile given)
     val profile: DriverProfile? = try {
-        ProfileResolver().resolve(compilationUnits, profileName, profileFile, disableProfile)
+        ProfileResolver().resolve(compilationUnits, profileName)
     } catch (e: IllegalArgumentException) {
         System.err.println("Error: ${e.message}")
         return null
     }
     println(
         when {
-            profile != null && (profileName != null || profileFile != null) ->
+            profile != null && profileName != null ->
                 "Profile: ${profile.name} (${profile.displayName}, explicit)"
             profile != null -> "Profile: ${profile.name} (${profile.displayName}, auto-detected)"
-            disableProfile -> "Profile: disabled"
             else -> "Profile: none (generic analyzer)"
         },
     )
 
-    // Step 3: Resolve JDBC interface implementors
-    // Parse entry class overrides from CLI.
-    // Supported formats:
-    //   "java.sql.Connection=com.mysql.cj.jdbc.ConnectionImpl"  → explicit: forces the mapping
-    //   "com.mysql.cj.jdbc.StatementImpl"                       → hint: auto-detects JDBC interface
-    val explicitOverrides = entryClasses
-        .filter { '=' in it }
-        .associate { spec ->
-            val eq = spec.indexOf('=')
-            spec.substring(0, eq).trim() to spec.substring(eq + 1).trim()
-        }
-    val hintClasses = entryClasses.filter { '=' !in it }
-
-    // For hint-only entries (no '='), resolve by finding the class in the parsed sources
-    // and detecting which JDBC interface(s) it implements transitively.
-    val hintOverrides = if (hintClasses.isNotEmpty()) {
-        resolveHintOverrides(compilationUnits, hintClasses)
-    } else {
-        emptyMap()
+    // Step 3: Resolve JDBC interface implementors.
+    // --entry-class supports only the explicit "iface=class" form (validated in AnalyzeCommand);
+    // CLI pins win over profile pins for one-off analyses.
+    val explicitOverrides = entryClasses.associate { spec ->
+        val eq = spec.indexOf('=')
+        spec.substring(0, eq).trim() to spec.substring(eq + 1).trim()
     }
-
-    // Merge overrides: profile entry classes → CLI hints → CLI explicit (last wins).
-    // CLI takes precedence over profile so users can override profile bindings
-    // for one-off analyses without editing the bundled YAML.
-    val profileOverrides = profile?.entryClasses ?: emptyMap()
-    val allOverrides = profileOverrides + hintOverrides + explicitOverrides
+    val allOverrides = (profile?.entryClasses ?: emptyMap()) + explicitOverrides
 
     print("Resolving JDBC interface implementations... ")
     val implementors = JdbcInterfaceResolver().resolve(compilationUnits, allOverrides)
     println("${implementors.size} interfaces matched")
 
-    // Step 4: Detect implementation status per method (with profile hooks if available)
+    // Step 4: Detect implementation status per method
     print("Analyzing implementation status... ")
     val detector = ImplementationDetector(
         stubHelpers = profile?.stubHelpers ?: emptyList(),
@@ -196,11 +160,9 @@ internal fun runAnalysis(
     }
     println("done")
 
-    val displaySource = sourceDisplay
-        ?: sourcePaths.joinToString(", ") { it.toAbsolutePath().toString() }
     return AnalysisReport(
-        driverName = driverName ?: detectDriverName(displaySource),
-        sourcePath = displaySource,
+        driverName = driverName ?: detectDriverName(sourcePaths.first()),
+        sourcePath = sourcePaths.joinToString(", ") { it.toAbsolutePath().toString() },
         analyzedAt = Instant.now(),
         interfaces = interfaceResults,
         profileUsed = profile?.name,
@@ -208,73 +170,53 @@ internal fun runAnalysis(
 }
 
 /**
- * For hint-style entry classes (class FQN only, no `=`), find each class in the parsed
- * compilation units and detect which JDBC interface(s) it implements transitively.
- * Returns a map of JDBC interface FQN → class FQN for any successful resolutions.
- *
- * This works when the full inheritance chain is available in the parsed source files.
- * If resolution fails (e.g., parent class not in scope), use the explicit
- * `java.sql.Connection=com.mysql.cj.jdbc.ConnectionImpl` format instead.
+ * The symbol solver resolves inheritance chains only when each source path is a
+ * package root (directory layout matches package declarations). Warn when it
+ * isn't — analysis still runs, but entry-class detection quality degrades,
+ * which historically caused large coverage swings (MySQL 47.2% vs 71.7%).
  */
-private fun resolveHintOverrides(
+internal fun warnIfNotPackageRoot(
+    sourcePaths: List<Path>,
     compilationUnits: List<com.github.javaparser.ast.CompilationUnit>,
-    hintClasses: List<String>,
-): Map<String, String> {
-    val result = mutableMapOf<String, String>()
-    val resolver = JdbcInterfaceResolver()
-    for (fqcn in hintClasses) {
-        val simpleName = fqcn.substringAfterLast('.')
-        val packageName = fqcn.substringBeforeLast('.', "")
-        val classDecl = compilationUnits
-            .flatMap { it.findAll(com.github.javaparser.ast.body.ClassOrInterfaceDeclaration::class.java) }
-            .filter { !it.isInterface }
-            .firstOrNull { decl ->
-                decl.nameAsString == simpleName &&
-                    decl.findCompilationUnit()
-                        .flatMap { it.packageDeclaration }
-                        .map { it.nameAsString }
-                        .orElse("") == packageName
-            }
-        if (classDecl == null) {
-            System.err.println("Warning: Entry class hint '$fqcn' not found in parsed sources")
-            continue
-        }
-        // Use a temporary single-class resolve to detect which JDBC interface it maps to
-        val detected = resolver.resolve(listOf(classDecl.findCompilationUnit().get()))
-        for ((jdbcIface, _) in detected) {
-            result[jdbcIface] = fqcn
-        }
-        if (detected.isEmpty()) {
+) {
+    for (root in sourcePaths) {
+        val absRoot = root.toAbsolutePath().normalize()
+        val sample = compilationUnits.firstOrNull { cu ->
+            val file = cu.storage.map { it.path.toAbsolutePath().normalize() }.orElse(null)
+            file != null && file.startsWith(absRoot) && cu.packageDeclaration.isPresent
+        } ?: continue
+        val file = sample.storage.get().path.toAbsolutePath().normalize()
+        val expectedRelDir = sample.packageDeclaration.get().nameAsString.replace('.', '/')
+        val actualRelDir = absRoot.relativize(file.parent).toString().replace('\\', '/')
+        if (actualRelDir != expectedRelDir) {
             System.err.println(
-                "Warning: Could not auto-detect JDBC interface for '$fqcn'. " +
-                    "Use 'java.sql.Connection=$fqcn' format for explicit mapping.",
+                "Warning: $root is not a package root (found package " +
+                    "'${sample.packageDeclaration.get().nameAsString}' under '$actualRelDir'). " +
+                    "Inheritance resolution may degrade; prefer passing the package root (e.g. src/main/java).",
             )
         }
     }
-    return result
 }
 
 /**
- * Detect driver name from a source string (local path or Git URL).
+ * Detect a display name from the deepest path segment that names a known driver.
+ * Falls back to the directory basename. In CI, pass -n explicitly.
  */
-internal fun detectDriverName(source: String): String {
-    val hint = if (GitCloneService.isGitUrl(source)) {
-        source.substringAfterLast('/').removeSuffix(".git")
-    } else {
-        Path.of(source).toAbsolutePath().fileName?.toString() ?: "Unknown"
+internal fun detectDriverName(source: Path): String {
+    val segments = source.toAbsolutePath().normalize().map { it.toString().lowercase() }.reversed()
+    for (segment in segments) {
+        when {
+            "cubrid" in segment -> return "CUBRID JDBC"
+            "mysql" in segment -> return "MySQL Connector/J"
+            "mariadb" in segment -> return "MariaDB Connector/J"
+            "postgresql" in segment || "pgjdbc" in segment -> return "PostgreSQL JDBC"
+            "mssql" in segment || "sqlserver" in segment -> return "Microsoft SQL Server JDBC"
+        }
     }
-    return detectDriverNameFromHint(hint)
+    return source.toAbsolutePath().fileName?.toString() ?: "Unknown"
 }
 
-private fun detectDriverNameFromHint(hint: String): String = when {
-    "cubrid" in hint.lowercase() -> "CUBRID JDBC"
-    "mysql" in hint.lowercase() -> "MySQL Connector/J"
-    "mariadb" in hint.lowercase() -> "MariaDB Connector/J"
-    "postgresql" in hint.lowercase() || "pgjdbc" in hint.lowercase() -> "PostgreSQL JDBC"
-    else -> hint
-}
-
-/** Dispatch report outputs (console / json:<path> / html:<path>). */
+/** Dispatch report outputs (console / json:<path>). */
 internal fun dispatchOutputs(outputs: List<String>, report: AnalysisReport) {
     for (output in outputs) {
         when {
@@ -282,10 +224,6 @@ internal fun dispatchOutputs(outputs: List<String>, report: AnalysisReport) {
             output.startsWith("json:") -> {
                 val path = Path.of(output.removePrefix("json:"))
                 JsonReporter().report(report, path)
-            }
-            output.startsWith("html:") -> {
-                val path = Path.of(output.removePrefix("html:"))
-                HtmlReporter().report(report, path)
             }
             else -> System.err.println("Warning: Unknown output format: $output")
         }
@@ -304,14 +242,15 @@ internal fun dispatchOutputs(outputs: List<String>, report: AnalysisReport) {
 class AnalyzeCommand : Callable<Int> {
 
     @Parameters(
-        index = "0",
-        description = ["Local source path or Git repository URL."],
+        index = "0..*",
+        arity = "1..*",
+        description = ["One or more source directories (package roots, e.g. driver/src/main/java)."],
     )
-    lateinit var source: String
+    lateinit var sources: List<Path>
 
     @Option(
         names = ["-o", "--output"],
-        description = ["Output format: console, json:<path>, html:<path>. Can be specified multiple times."],
+        description = ["Output format: console, json:<path>. Can be specified multiple times."],
     )
     var outputs: List<String> = listOf("console")
 
@@ -324,359 +263,42 @@ class AnalyzeCommand : Callable<Int> {
     @Option(
         names = ["--entry-class"],
         description = [
-            "Manually specify implementing class (overrides auto-detection). Can be specified multiple times.",
-            "Two formats supported:",
-            "  ClassName only:  --entry-class com.mysql.cj.jdbc.StatementImpl",
-            "    → auto-detects the JDBC interface (works if inheritance chain is fully parseable)",
-            "  Explicit:        --entry-class java.sql.Connection=com.mysql.cj.jdbc.ConnectionImpl",
-            "    → forces the mapping regardless of inheritance chain (use for transitive implementors)",
+            "Pin the implementing class for a JDBC interface (overrides auto-detection).",
+            "Format: --entry-class java.sql.Connection=com.example.ConnectionImpl",
+            "Can be specified multiple times.",
         ],
     )
     var entryClasses: List<String> = emptyList()
 
     @Option(
-        names = ["-s", "--spec-dir"],
-        description = ["Path to external JDBC spec YAML directory (uses bundled specs if not specified)."],
-    )
-    var specDir: Path? = null
-
-    @Option(
-        names = ["-b", "--branch"],
-        description = ["Git branch or tag to clone (default: default branch). Only used with Git URLs."],
-    )
-    var branch: String? = null
-
-    @Option(
-        names = ["--source-subdir"],
-        description = [
-            "Subdirectory within the repository containing JDBC source (e.g., src/main/java).",
-            "Can be specified multiple times for multi-module drivers.",
-        ],
-    )
-    var sourceSubdirs: List<String> = emptyList()
-
-    @Option(
         names = ["--profile"],
         description = [
-            "Driver profile name (e.g., mssql, mysql, pgjdbc, mariadb, cubrid).",
-            "Overrides auto-detection. Use 'jdbc-checker analyze --help' to see available profiles.",
+            "Driver profile name (mssql, mysql, pgjdbc, mariadb, cubrid). Overrides auto-detection.",
         ],
     )
     var profileName: String? = null
 
-    @Option(
-        names = ["--profile-file"],
-        description = [
-            "Path to a custom driver profile YAML file. Overrides --profile and auto-detection.",
-        ],
-    )
-    var profileFile: Path? = null
-
-    @Option(
-        names = ["--no-profile"],
-        description = [
-            "Disable driver profile auto-detection. Use the generic analyzer only.",
-        ],
-    )
-    var disableProfile: Boolean = false
-
     override fun call(): Int {
-        println("JDBC Compliance Checker v1.0.0")
-        println("Source: $source")
+        println("JDBC Compliance Checker v$TOOL_VERSION")
+        println("Source: ${sources.joinToString(", ")}")
         println()
 
-        SourceResolver().use { resolver ->
-            val sourcePaths = resolver.resolve(source, branch, sourceSubdirs)
-            val resolvedName = driverName ?: detectDriverName(source)
-            val report = runAnalysis(
-                sourcePaths = sourcePaths,
-                driverName = resolvedName,
-                entryClasses = entryClasses,
-                specDir = specDir,
-                sourceDisplay = source,
-                profileName = profileName,
-                profileFile = profileFile,
-                disableProfile = disableProfile,
-            ) ?: return 1
-            println()
-            dispatchOutputs(outputs, report)
-        }
-        return 0
-    }
-}
-
-// ---------------------------------------------------------------------------
-// diff
-// ---------------------------------------------------------------------------
-
-@Command(
-    name = "diff",
-    description = [
-        "Compare baseline JSON against current source or JSON.",
-        "",
-        "Examples:",
-        "  jdbc-checker diff baseline.json ./src/jdbc",
-        "  jdbc-checker diff baseline.json current.json",
-        "  jdbc-checker diff baseline.json https://github.com/owner/jdbc-driver.git",
-    ],
-    mixinStandardHelpOptions = true,
-)
-class DiffCommand : Callable<Int> {
-
-    @Parameters(
-        index = "0",
-        description = ["Path to the baseline analysis JSON report."],
-    )
-    lateinit var baselineJson: Path
-
-    @Parameters(
-        index = "1",
-        description = [
-            "Current source path, Git URL, or JSON report for comparison.",
-        ],
-    )
-    lateinit var current: String
-
-    @Option(
-        names = ["-o", "--output"],
-        description = ["Output format: console, json:<path>. Can be specified multiple times."],
-    )
-    var outputs: List<String> = listOf("console")
-
-    @Option(
-        names = ["-n", "--driver-name"],
-        description = ["Driver name override for the current analysis."],
-    )
-    var driverName: String? = null
-
-    @Option(
-        names = ["-s", "--spec-dir"],
-        description = ["Path to external JDBC spec YAML directory."],
-    )
-    var specDir: Path? = null
-
-    @Option(
-        names = ["-b", "--branch"],
-        description = ["Git branch or tag to clone (only used with Git URLs)."],
-    )
-    var branch: String? = null
-
-    @Option(
-        names = ["--source-subdir"],
-        description = [
-            "Subdirectory within the repository containing JDBC source.",
-            "Can be specified multiple times for multi-module drivers.",
-        ],
-    )
-    var sourceSubdirs: List<String> = emptyList()
-
-    @Option(names = ["--profile"], description = ["Driver profile name to apply when analyzing source."])
-    var profileName: String? = null
-
-    @Option(names = ["--profile-file"], description = ["Custom driver profile YAML path."])
-    var profileFile: Path? = null
-
-    @Option(names = ["--no-profile"], description = ["Disable driver profile auto-detection."])
-    var disableProfile: Boolean = false
-
-    override fun call(): Int {
-        println("JDBC Compliance Checker — Diff")
-        println()
-
-        // Load baseline
-        if (!Files.isRegularFile(baselineJson)) {
-            System.err.println("Error: Baseline JSON not found: $baselineJson")
+        val badEntries = entryClasses.filter { '=' !in it }
+        if (badEntries.isNotEmpty()) {
+            badEntries.forEach {
+                System.err.println("Error: --entry-class requires 'iface=class' format, got: $it")
+            }
             return 1
         }
-        print("Loading baseline report... ")
-        val baseline = try {
-            JsonReporter().loadReport(baselineJson)
-        } catch (e: Exception) {
-            System.err.println("Error reading baseline JSON: ${e.message}")
-            return 1
-        }
-        println("${baseline.driverName}  (${baseline.analyzedAt.toString().take(10)})")
 
-        // Load or analyze current
-        val currentReport: AnalysisReport
-        if (current.endsWith(".json") && !GitCloneService.isGitUrl(current)) {
-            val jsonPath = Path.of(current)
-            if (!Files.isRegularFile(jsonPath)) {
-                System.err.println("Error: Current JSON not found: $current")
-                return 1
-            }
-            print("Loading current report... ")
-            currentReport = try {
-                JsonReporter().loadReport(jsonPath)
-            } catch (e: Exception) {
-                System.err.println("Error reading current JSON: ${e.message}")
-                return 1
-            }
-            println("${currentReport.driverName}  (${currentReport.analyzedAt.toString().take(10)})")
-        } else {
-            println("Analyzing current source: $current")
-            println()
-            SourceResolver().use { resolver ->
-                val sourcePaths = resolver.resolve(current, branch, sourceSubdirs)
-                val resolvedName = driverName ?: detectDriverName(current)
-                val report = runAnalysis(
-                    sourcePaths = sourcePaths,
-                    driverName = resolvedName,
-                    specDir = specDir,
-                    sourceDisplay = current,
-                    profileName = profileName,
-                    profileFile = profileFile,
-                    disableProfile = disableProfile,
-                )
-                if (report == null) return 1
-                currentReport = report
-            }
-        }
-
-        val diff = computeDiff(baseline, currentReport)
-
+        val report = runAnalysis(
+            sourcePaths = sources,
+            driverName = driverName,
+            entryClasses = entryClasses,
+            profileName = profileName,
+        ) ?: return 1
         println()
-        for (output in outputs) {
-            when {
-                output == "console" -> DiffReporter().report(diff)
-                output.startsWith("json:") -> {
-                    val path = Path.of(output.removePrefix("json:"))
-                    DiffJsonReporter().reportDiff(diff, path)
-                }
-                else -> System.err.println("Warning: Unknown output format: $output")
-            }
-        }
-
-        return 0
-    }
-}
-
-// ---------------------------------------------------------------------------
-// compare
-// ---------------------------------------------------------------------------
-
-@Command(
-    name = "compare",
-    description = [
-        "Compare two or more JDBC driver sources side by side.",
-        "",
-        "Examples:",
-        "  jdbc-checker compare ./cubrid/src ./pgsql/src",
-        "  jdbc-checker compare ./cubrid/src ./pgsql/src -n CUBRID -n PostgreSQL",
-        "  jdbc-checker compare cubrid.json https://github.com/owner/pgjdbc.git",
-    ],
-    mixinStandardHelpOptions = true,
-)
-class CompareCommand : Callable<Int> {
-
-    @Parameters(
-        index = "0..*",
-        description = ["Two or more source paths, Git URLs, or JSON report files to compare."],
-        arity = "2..*",
-    )
-    lateinit var sources: List<String>
-
-    @Option(
-        names = ["-n", "--driver-name"],
-        description = ["Driver names (one per source, in order). Auto-detected if omitted."],
-    )
-    var driverNames: List<String> = emptyList()
-
-    @Option(
-        names = ["-o", "--output"],
-        description = ["Output format: console, json:<path>. Can be specified multiple times."],
-    )
-    var outputs: List<String> = listOf("console")
-
-    @Option(
-        names = ["-s", "--spec-dir"],
-        description = ["Path to external JDBC spec YAML directory."],
-    )
-    var specDir: Path? = null
-
-    @Option(
-        names = ["-b", "--branch"],
-        description = ["Git branch or tag to clone (applies to all Git URL sources)."],
-    )
-    var branch: String? = null
-
-    @Option(
-        names = ["--source-subdir"],
-        description = [
-            "Subdirectory within repositories containing JDBC source (applies to all sources).",
-            "Can be specified multiple times for multi-module drivers.",
-        ],
-    )
-    var sourceSubdirs: List<String> = emptyList()
-
-    @Option(names = ["--profile"], description = ["Driver profile name applied to all analyzed sources."])
-    var profileName: String? = null
-
-    @Option(names = ["--profile-file"], description = ["Custom driver profile YAML path."])
-    var profileFile: Path? = null
-
-    @Option(names = ["--no-profile"], description = ["Disable driver profile auto-detection."])
-    var disableProfile: Boolean = false
-
-    override fun call(): Int {
-        println("JDBC Compliance Checker — Compare")
-        println()
-
-        SourceResolver().use { resolver ->
-            val reports = sources.mapIndexed { idx, source ->
-                val nameOverride = driverNames.getOrNull(idx)
-
-                if (source.endsWith(".json") && !GitCloneService.isGitUrl(source)) {
-                    // Load from JSON
-                    val jsonPath = Path.of(source)
-                    if (!Files.isRegularFile(jsonPath)) {
-                        System.err.println("Error: Report JSON not found: $source")
-                        return 1
-                    }
-                    print("Loading report ${idx + 1}: $source ... ")
-                    val r = try {
-                        JsonReporter().loadReport(jsonPath)
-                    } catch (e: Exception) {
-                        System.err.println("Error reading JSON: ${e.message}")
-                        return 1
-                    }
-                    val r2 = if (nameOverride != null) r.copy(driverName = nameOverride) else r
-                    println(r2.driverName)
-                    r2
-                } else {
-                    // Resolve (local path or Git URL) and analyze
-                    println("Analyzing source ${idx + 1}: $source")
-                    println()
-                    val sourcePaths = resolver.resolve(source, branch, sourceSubdirs)
-                    val resolvedName = nameOverride ?: detectDriverName(source)
-                    runAnalysis(
-                        sourcePaths = sourcePaths,
-                        driverName = resolvedName,
-                        specDir = specDir,
-                        sourceDisplay = source,
-                        profileName = profileName,
-                        profileFile = profileFile,
-                        disableProfile = disableProfile,
-                    )
-                        ?: return 1
-                }
-            }
-
-            val comparison = computeComparison(reports)
-
-            println()
-            for (output in outputs) {
-                when {
-                    output == "console" -> ComparisonReporter().report(comparison)
-                    output.startsWith("json:") -> {
-                        val path = Path.of(output.removePrefix("json:"))
-                        DiffJsonReporter().reportComparison(comparison, path)
-                    }
-                    else -> System.err.println("Warning: Unknown output format: $output")
-                }
-            }
-        }
-
+        dispatchOutputs(outputs, report)
         return 0
     }
 }

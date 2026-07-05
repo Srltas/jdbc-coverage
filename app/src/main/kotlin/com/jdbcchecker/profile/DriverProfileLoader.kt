@@ -3,8 +3,6 @@ package com.jdbcchecker.profile
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.jdbcchecker.report.json.createYamlObjectMapper
 import java.io.InputStream
-import java.nio.file.Files
-import java.nio.file.Path
 
 /**
  * Loads [DriverProfile] instances from bundled resources or from a
@@ -36,18 +34,6 @@ class DriverProfileLoader(
         val stream = javaClass.getResourceAsStream("$BUNDLED_DIR/$name.yaml")
             ?: return null
         return stream.use { parse(it, source = "bundled:$name") }
-    }
-
-    /**
-     * Load a profile from a user-supplied YAML file path. Throws
-     * [IllegalArgumentException] when the file is missing or unreadable, and
-     * propagates Jackson parse errors for malformed YAML.
-     */
-    fun loadFromFile(path: Path): DriverProfile {
-        require(Files.isRegularFile(path)) {
-            "Profile file not found or not a regular file: $path"
-        }
-        return Files.newInputStream(path).use { parse(it, source = path.toString()) }
     }
 
     /**

@@ -5,7 +5,6 @@ import com.github.javaparser.ast.CompilationUnit
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
-import java.nio.file.Files
 
 class ProfileResolverTest {
 
@@ -16,29 +15,6 @@ class ProfileResolverTest {
     }
 
     // ── precedence ──────────────────────────────────────────────────────────
-
-    @Test
-    fun `profileFile takes top precedence`() {
-        val tmp = Files.createTempFile("p", ".yaml")
-        try {
-            Files.writeString(
-                tmp,
-                """
-                name: custom
-                displayName: "Custom"
-                """.trimIndent(),
-            )
-            val profile = resolver.resolve(
-                compilationUnits = listOf(parseUnit("com.microsoft.sqlserver.jdbc")),
-                profileName = "mysql",
-                profileFile = tmp,
-                disableProfile = true,
-            )
-            assertThat(profile?.name).isEqualTo("custom")
-        } finally {
-            Files.deleteIfExists(tmp)
-        }
-    }
 
     @Test
     fun `profileName loads bundled profile`() {
@@ -60,15 +36,6 @@ class ProfileResolverTest {
         }
             .isInstanceOf(IllegalArgumentException::class.java)
             .hasMessageContaining("Unknown driver profile")
-    }
-
-    @Test
-    fun `disableProfile returns null even when source would match`() {
-        val profile = resolver.resolve(
-            compilationUnits = listOf(parseUnit("com.microsoft.sqlserver.jdbc")),
-            disableProfile = true,
-        )
-        assertThat(profile).isNull()
     }
 
     @Test

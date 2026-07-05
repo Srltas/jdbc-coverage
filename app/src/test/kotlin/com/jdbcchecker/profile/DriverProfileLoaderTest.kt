@@ -2,9 +2,7 @@ package com.jdbcchecker.profile
 
 import com.jdbcchecker.report.json.createYamlObjectMapper
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
-import java.nio.file.Files
 
 class DriverProfileLoaderTest {
 
@@ -72,55 +70,6 @@ class DriverProfileLoaderTest {
         val profile = mapper.readValue(yaml.byteInputStream(), DriverProfile::class.java)
 
         assertThat(profile.name).isEqualTo("x")
-    }
-
-    @Test
-    fun `loadFromFile reads YAML from disk`() {
-        val tmp = Files.createTempFile("profile", ".yaml")
-        try {
-            Files.writeString(
-                tmp,
-                """
-                name: custom
-                displayName: "Custom Driver"
-                detectBy:
-                  packagePrefix:
-                    - com.example.driver
-                """.trimIndent(),
-            )
-            val profile = DriverProfileLoader(mapper).loadFromFile(tmp)
-            assertThat(profile.name).isEqualTo("custom")
-            assertThat(profile.detectBy.packagePrefix).containsExactly("com.example.driver")
-        } finally {
-            Files.deleteIfExists(tmp)
-        }
-    }
-
-    @Test
-    fun `loadFromFile throws when file does not exist`() {
-        val missing = Files.createTempFile("nonexistent", ".yaml")
-        Files.deleteIfExists(missing) // remove so it's actually missing
-
-        assertThatThrownBy { DriverProfileLoader(mapper).loadFromFile(missing) }
-            .isInstanceOf(IllegalArgumentException::class.java)
-            .hasMessageContaining("not found")
-    }
-
-    @Test
-    fun `loadFromFile throws on missing required name field`() {
-        val tmp = Files.createTempFile("profile", ".yaml")
-        try {
-            Files.writeString(
-                tmp,
-                """
-                displayName: "No name"
-                """.trimIndent(),
-            )
-            assertThatThrownBy { DriverProfileLoader(mapper).loadFromFile(tmp) }
-                .isInstanceOf(IllegalArgumentException::class.java)
-        } finally {
-            Files.deleteIfExists(tmp)
-        }
     }
 
     @Test
