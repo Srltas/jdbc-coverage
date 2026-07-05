@@ -29,6 +29,10 @@ class ConsoleReporter {
         println("  Source: ${result.sourcePath}")
         println("  Analyzed: ${result.analyzedAt}")
         result.profileUsed?.let { println("  Profile: $it") }
+        if (result.specVersion.isNotEmpty()) {
+            val commit = result.sourceCommit?.let { "  Commit: ${it.take(10)}" } ?: ""
+            println("  Spec: ${result.specVersion}  Tool: v${result.toolVersion}$commit")
+        }
         println(separator)
     }
 

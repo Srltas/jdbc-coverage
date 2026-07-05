@@ -178,6 +178,9 @@ internal fun runAnalysis(
         analyzedAt = Instant.now(),
         interfaces = interfaceResults,
         profileUsed = profile?.name,
+        specVersion = JdbcSpecLoader.SPEC_VERSION,
+        toolVersion = TOOL_VERSION,
+        sourceCommit = resolveSourceCommit(sourcePaths.first()),
     )
 }
 
@@ -226,6 +229,21 @@ internal fun detectDriverName(source: Path): String {
         }
     }
     return source.toAbsolutePath().fileName?.toString() ?: "Unknown"
+}
+
+/**
+ * Best-effort `git rev-parse HEAD` of the repository containing [dir].
+ * Returns null when git is unavailable or [dir] is not inside a work tree —
+ * provenance is desirable but must never fail an analysis.
+ */
+internal fun resolveSourceCommit(dir: Path): String? = try {
+    val process = ProcessBuilder("git", "-C", dir.toAbsolutePath().toString(), "rev-parse", "HEAD")
+        .redirectErrorStream(true)
+        .start()
+    val output = process.inputStream.bufferedReader().readText().trim()
+    if (process.waitFor() == 0 && output.matches(Regex("[0-9a-f]{40}"))) output else null
+} catch (e: Exception) {
+    null
 }
 
 /**

@@ -42,6 +42,12 @@ data class AnalysisReport(
     val analyzedAt: Instant,
     val interfaces: List<InterfaceResult>,
     val profileUsed: String? = null,
+    /** Frozen spec identifier this snapshot was measured against (e.g. "spec-1"). */
+    val specVersion: String = "",
+    /** Tool version that produced this snapshot. */
+    val toolVersion: String = "",
+    /** `git rev-parse HEAD` of the analyzed source tree; null when not a git checkout. */
+    val sourceCommit: String? = null,
 ) {
     val totalMethods: Int get() = interfaces.sumOf { it.total }
     val totalImplemented: Int get() = interfaces.sumOf { it.implemented }
