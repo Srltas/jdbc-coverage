@@ -1,7 +1,7 @@
 {
   "driverName" : "MySQL Connector/J",
   "sourcePath" : "/home/runner/work/jdbc-coverage/jdbc-coverage/drivers/mysql-connector-j",
-  "analyzedAt" : "2026-07-05T12:52:53.588798269Z",
+  "analyzedAt" : "2026-07-05T21:06:34.185394412Z",
   "interfaces" : [ {
     "interfaceName" : "java.sql.Connection",
     "implementingClass" : "com.mysql.cj.jdbc.ConnectionImpl",
