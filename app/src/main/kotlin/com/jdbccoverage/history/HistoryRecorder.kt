@@ -54,6 +54,9 @@ class HistoryRecorder(private val historyDir: Path) {
             cumulative = report.cumulativeCoverage.map {
                 CumulativePoint(it.version.display, it.implemented, it.total)
             },
+            groups = report.groupBreakdown.map { (group, coverage) ->
+                GroupPoint(group.name, coverage.implemented, coverage.total)
+            },
             specChanged = specChanged,
             changes = changes,
         )

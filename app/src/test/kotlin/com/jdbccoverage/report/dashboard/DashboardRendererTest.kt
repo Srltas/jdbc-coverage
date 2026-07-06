@@ -1,6 +1,7 @@
 package com.jdbccoverage.report.dashboard
 
 import com.jdbccoverage.history.CumulativePoint
+import com.jdbccoverage.history.GroupPoint
 import com.jdbccoverage.history.HistoryEntry
 import com.jdbccoverage.history.MethodChange
 import org.assertj.core.api.Assertions.assertThat
@@ -21,6 +22,11 @@ class DashboardRendererTest {
         stub = 300,
         notFound = 200,
         cumulative = listOf(CumulativePoint("4.2", 340, 849)),
+        groups = listOf(
+            GroupPoint("MAIN", 340, 816),
+            GroupPoint("PERIPHERAL", 5, 60),
+            GroupPoint("XA", 2, 13),
+        ),
         changes = changes,
     )
 
@@ -49,6 +55,9 @@ class DashboardRendererTest {
         assertThat(html).contains("CUBRID JDBC")
         assertThat(html).contains("Connection.setSchema(String)")
         assertThat(html).contains("41.0")
+        // Per-group breakdown wired into the payload + template.
+        assertThat(html).contains("\"group\":\"PERIPHERAL\"")
+        assertThat(html).contains("JDBC (core)")
         // Self-contained: no external loads. (The SVG namespace URI string is
         // allowed — it is an identifier, not a network request.)
         assertThat(html).doesNotContain("<link", "<script src", "fetch(", "import(", "url(http")

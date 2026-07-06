@@ -1,6 +1,8 @@
 package com.jdbccoverage.spec
 
+import com.jdbccoverage.model.JdbcScope
 import com.jdbccoverage.model.JdbcVersion
+import com.jdbccoverage.model.SpecGroup
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -116,7 +118,7 @@ class JdbcSpecLoaderTest {
     }
 
     @Test
-    fun `frozen spec-1 interface list is pinned`() {
+    fun `frozen spec-2 interface list is pinned`() {
         assertThat(JdbcSpecLoader.JDBC_INTERFACES).hasSize(34)
         assertThat(JdbcSpecLoader.JDBC_INTERFACES).doesNotContain(
             "java.sql.SQLData",
@@ -128,18 +130,27 @@ class JdbcSpecLoaderTest {
     }
 
     @Test
-    fun `frozen spec-1 has exactly 889 methods`() {
+    fun `frozen spec-2 has exactly 889 methods`() {
         assertThat(loader.loadAll()).hasSize(889)
     }
 
     @Test
-    fun `spec version constant is spec-1`() {
-        assertThat(JdbcSpecLoader.SPEC_VERSION).isEqualTo("spec-1")
+    fun `spec version constant is spec-2`() {
+        assertThat(JdbcSpecLoader.SPEC_VERSION).isEqualTo("spec-2")
     }
 
     @Test
-    fun `spec-1 has 849 methods at or below JDBC 4-2`() {
+    fun `spec-2 has 849 methods at or below JDBC 4-2`() {
         val upTo42 = loader.loadAll().filter { it.jdbcVersion.ordinal <= JdbcVersion.V4_2.ordinal }
         assertThat(upTo42).hasSize(849)
+    }
+
+    @Test
+    fun `spec-2 partitions methods into MAIN 816, PERIPHERAL 60, XA 13`() {
+        val byGroup = loader.loadAll().groupingBy { JdbcScope.groupOf(it.interfaceName) }.eachCount()
+        assertThat(byGroup[SpecGroup.MAIN]).isEqualTo(816)
+        assertThat(byGroup[SpecGroup.PERIPHERAL]).isEqualTo(60)
+        assertThat(byGroup[SpecGroup.XA]).isEqualTo(13)
+        assertThat(byGroup.values.sum()).isEqualTo(889)
     }
 }

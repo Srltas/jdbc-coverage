@@ -3,7 +3,9 @@ package com.jdbccoverage.report.console
 import com.jdbccoverage.model.AnalysisReport
 import com.jdbccoverage.model.ImplementationStatus
 import com.jdbccoverage.model.InterfaceResult
+import com.jdbccoverage.model.JdbcScope
 import com.jdbccoverage.model.Level1Status
+import com.jdbccoverage.model.SpecGroup
 import com.jdbccoverage.model.ImplementationStatus.Companion.toLevel1
 
 /**
@@ -14,6 +16,7 @@ class ConsoleReporter {
     fun report(result: AnalysisReport) {
         printHeader(result)
         printOverallSummary(result)
+        printGroupBreakdown(result)
         printVersionBreakdown(result)
         printCumulativeCoverage(result)
         printInterfaceDetails(result)
@@ -38,13 +41,34 @@ class ConsoleReporter {
 
     private fun printOverallSummary(result: AnalysisReport) {
         println()
-        println("  Overall Coverage: ${"%.1f".format(result.overallCoveragePercent)}%")
+        println("  Overall Coverage (JDBC): ${"%.1f".format(result.overallCoveragePercent)}%")
         println("  ${progressBar(result.overallCoveragePercent, 40)}")
         println()
-        println("  Total: ${result.totalMethods} methods")
+        println("  Total: ${result.totalMethods} methods (JDBC group)")
         println("    Implemented: ${result.totalImplemented}")
         println("    Stub:        ${result.totalStub}")
         println("    Not Found:   ${result.totalNotFound}")
+        println()
+    }
+
+    private fun printGroupBreakdown(result: AnalysisReport) {
+        val separator = "-".repeat(70)
+        println(separator)
+        println("  Coverage by group (headline = JDBC; Peripheral & XA/JTA reported separately):")
+        println(separator)
+        for (group in SpecGroup.entries) {
+            val coverage = result.groupBreakdown[group] ?: continue
+            if (coverage.total == 0) continue
+            val bar = progressBar(coverage.coveragePercent, 20)
+            println(
+                "  %-12s %s  %4d/%4d".format(
+                    group.display,
+                    bar,
+                    coverage.implemented,
+                    coverage.total,
+                ),
+            )
+        }
         println()
     }
 
@@ -143,8 +167,9 @@ class ConsoleReporter {
     }
 
     private fun printFooter(result: AnalysisReport) {
-        // Show top missing methods
+        // Show top missing methods (MAIN group only, so optional/XA gaps don't crowd out core ones)
         val missing = result.interfaces
+            .filter { JdbcScope.groupOf(it.interfaceName) == SpecGroup.MAIN }
             .flatMap { it.methods }
             .filter { it.status is ImplementationStatus.NotFound }
             .take(10)

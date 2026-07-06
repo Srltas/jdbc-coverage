@@ -49,17 +49,43 @@ data class AnalysisReport(
     /** `git rev-parse HEAD` of the analyzed source tree; null when not a git checkout. */
     val sourceCommit: String? = null,
 ) {
-    val totalMethods: Int get() = interfaces.sumOf { it.total }
-    val totalImplemented: Int get() = interfaces.sumOf { it.implemented }
-    val totalStub: Int get() = interfaces.sumOf { it.stub }
-    val totalNotFound: Int get() = interfaces.sumOf { it.notFound }
+    /**
+     * The headline metric (total counts, overall %, version/cumulative/status breakdowns)
+     * describes the [SpecGroup.MAIN] group only. [PERIPHERAL] and [XA] are reported via
+     * [groupBreakdown]. `interfaces` still holds every measured interface.
+     */
+    private val mainInterfaces: List<InterfaceResult>
+        get() = interfaces.filter { JdbcScope.groupOf(it.interfaceName) == SpecGroup.MAIN }
+
+    private val mainMethods: List<MethodResult>
+        get() = mainInterfaces.flatMap { it.methods }
+
+    val totalMethods: Int get() = mainInterfaces.sumOf { it.total }
+    val totalImplemented: Int get() = mainInterfaces.sumOf { it.implemented }
+    val totalStub: Int get() = mainInterfaces.sumOf { it.stub }
+    val totalNotFound: Int get() = mainInterfaces.sumOf { it.notFound }
     val overallCoveragePercent: Double
         get() = if (totalMethods == 0) 0.0 else (totalImplemented.toDouble() / totalMethods) * 100.0
 
-    /** Coverage breakdown by JDBC version */
+    /** Coverage per scope group ([JdbcScope]): MAIN is the headline; PERIPHERAL and XA are reported alongside. */
+    val groupBreakdown: Map<SpecGroup, GroupCoverage>
+        get() = SpecGroup.entries.associateWith { group ->
+            val methods = interfaces
+                .filter { JdbcScope.groupOf(it.interfaceName) == group }
+                .flatMap { it.methods }
+            GroupCoverage(
+                group = group,
+                total = methods.size,
+                implemented = methods.count { it.status.isImplemented() },
+                stub = methods.count { it.status.isStub() },
+                notFound = methods.count { it.status is ImplementationStatus.NotFound },
+            )
+        }
+
+    /** Coverage breakdown by JDBC version (MAIN group only) */
     val versionBreakdown: Map<JdbcVersion, VersionCoverage>
         get() {
-            val allMethods = interfaces.flatMap { it.methods }
+            val allMethods = mainMethods
             return JdbcVersion.entries.associateWith { version ->
                 val versionMethods = allMethods.filter { it.specMethod.jdbcVersion == version }
                 VersionCoverage(
@@ -71,21 +97,21 @@ data class AnalysisReport(
             }.filter { it.value.total > 0 }
         }
 
-    /** Level 2 status distribution across all methods */
+    /** Level 2 status distribution across MAIN-group methods */
     val statusDistribution: Map<String, Int>
         get() {
-            val allMethods = interfaces.flatMap { it.methods }
+            val allMethods = mainMethods
             return allMethods.groupBy { it.status.label }.mapValues { it.value.size }
         }
 
     /**
-     * Cumulative coverage at each JDBC version boundary present in the spec set:
+     * Cumulative coverage at each JDBC version boundary present in the MAIN group:
      * "of all methods introduced at or before version V, how many are implemented".
      * This is the number to watch while expanding toward a target version (e.g. 4.2).
      */
     val cumulativeCoverage: List<CumulativeCoverage>
         get() {
-            val allMethods = interfaces.flatMap { it.methods }
+            val allMethods = mainMethods
             return JdbcVersion.entries
                 .filter { v -> allMethods.any { it.specMethod.jdbcVersion == v } }
                 .map { boundary ->
@@ -97,6 +123,20 @@ data class AnalysisReport(
                     )
                 }
         }
+}
+
+/**
+ * Coverage stats for one scope group ([SpecGroup]).
+ */
+data class GroupCoverage(
+    val group: SpecGroup,
+    val total: Int,
+    val implemented: Int,
+    val stub: Int,
+    val notFound: Int,
+) {
+    val coveragePercent: Double
+        get() = if (total == 0) 0.0 else (implemented.toDouble() / total) * 100.0
 }
 
 /**

@@ -7,6 +7,13 @@ data class CumulativePoint(
     val total: Int,
 )
 
+/** Coverage for one scope group (`SpecGroup` name: MAIN / PERIPHERAL / XA), projected for the JSONL line. */
+data class GroupPoint(
+    val group: String,
+    val implemented: Int,
+    val total: Int,
+)
+
 /** One method whose status changed since the previous recorded run. */
 data class MethodChange(
     val interfaceName: String,
@@ -32,6 +39,8 @@ data class HistoryEntry(
     val stub: Int,
     val notFound: Int,
     val cumulative: List<CumulativePoint>,
+    /** Per-scope-group coverage (MAIN is the headline `overallPercent`; PERIPHERAL & XA reported alongside). */
+    val groups: List<GroupPoint> = emptyList(),
     val specChanged: Boolean = false,
     val changes: List<MethodChange> = emptyList(),
 )
