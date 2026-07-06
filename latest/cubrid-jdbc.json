@@ -1,8 +1,108 @@
 {
   "driverName" : "CUBRID JDBC",
   "sourcePath" : "/home/runner/work/jdbc-coverage/jdbc-coverage/drivers/cubrid-jdbc/src/jdbc",
-  "analyzedAt" : "2026-07-05T23:01:27.799522827Z",
+  "analyzedAt" : "2026-07-06T03:01:24.437370174Z",
   "interfaces" : [ {
+    "interfaceName" : "java.sql.Driver",
+    "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
+    "methods" : [ {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Driver",
+        "methodName" : "acceptsURL",
+        "parameterTypes" : [ "String" ],
+        "returnType" : "boolean",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "Driver.acceptsURL(String)",
+        "matchKey" : "acceptsURL(String)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Driver",
+        "methodName" : "connect",
+        "parameterTypes" : [ "String", "Properties" ],
+        "returnType" : "Connection",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "Driver.connect(String, Properties)",
+        "matchKey" : "connect(String,Properties)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Driver",
+        "methodName" : "getMajorVersion",
+        "parameterTypes" : [ ],
+        "returnType" : "int",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "Driver.getMajorVersion()",
+        "matchKey" : "getMajorVersion()"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Driver",
+        "methodName" : "getMinorVersion",
+        "parameterTypes" : [ ],
+        "returnType" : "int",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "Driver.getMinorVersion()",
+        "matchKey" : "getMinorVersion()"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Driver",
+        "methodName" : "getPropertyInfo",
+        "parameterTypes" : [ "String", "Properties" ],
+        "returnType" : "DriverPropertyInfo[]",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "Driver.getPropertyInfo(String, Properties)",
+        "matchKey" : "getPropertyInfo(String,Properties)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Driver",
+        "methodName" : "jdbcCompliant",
+        "parameterTypes" : [ ],
+        "returnType" : "boolean",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "Driver.jdbcCompliant()",
+        "matchKey" : "jdbcCompliant()"
+      },
+      "status" : "RETURNS_DEFAULT",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Driver",
+        "methodName" : "getParentLogger",
+        "parameterTypes" : [ ],
+        "returnType" : "Logger",
+        "jdbcVersion" : "V4_1",
+        "displayName" : "Driver.getParentLogger()",
+        "matchKey" : "getParentLogger()"
+      },
+      "status" : "THROWS_UNSUPPORTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
+      "sourceLocation" : null
+    } ],
+    "total" : 7,
+    "implemented" : 5,
+    "stub" : 2,
+    "notFound" : 0,
+    "coveragePercent" : 71.42857142857143
+  }, {
     "interfaceName" : "java.sql.Connection",
     "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnection",
     "methods" : [ {
@@ -8702,105 +8802,2066 @@
     "notFound" : 3,
     "coveragePercent" : 24.293785310734464
   }, {
-    "interfaceName" : "java.sql.Driver",
-    "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
+    "interfaceName" : "java.sql.ResultSetMetaData",
+    "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
     "methods" : [ {
       "specMethod" : {
-        "interfaceName" : "java.sql.Driver",
-        "methodName" : "acceptsURL",
-        "parameterTypes" : [ "String" ],
-        "returnType" : "boolean",
+        "interfaceName" : "java.sql.ResultSetMetaData",
+        "methodName" : "getCatalogName",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "String",
         "jdbcVersion" : "V1_0",
-        "displayName" : "Driver.acceptsURL(String)",
-        "matchKey" : "acceptsURL(String)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Driver",
-        "methodName" : "connect",
-        "parameterTypes" : [ "String", "Properties" ],
-        "returnType" : "Connection",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "Driver.connect(String, Properties)",
-        "matchKey" : "connect(String,Properties)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Driver",
-        "methodName" : "getMajorVersion",
-        "parameterTypes" : [ ],
-        "returnType" : "int",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "Driver.getMajorVersion()",
-        "matchKey" : "getMajorVersion()"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Driver",
-        "methodName" : "getMinorVersion",
-        "parameterTypes" : [ ],
-        "returnType" : "int",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "Driver.getMinorVersion()",
-        "matchKey" : "getMinorVersion()"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Driver",
-        "methodName" : "getPropertyInfo",
-        "parameterTypes" : [ "String", "Properties" ],
-        "returnType" : "DriverPropertyInfo[]",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "Driver.getPropertyInfo(String, Properties)",
-        "matchKey" : "getPropertyInfo(String,Properties)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Driver",
-        "methodName" : "jdbcCompliant",
-        "parameterTypes" : [ ],
-        "returnType" : "boolean",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "Driver.jdbcCompliant()",
-        "matchKey" : "jdbcCompliant()"
+        "displayName" : "ResultSetMetaData.getCatalogName(int)",
+        "matchKey" : "getCatalogName(int)"
       },
       "status" : "RETURNS_DEFAULT",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
       "sourceLocation" : null
     }, {
       "specMethod" : {
-        "interfaceName" : "java.sql.Driver",
+        "interfaceName" : "java.sql.ResultSetMetaData",
+        "methodName" : "getColumnCount",
+        "parameterTypes" : [ ],
+        "returnType" : "int",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "ResultSetMetaData.getColumnCount()",
+        "matchKey" : "getColumnCount()"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ResultSetMetaData",
+        "methodName" : "getColumnDisplaySize",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "int",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "ResultSetMetaData.getColumnDisplaySize(int)",
+        "matchKey" : "getColumnDisplaySize(int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ResultSetMetaData",
+        "methodName" : "getColumnLabel",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "String",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "ResultSetMetaData.getColumnLabel(int)",
+        "matchKey" : "getColumnLabel(int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ResultSetMetaData",
+        "methodName" : "getColumnName",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "String",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "ResultSetMetaData.getColumnName(int)",
+        "matchKey" : "getColumnName(int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ResultSetMetaData",
+        "methodName" : "getColumnType",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "int",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "ResultSetMetaData.getColumnType(int)",
+        "matchKey" : "getColumnType(int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ResultSetMetaData",
+        "methodName" : "getColumnTypeName",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "String",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "ResultSetMetaData.getColumnTypeName(int)",
+        "matchKey" : "getColumnTypeName(int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ResultSetMetaData",
+        "methodName" : "getPrecision",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "int",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "ResultSetMetaData.getPrecision(int)",
+        "matchKey" : "getPrecision(int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ResultSetMetaData",
+        "methodName" : "getScale",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "int",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "ResultSetMetaData.getScale(int)",
+        "matchKey" : "getScale(int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ResultSetMetaData",
+        "methodName" : "getSchemaName",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "String",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "ResultSetMetaData.getSchemaName(int)",
+        "matchKey" : "getSchemaName(int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ResultSetMetaData",
+        "methodName" : "getTableName",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "String",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "ResultSetMetaData.getTableName(int)",
+        "matchKey" : "getTableName(int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ResultSetMetaData",
+        "methodName" : "isAutoIncrement",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "boolean",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "ResultSetMetaData.isAutoIncrement(int)",
+        "matchKey" : "isAutoIncrement(int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ResultSetMetaData",
+        "methodName" : "isCaseSensitive",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "boolean",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "ResultSetMetaData.isCaseSensitive(int)",
+        "matchKey" : "isCaseSensitive(int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ResultSetMetaData",
+        "methodName" : "isCurrency",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "boolean",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "ResultSetMetaData.isCurrency(int)",
+        "matchKey" : "isCurrency(int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ResultSetMetaData",
+        "methodName" : "isDefinitelyWritable",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "boolean",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "ResultSetMetaData.isDefinitelyWritable(int)",
+        "matchKey" : "isDefinitelyWritable(int)"
+      },
+      "status" : "RETURNS_DEFAULT",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ResultSetMetaData",
+        "methodName" : "isNullable",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "int",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "ResultSetMetaData.isNullable(int)",
+        "matchKey" : "isNullable(int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ResultSetMetaData",
+        "methodName" : "isReadOnly",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "boolean",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "ResultSetMetaData.isReadOnly(int)",
+        "matchKey" : "isReadOnly(int)"
+      },
+      "status" : "RETURNS_DEFAULT",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ResultSetMetaData",
+        "methodName" : "isSearchable",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "boolean",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "ResultSetMetaData.isSearchable(int)",
+        "matchKey" : "isSearchable(int)"
+      },
+      "status" : "RETURNS_DEFAULT",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ResultSetMetaData",
+        "methodName" : "isSigned",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "boolean",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "ResultSetMetaData.isSigned(int)",
+        "matchKey" : "isSigned(int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ResultSetMetaData",
+        "methodName" : "isWritable",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "boolean",
+        "jdbcVersion" : "V1_0",
+        "displayName" : "ResultSetMetaData.isWritable(int)",
+        "matchKey" : "isWritable(int)"
+      },
+      "status" : "RETURNS_DEFAULT",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ResultSetMetaData",
+        "methodName" : "getColumnClassName",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "String",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "ResultSetMetaData.getColumnClassName(int)",
+        "matchKey" : "getColumnClassName(int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
+      "sourceLocation" : null
+    } ],
+    "total" : 21,
+    "implemented" : 16,
+    "stub" : 5,
+    "notFound" : 0,
+    "coveragePercent" : 76.19047619047619
+  }, {
+    "interfaceName" : "java.sql.ParameterMetaData",
+    "implementingClass" : null,
+    "methods" : [ {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ParameterMetaData",
+        "methodName" : "getParameterClassName",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "String",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "ParameterMetaData.getParameterClassName(int)",
+        "matchKey" : "getParameterClassName(int)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ParameterMetaData",
+        "methodName" : "getParameterCount",
+        "parameterTypes" : [ ],
+        "returnType" : "int",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "ParameterMetaData.getParameterCount()",
+        "matchKey" : "getParameterCount()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ParameterMetaData",
+        "methodName" : "getParameterMode",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "int",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "ParameterMetaData.getParameterMode(int)",
+        "matchKey" : "getParameterMode(int)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ParameterMetaData",
+        "methodName" : "getParameterType",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "int",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "ParameterMetaData.getParameterType(int)",
+        "matchKey" : "getParameterType(int)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ParameterMetaData",
+        "methodName" : "getParameterTypeName",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "String",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "ParameterMetaData.getParameterTypeName(int)",
+        "matchKey" : "getParameterTypeName(int)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ParameterMetaData",
+        "methodName" : "getPrecision",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "int",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "ParameterMetaData.getPrecision(int)",
+        "matchKey" : "getPrecision(int)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ParameterMetaData",
+        "methodName" : "getScale",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "int",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "ParameterMetaData.getScale(int)",
+        "matchKey" : "getScale(int)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ParameterMetaData",
+        "methodName" : "isNullable",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "int",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "ParameterMetaData.isNullable(int)",
+        "matchKey" : "isNullable(int)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ParameterMetaData",
+        "methodName" : "isSigned",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "boolean",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "ParameterMetaData.isSigned(int)",
+        "matchKey" : "isSigned(int)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    } ],
+    "total" : 9,
+    "implemented" : 0,
+    "stub" : 0,
+    "notFound" : 9,
+    "coveragePercent" : 0.0
+  }, {
+    "interfaceName" : "java.sql.Savepoint",
+    "implementingClass" : null,
+    "methods" : [ {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Savepoint",
+        "methodName" : "getSavepointId",
+        "parameterTypes" : [ ],
+        "returnType" : "int",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "Savepoint.getSavepointId()",
+        "matchKey" : "getSavepointId()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Savepoint",
+        "methodName" : "getSavepointName",
+        "parameterTypes" : [ ],
+        "returnType" : "String",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "Savepoint.getSavepointName()",
+        "matchKey" : "getSavepointName()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    } ],
+    "total" : 2,
+    "implemented" : 0,
+    "stub" : 0,
+    "notFound" : 2,
+    "coveragePercent" : 0.0
+  }, {
+    "interfaceName" : "java.sql.Blob",
+    "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
+    "methods" : [ {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Blob",
+        "methodName" : "getBinaryStream",
+        "parameterTypes" : [ ],
+        "returnType" : "InputStream",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Blob.getBinaryStream()",
+        "matchKey" : "getBinaryStream()"
+      },
+      "status" : "DELEGATES",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Blob",
+        "methodName" : "getBytes",
+        "parameterTypes" : [ "long", "int" ],
+        "returnType" : "byte[]",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Blob.getBytes(long, int)",
+        "matchKey" : "getBytes(long,int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Blob",
+        "methodName" : "length",
+        "parameterTypes" : [ ],
+        "returnType" : "long",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Blob.length()",
+        "matchKey" : "length()"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Blob",
+        "methodName" : "position",
+        "parameterTypes" : [ "byte[]", "long" ],
+        "returnType" : "long",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Blob.position(byte[], long)",
+        "matchKey" : "position(byte[],long)"
+      },
+      "status" : "THROWS_UNSUPPORTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Blob",
+        "methodName" : "position",
+        "parameterTypes" : [ "Blob", "long" ],
+        "returnType" : "long",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Blob.position(Blob, long)",
+        "matchKey" : "position(Blob,long)"
+      },
+      "status" : "THROWS_UNSUPPORTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Blob",
+        "methodName" : "setBinaryStream",
+        "parameterTypes" : [ "long" ],
+        "returnType" : "OutputStream",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "Blob.setBinaryStream(long)",
+        "matchKey" : "setBinaryStream(long)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Blob",
+        "methodName" : "setBytes",
+        "parameterTypes" : [ "long", "byte[]" ],
+        "returnType" : "int",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "Blob.setBytes(long, byte[])",
+        "matchKey" : "setBytes(long,byte[])"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Blob",
+        "methodName" : "setBytes",
+        "parameterTypes" : [ "long", "byte[]", "int", "int" ],
+        "returnType" : "int",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "Blob.setBytes(long, byte[], int, int)",
+        "matchKey" : "setBytes(long,byte[],int,int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Blob",
+        "methodName" : "truncate",
+        "parameterTypes" : [ "long" ],
+        "returnType" : "void",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "Blob.truncate(long)",
+        "matchKey" : "truncate(long)"
+      },
+      "status" : "THROWS_UNSUPPORTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Blob",
+        "methodName" : "free",
+        "parameterTypes" : [ ],
+        "returnType" : "void",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "Blob.free()",
+        "matchKey" : "free()"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Blob",
+        "methodName" : "getBinaryStream",
+        "parameterTypes" : [ "long", "long" ],
+        "returnType" : "InputStream",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "Blob.getBinaryStream(long, long)",
+        "matchKey" : "getBinaryStream(long,long)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Blob",
+        "methodName" : "close",
+        "parameterTypes" : [ ],
+        "returnType" : "void",
+        "jdbcVersion" : "V4_5",
+        "displayName" : "Blob.close()",
+        "matchKey" : "close()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
+      "sourceLocation" : null
+    } ],
+    "total" : 12,
+    "implemented" : 8,
+    "stub" : 3,
+    "notFound" : 1,
+    "coveragePercent" : 66.66666666666666
+  }, {
+    "interfaceName" : "java.sql.Clob",
+    "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
+    "methods" : [ {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Clob",
+        "methodName" : "getAsciiStream",
+        "parameterTypes" : [ ],
+        "returnType" : "InputStream",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Clob.getAsciiStream()",
+        "matchKey" : "getAsciiStream()"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Clob",
+        "methodName" : "getCharacterStream",
+        "parameterTypes" : [ ],
+        "returnType" : "Reader",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Clob.getCharacterStream()",
+        "matchKey" : "getCharacterStream()"
+      },
+      "status" : "DELEGATES",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Clob",
+        "methodName" : "getSubString",
+        "parameterTypes" : [ "long", "int" ],
+        "returnType" : "String",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Clob.getSubString(long, int)",
+        "matchKey" : "getSubString(long,int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Clob",
+        "methodName" : "length",
+        "parameterTypes" : [ ],
+        "returnType" : "long",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Clob.length()",
+        "matchKey" : "length()"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Clob",
+        "methodName" : "position",
+        "parameterTypes" : [ "String", "long" ],
+        "returnType" : "long",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Clob.position(String, long)",
+        "matchKey" : "position(String,long)"
+      },
+      "status" : "THROWS_UNSUPPORTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Clob",
+        "methodName" : "position",
+        "parameterTypes" : [ "Clob", "long" ],
+        "returnType" : "long",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Clob.position(Clob, long)",
+        "matchKey" : "position(Clob,long)"
+      },
+      "status" : "THROWS_UNSUPPORTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Clob",
+        "methodName" : "setAsciiStream",
+        "parameterTypes" : [ "long" ],
+        "returnType" : "OutputStream",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "Clob.setAsciiStream(long)",
+        "matchKey" : "setAsciiStream(long)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Clob",
+        "methodName" : "setCharacterStream",
+        "parameterTypes" : [ "long" ],
+        "returnType" : "Writer",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "Clob.setCharacterStream(long)",
+        "matchKey" : "setCharacterStream(long)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Clob",
+        "methodName" : "setString",
+        "parameterTypes" : [ "long", "String" ],
+        "returnType" : "int",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "Clob.setString(long, String)",
+        "matchKey" : "setString(long,String)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Clob",
+        "methodName" : "setString",
+        "parameterTypes" : [ "long", "String", "int", "int" ],
+        "returnType" : "int",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "Clob.setString(long, String, int, int)",
+        "matchKey" : "setString(long,String,int,int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Clob",
+        "methodName" : "truncate",
+        "parameterTypes" : [ "long" ],
+        "returnType" : "void",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "Clob.truncate(long)",
+        "matchKey" : "truncate(long)"
+      },
+      "status" : "THROWS_UNSUPPORTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Clob",
+        "methodName" : "free",
+        "parameterTypes" : [ ],
+        "returnType" : "void",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "Clob.free()",
+        "matchKey" : "free()"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Clob",
+        "methodName" : "getCharacterStream",
+        "parameterTypes" : [ "long", "long" ],
+        "returnType" : "Reader",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "Clob.getCharacterStream(long, long)",
+        "matchKey" : "getCharacterStream(long,long)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Clob",
+        "methodName" : "close",
+        "parameterTypes" : [ ],
+        "returnType" : "void",
+        "jdbcVersion" : "V4_5",
+        "displayName" : "Clob.close()",
+        "matchKey" : "close()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
+      "sourceLocation" : null
+    } ],
+    "total" : 14,
+    "implemented" : 10,
+    "stub" : 3,
+    "notFound" : 1,
+    "coveragePercent" : 71.42857142857143
+  }, {
+    "interfaceName" : "java.sql.Array",
+    "implementingClass" : null,
+    "methods" : [ {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Array",
+        "methodName" : "getArray",
+        "parameterTypes" : [ ],
+        "returnType" : "Object",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Array.getArray()",
+        "matchKey" : "getArray()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Array",
+        "methodName" : "getArray",
+        "parameterTypes" : [ "Map" ],
+        "returnType" : "Object",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Array.getArray(Map)",
+        "matchKey" : "getArray(Map)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Array",
+        "methodName" : "getArray",
+        "parameterTypes" : [ "long", "int" ],
+        "returnType" : "Object",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Array.getArray(long, int)",
+        "matchKey" : "getArray(long,int)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Array",
+        "methodName" : "getArray",
+        "parameterTypes" : [ "long", "int", "Map" ],
+        "returnType" : "Object",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Array.getArray(long, int, Map)",
+        "matchKey" : "getArray(long,int,Map)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Array",
+        "methodName" : "getBaseType",
+        "parameterTypes" : [ ],
+        "returnType" : "int",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Array.getBaseType()",
+        "matchKey" : "getBaseType()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Array",
+        "methodName" : "getBaseTypeName",
+        "parameterTypes" : [ ],
+        "returnType" : "String",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Array.getBaseTypeName()",
+        "matchKey" : "getBaseTypeName()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Array",
+        "methodName" : "getResultSet",
+        "parameterTypes" : [ ],
+        "returnType" : "ResultSet",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Array.getResultSet()",
+        "matchKey" : "getResultSet()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Array",
+        "methodName" : "getResultSet",
+        "parameterTypes" : [ "Map" ],
+        "returnType" : "ResultSet",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Array.getResultSet(Map)",
+        "matchKey" : "getResultSet(Map)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Array",
+        "methodName" : "getResultSet",
+        "parameterTypes" : [ "long", "int" ],
+        "returnType" : "ResultSet",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Array.getResultSet(long, int)",
+        "matchKey" : "getResultSet(long,int)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Array",
+        "methodName" : "getResultSet",
+        "parameterTypes" : [ "long", "int", "Map" ],
+        "returnType" : "ResultSet",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Array.getResultSet(long, int, Map)",
+        "matchKey" : "getResultSet(long,int,Map)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Array",
+        "methodName" : "free",
+        "parameterTypes" : [ ],
+        "returnType" : "void",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "Array.free()",
+        "matchKey" : "free()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Array",
+        "methodName" : "close",
+        "parameterTypes" : [ ],
+        "returnType" : "void",
+        "jdbcVersion" : "V4_5",
+        "displayName" : "Array.close()",
+        "matchKey" : "close()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    } ],
+    "total" : 12,
+    "implemented" : 0,
+    "stub" : 0,
+    "notFound" : 12,
+    "coveragePercent" : 0.0
+  }, {
+    "interfaceName" : "java.sql.Struct",
+    "implementingClass" : null,
+    "methods" : [ {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Struct",
+        "methodName" : "getAttributes",
+        "parameterTypes" : [ ],
+        "returnType" : "Object[]",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Struct.getAttributes()",
+        "matchKey" : "getAttributes()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Struct",
+        "methodName" : "getAttributes",
+        "parameterTypes" : [ "Map" ],
+        "returnType" : "Object[]",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Struct.getAttributes(Map)",
+        "matchKey" : "getAttributes(Map)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Struct",
+        "methodName" : "getSQLTypeName",
+        "parameterTypes" : [ ],
+        "returnType" : "String",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Struct.getSQLTypeName()",
+        "matchKey" : "getSQLTypeName()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    } ],
+    "total" : 3,
+    "implemented" : 0,
+    "stub" : 0,
+    "notFound" : 3,
+    "coveragePercent" : 0.0
+  }, {
+    "interfaceName" : "java.sql.Ref",
+    "implementingClass" : null,
+    "methods" : [ {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Ref",
+        "methodName" : "getBaseTypeName",
+        "parameterTypes" : [ ],
+        "returnType" : "String",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "Ref.getBaseTypeName()",
+        "matchKey" : "getBaseTypeName()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Ref",
+        "methodName" : "getObject",
+        "parameterTypes" : [ ],
+        "returnType" : "Object",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "Ref.getObject()",
+        "matchKey" : "getObject()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Ref",
+        "methodName" : "getObject",
+        "parameterTypes" : [ "Map" ],
+        "returnType" : "Object",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "Ref.getObject(Map)",
+        "matchKey" : "getObject(Map)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Ref",
+        "methodName" : "setObject",
+        "parameterTypes" : [ "Object" ],
+        "returnType" : "void",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "Ref.setObject(Object)",
+        "matchKey" : "setObject(Object)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    } ],
+    "total" : 4,
+    "implemented" : 0,
+    "stub" : 0,
+    "notFound" : 4,
+    "coveragePercent" : 0.0
+  }, {
+    "interfaceName" : "java.sql.RowId",
+    "implementingClass" : null,
+    "methods" : [ {
+      "specMethod" : {
+        "interfaceName" : "java.sql.RowId",
+        "methodName" : "equals",
+        "parameterTypes" : [ "Object" ],
+        "returnType" : "boolean",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "RowId.equals(Object)",
+        "matchKey" : "equals(Object)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.RowId",
+        "methodName" : "getBytes",
+        "parameterTypes" : [ ],
+        "returnType" : "byte[]",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "RowId.getBytes()",
+        "matchKey" : "getBytes()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.RowId",
+        "methodName" : "hashCode",
+        "parameterTypes" : [ ],
+        "returnType" : "int",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "RowId.hashCode()",
+        "matchKey" : "hashCode()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.RowId",
+        "methodName" : "toString",
+        "parameterTypes" : [ ],
+        "returnType" : "String",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "RowId.toString()",
+        "matchKey" : "toString()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    } ],
+    "total" : 4,
+    "implemented" : 0,
+    "stub" : 0,
+    "notFound" : 4,
+    "coveragePercent" : 0.0
+  }, {
+    "interfaceName" : "java.sql.SQLXML",
+    "implementingClass" : null,
+    "methods" : [ {
+      "specMethod" : {
+        "interfaceName" : "java.sql.SQLXML",
+        "methodName" : "free",
+        "parameterTypes" : [ ],
+        "returnType" : "void",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "SQLXML.free()",
+        "matchKey" : "free()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.SQLXML",
+        "methodName" : "getBinaryStream",
+        "parameterTypes" : [ ],
+        "returnType" : "InputStream",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "SQLXML.getBinaryStream()",
+        "matchKey" : "getBinaryStream()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.SQLXML",
+        "methodName" : "getCharacterStream",
+        "parameterTypes" : [ ],
+        "returnType" : "Reader",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "SQLXML.getCharacterStream()",
+        "matchKey" : "getCharacterStream()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.SQLXML",
+        "methodName" : "getSource",
+        "parameterTypes" : [ "Class" ],
+        "returnType" : "T",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "SQLXML.getSource(Class)",
+        "matchKey" : "getSource(Class)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.SQLXML",
+        "methodName" : "getString",
+        "parameterTypes" : [ ],
+        "returnType" : "String",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "SQLXML.getString()",
+        "matchKey" : "getString()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.SQLXML",
+        "methodName" : "setBinaryStream",
+        "parameterTypes" : [ ],
+        "returnType" : "OutputStream",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "SQLXML.setBinaryStream()",
+        "matchKey" : "setBinaryStream()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.SQLXML",
+        "methodName" : "setCharacterStream",
+        "parameterTypes" : [ ],
+        "returnType" : "Writer",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "SQLXML.setCharacterStream()",
+        "matchKey" : "setCharacterStream()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.SQLXML",
+        "methodName" : "setResult",
+        "parameterTypes" : [ "Class" ],
+        "returnType" : "T",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "SQLXML.setResult(Class)",
+        "matchKey" : "setResult(Class)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.SQLXML",
+        "methodName" : "setString",
+        "parameterTypes" : [ "String" ],
+        "returnType" : "void",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "SQLXML.setString(String)",
+        "matchKey" : "setString(String)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.SQLXML",
+        "methodName" : "close",
+        "parameterTypes" : [ ],
+        "returnType" : "void",
+        "jdbcVersion" : "V4_5",
+        "displayName" : "SQLXML.close()",
+        "matchKey" : "close()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    } ],
+    "total" : 10,
+    "implemented" : 0,
+    "stub" : 0,
+    "notFound" : 10,
+    "coveragePercent" : 0.0
+  }, {
+    "interfaceName" : "java.sql.Wrapper",
+    "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetWithoutQuery",
+    "methods" : [ {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Wrapper",
+        "methodName" : "isWrapperFor",
+        "parameterTypes" : [ "Class" ],
+        "returnType" : "boolean",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "Wrapper.isWrapperFor(Class)",
+        "matchKey" : "isWrapperFor(Class)"
+      },
+      "status" : "THROWS_UNSUPPORTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetWithoutQuery",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.Wrapper",
+        "methodName" : "unwrap",
+        "parameterTypes" : [ "Class" ],
+        "returnType" : "T",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "Wrapper.unwrap(Class)",
+        "matchKey" : "unwrap(Class)"
+      },
+      "status" : "THROWS_UNSUPPORTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetWithoutQuery",
+      "sourceLocation" : null
+    } ],
+    "total" : 2,
+    "implemented" : 0,
+    "stub" : 2,
+    "notFound" : 0,
+    "coveragePercent" : 0.0
+  }, {
+    "interfaceName" : "javax.sql.CommonDataSource",
+    "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
+    "methods" : [ {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.CommonDataSource",
+        "methodName" : "getLogWriter",
+        "parameterTypes" : [ ],
+        "returnType" : "PrintWriter",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "CommonDataSource.getLogWriter()",
+        "matchKey" : "getLogWriter()"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.CommonDataSource",
+        "methodName" : "getLoginTimeout",
+        "parameterTypes" : [ ],
+        "returnType" : "int",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "CommonDataSource.getLoginTimeout()",
+        "matchKey" : "getLoginTimeout()"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.CommonDataSource",
+        "methodName" : "setLogWriter",
+        "parameterTypes" : [ "PrintWriter" ],
+        "returnType" : "void",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "CommonDataSource.setLogWriter(PrintWriter)",
+        "matchKey" : "setLogWriter(PrintWriter)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.CommonDataSource",
+        "methodName" : "setLoginTimeout",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "void",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "CommonDataSource.setLoginTimeout(int)",
+        "matchKey" : "setLoginTimeout(int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.CommonDataSource",
         "methodName" : "getParentLogger",
         "parameterTypes" : [ ],
         "returnType" : "Logger",
         "jdbcVersion" : "V4_1",
-        "displayName" : "Driver.getParentLogger()",
+        "displayName" : "CommonDataSource.getParentLogger()",
         "matchKey" : "getParentLogger()"
       },
       "status" : "THROWS_UNSUPPORTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.CommonDataSource",
+        "methodName" : "createShardingKeyBuilder",
+        "parameterTypes" : [ ],
+        "returnType" : "ShardingKeyBuilder",
+        "jdbcVersion" : "V4_3",
+        "displayName" : "CommonDataSource.createShardingKeyBuilder()",
+        "matchKey" : "createShardingKeyBuilder()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
+      "sourceLocation" : null
+    } ],
+    "total" : 6,
+    "implemented" : 4,
+    "stub" : 1,
+    "notFound" : 1,
+    "coveragePercent" : 66.66666666666666
+  }, {
+    "interfaceName" : "javax.sql.DataSource",
+    "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
+    "methods" : [ {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.DataSource",
+        "methodName" : "getConnection",
+        "parameterTypes" : [ ],
+        "returnType" : "Connection",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "DataSource.getConnection()",
+        "matchKey" : "getConnection()"
+      },
+      "status" : "DELEGATES",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.DataSource",
+        "methodName" : "getConnection",
+        "parameterTypes" : [ "String", "String" ],
+        "returnType" : "Connection",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "DataSource.getConnection(String, String)",
+        "matchKey" : "getConnection(String,String)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.DataSource",
+        "methodName" : "getLogWriter",
+        "parameterTypes" : [ ],
+        "returnType" : "PrintWriter",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "DataSource.getLogWriter()",
+        "matchKey" : "getLogWriter()"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.DataSource",
+        "methodName" : "getLoginTimeout",
+        "parameterTypes" : [ ],
+        "returnType" : "int",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "DataSource.getLoginTimeout()",
+        "matchKey" : "getLoginTimeout()"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.DataSource",
+        "methodName" : "setLogWriter",
+        "parameterTypes" : [ "PrintWriter" ],
+        "returnType" : "void",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "DataSource.setLogWriter(PrintWriter)",
+        "matchKey" : "setLogWriter(PrintWriter)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.DataSource",
+        "methodName" : "setLoginTimeout",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "void",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "DataSource.setLoginTimeout(int)",
+        "matchKey" : "setLoginTimeout(int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.DataSource",
+        "methodName" : "createConnectionBuilder",
+        "parameterTypes" : [ ],
+        "returnType" : "ConnectionBuilder",
+        "jdbcVersion" : "V4_3",
+        "displayName" : "DataSource.createConnectionBuilder()",
+        "matchKey" : "createConnectionBuilder()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
       "sourceLocation" : null
     } ],
     "total" : 7,
-    "implemented" : 5,
+    "implemented" : 6,
+    "stub" : 0,
+    "notFound" : 1,
+    "coveragePercent" : 85.71428571428571
+  }, {
+    "interfaceName" : "javax.sql.ConnectionPoolDataSource",
+    "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnectionPoolDataSource",
+    "methods" : [ {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.ConnectionPoolDataSource",
+        "methodName" : "getLogWriter",
+        "parameterTypes" : [ ],
+        "returnType" : "PrintWriter",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "ConnectionPoolDataSource.getLogWriter()",
+        "matchKey" : "getLogWriter()"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnectionPoolDataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.ConnectionPoolDataSource",
+        "methodName" : "getLoginTimeout",
+        "parameterTypes" : [ ],
+        "returnType" : "int",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "ConnectionPoolDataSource.getLoginTimeout()",
+        "matchKey" : "getLoginTimeout()"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnectionPoolDataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.ConnectionPoolDataSource",
+        "methodName" : "getPooledConnection",
+        "parameterTypes" : [ ],
+        "returnType" : "PooledConnection",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "ConnectionPoolDataSource.getPooledConnection()",
+        "matchKey" : "getPooledConnection()"
+      },
+      "status" : "DELEGATES",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnectionPoolDataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.ConnectionPoolDataSource",
+        "methodName" : "getPooledConnection",
+        "parameterTypes" : [ "String", "String" ],
+        "returnType" : "PooledConnection",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "ConnectionPoolDataSource.getPooledConnection(String, String)",
+        "matchKey" : "getPooledConnection(String,String)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnectionPoolDataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.ConnectionPoolDataSource",
+        "methodName" : "setLogWriter",
+        "parameterTypes" : [ "PrintWriter" ],
+        "returnType" : "void",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "ConnectionPoolDataSource.setLogWriter(PrintWriter)",
+        "matchKey" : "setLogWriter(PrintWriter)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnectionPoolDataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.ConnectionPoolDataSource",
+        "methodName" : "setLoginTimeout",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "void",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "ConnectionPoolDataSource.setLoginTimeout(int)",
+        "matchKey" : "setLoginTimeout(int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnectionPoolDataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.ConnectionPoolDataSource",
+        "methodName" : "createPooledConnectionBuilder",
+        "parameterTypes" : [ ],
+        "returnType" : "PooledConnectionBuilder",
+        "jdbcVersion" : "V4_3",
+        "displayName" : "ConnectionPoolDataSource.createPooledConnectionBuilder()",
+        "matchKey" : "createPooledConnectionBuilder()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnectionPoolDataSource",
+      "sourceLocation" : null
+    } ],
+    "total" : 7,
+    "implemented" : 6,
+    "stub" : 0,
+    "notFound" : 1,
+    "coveragePercent" : 85.71428571428571
+  }, {
+    "interfaceName" : "javax.sql.XADataSource",
+    "implementingClass" : "cubrid.jdbc.driver.CUBRIDXADataSource",
+    "methods" : [ {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.XADataSource",
+        "methodName" : "getLogWriter",
+        "parameterTypes" : [ ],
+        "returnType" : "PrintWriter",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "XADataSource.getLogWriter()",
+        "matchKey" : "getLogWriter()"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDXADataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.XADataSource",
+        "methodName" : "getLoginTimeout",
+        "parameterTypes" : [ ],
+        "returnType" : "int",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "XADataSource.getLoginTimeout()",
+        "matchKey" : "getLoginTimeout()"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDXADataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.XADataSource",
+        "methodName" : "getXAConnection",
+        "parameterTypes" : [ ],
+        "returnType" : "XAConnection",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "XADataSource.getXAConnection()",
+        "matchKey" : "getXAConnection()"
+      },
+      "status" : "DELEGATES",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDXADataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.XADataSource",
+        "methodName" : "getXAConnection",
+        "parameterTypes" : [ "String", "String" ],
+        "returnType" : "XAConnection",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "XADataSource.getXAConnection(String, String)",
+        "matchKey" : "getXAConnection(String,String)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDXADataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.XADataSource",
+        "methodName" : "setLogWriter",
+        "parameterTypes" : [ "PrintWriter" ],
+        "returnType" : "void",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "XADataSource.setLogWriter(PrintWriter)",
+        "matchKey" : "setLogWriter(PrintWriter)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDXADataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.XADataSource",
+        "methodName" : "setLoginTimeout",
+        "parameterTypes" : [ "int" ],
+        "returnType" : "void",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "XADataSource.setLoginTimeout(int)",
+        "matchKey" : "setLoginTimeout(int)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDXADataSource",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.XADataSource",
+        "methodName" : "createXAConnectionBuilder",
+        "parameterTypes" : [ ],
+        "returnType" : "XAConnectionBuilder",
+        "jdbcVersion" : "V4_3",
+        "displayName" : "XADataSource.createXAConnectionBuilder()",
+        "matchKey" : "createXAConnectionBuilder()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDXADataSource",
+      "sourceLocation" : null
+    } ],
+    "total" : 7,
+    "implemented" : 6,
+    "stub" : 0,
+    "notFound" : 1,
+    "coveragePercent" : 85.71428571428571
+  }, {
+    "interfaceName" : "javax.sql.PooledConnection",
+    "implementingClass" : "cubrid.jdbc.driver.CUBRIDPooledConnection",
+    "methods" : [ {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.PooledConnection",
+        "methodName" : "addConnectionEventListener",
+        "parameterTypes" : [ "ConnectionEventListener" ],
+        "returnType" : "void",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "PooledConnection.addConnectionEventListener(ConnectionEventListener)",
+        "matchKey" : "addConnectionEventListener(ConnectionEventListener)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDPooledConnection",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.PooledConnection",
+        "methodName" : "removeConnectionEventListener",
+        "parameterTypes" : [ "ConnectionEventListener" ],
+        "returnType" : "void",
+        "jdbcVersion" : "V2_0",
+        "displayName" : "PooledConnection.removeConnectionEventListener(ConnectionEventListener)",
+        "matchKey" : "removeConnectionEventListener(ConnectionEventListener)"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDPooledConnection",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.PooledConnection",
+        "methodName" : "close",
+        "parameterTypes" : [ ],
+        "returnType" : "void",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "PooledConnection.close()",
+        "matchKey" : "close()"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDPooledConnection",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.PooledConnection",
+        "methodName" : "getConnection",
+        "parameterTypes" : [ ],
+        "returnType" : "Connection",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "PooledConnection.getConnection()",
+        "matchKey" : "getConnection()"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDPooledConnection",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.PooledConnection",
+        "methodName" : "addStatementEventListener",
+        "parameterTypes" : [ "StatementEventListener" ],
+        "returnType" : "void",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "PooledConnection.addStatementEventListener(StatementEventListener)",
+        "matchKey" : "addStatementEventListener(StatementEventListener)"
+      },
+      "status" : "THROWS_UNSUPPORTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDPooledConnection",
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.PooledConnection",
+        "methodName" : "removeStatementEventListener",
+        "parameterTypes" : [ "StatementEventListener" ],
+        "returnType" : "void",
+        "jdbcVersion" : "V4_0",
+        "displayName" : "PooledConnection.removeStatementEventListener(StatementEventListener)",
+        "matchKey" : "removeStatementEventListener(StatementEventListener)"
+      },
+      "status" : "THROWS_UNSUPPORTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDPooledConnection",
+      "sourceLocation" : null
+    } ],
+    "total" : 6,
+    "implemented" : 4,
     "stub" : 2,
     "notFound" : 0,
-    "coveragePercent" : 71.42857142857143
+    "coveragePercent" : 66.66666666666666
+  }, {
+    "interfaceName" : "javax.sql.XAConnection",
+    "implementingClass" : "cubrid.jdbc.driver.CUBRIDXAConnection",
+    "methods" : [ {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.XAConnection",
+        "methodName" : "getXAResource",
+        "parameterTypes" : [ ],
+        "returnType" : "XAResource",
+        "jdbcVersion" : "V3_0",
+        "displayName" : "XAConnection.getXAResource()",
+        "matchKey" : "getXAResource()"
+      },
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDXAConnection",
+      "sourceLocation" : null
+    } ],
+    "total" : 1,
+    "implemented" : 1,
+    "stub" : 0,
+    "notFound" : 0,
+    "coveragePercent" : 100.0
+  }, {
+    "interfaceName" : "javax.sql.PooledConnectionBuilder",
+    "implementingClass" : null,
+    "methods" : [ {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.PooledConnectionBuilder",
+        "methodName" : "build",
+        "parameterTypes" : [ ],
+        "returnType" : "PooledConnection",
+        "jdbcVersion" : "V4_3",
+        "displayName" : "PooledConnectionBuilder.build()",
+        "matchKey" : "build()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.PooledConnectionBuilder",
+        "methodName" : "password",
+        "parameterTypes" : [ "String" ],
+        "returnType" : "PooledConnectionBuilder",
+        "jdbcVersion" : "V4_3",
+        "displayName" : "PooledConnectionBuilder.password(String)",
+        "matchKey" : "password(String)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.PooledConnectionBuilder",
+        "methodName" : "shardingKey",
+        "parameterTypes" : [ "ShardingKey" ],
+        "returnType" : "PooledConnectionBuilder",
+        "jdbcVersion" : "V4_3",
+        "displayName" : "PooledConnectionBuilder.shardingKey(ShardingKey)",
+        "matchKey" : "shardingKey(ShardingKey)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.PooledConnectionBuilder",
+        "methodName" : "superShardingKey",
+        "parameterTypes" : [ "ShardingKey" ],
+        "returnType" : "PooledConnectionBuilder",
+        "jdbcVersion" : "V4_3",
+        "displayName" : "PooledConnectionBuilder.superShardingKey(ShardingKey)",
+        "matchKey" : "superShardingKey(ShardingKey)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.PooledConnectionBuilder",
+        "methodName" : "user",
+        "parameterTypes" : [ "String" ],
+        "returnType" : "PooledConnectionBuilder",
+        "jdbcVersion" : "V4_3",
+        "displayName" : "PooledConnectionBuilder.user(String)",
+        "matchKey" : "user(String)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    } ],
+    "total" : 5,
+    "implemented" : 0,
+    "stub" : 0,
+    "notFound" : 5,
+    "coveragePercent" : 0.0
+  }, {
+    "interfaceName" : "javax.sql.XAConnectionBuilder",
+    "implementingClass" : null,
+    "methods" : [ {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.XAConnectionBuilder",
+        "methodName" : "build",
+        "parameterTypes" : [ ],
+        "returnType" : "XAConnection",
+        "jdbcVersion" : "V4_3",
+        "displayName" : "XAConnectionBuilder.build()",
+        "matchKey" : "build()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.XAConnectionBuilder",
+        "methodName" : "password",
+        "parameterTypes" : [ "String" ],
+        "returnType" : "XAConnectionBuilder",
+        "jdbcVersion" : "V4_3",
+        "displayName" : "XAConnectionBuilder.password(String)",
+        "matchKey" : "password(String)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.XAConnectionBuilder",
+        "methodName" : "shardingKey",
+        "parameterTypes" : [ "ShardingKey" ],
+        "returnType" : "XAConnectionBuilder",
+        "jdbcVersion" : "V4_3",
+        "displayName" : "XAConnectionBuilder.shardingKey(ShardingKey)",
+        "matchKey" : "shardingKey(ShardingKey)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.XAConnectionBuilder",
+        "methodName" : "superShardingKey",
+        "parameterTypes" : [ "ShardingKey" ],
+        "returnType" : "XAConnectionBuilder",
+        "jdbcVersion" : "V4_3",
+        "displayName" : "XAConnectionBuilder.superShardingKey(ShardingKey)",
+        "matchKey" : "superShardingKey(ShardingKey)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "javax.sql.XAConnectionBuilder",
+        "methodName" : "user",
+        "parameterTypes" : [ "String" ],
+        "returnType" : "XAConnectionBuilder",
+        "jdbcVersion" : "V4_3",
+        "displayName" : "XAConnectionBuilder.user(String)",
+        "matchKey" : "user(String)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    } ],
+    "total" : 5,
+    "implemented" : 0,
+    "stub" : 0,
+    "notFound" : 5,
+    "coveragePercent" : 0.0
+  }, {
+    "interfaceName" : "java.sql.ConnectionBuilder",
+    "implementingClass" : null,
+    "methods" : [ {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ConnectionBuilder",
+        "methodName" : "build",
+        "parameterTypes" : [ ],
+        "returnType" : "Connection",
+        "jdbcVersion" : "V4_3",
+        "displayName" : "ConnectionBuilder.build()",
+        "matchKey" : "build()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ConnectionBuilder",
+        "methodName" : "password",
+        "parameterTypes" : [ "String" ],
+        "returnType" : "ConnectionBuilder",
+        "jdbcVersion" : "V4_3",
+        "displayName" : "ConnectionBuilder.password(String)",
+        "matchKey" : "password(String)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ConnectionBuilder",
+        "methodName" : "shardingKey",
+        "parameterTypes" : [ "ShardingKey" ],
+        "returnType" : "ConnectionBuilder",
+        "jdbcVersion" : "V4_3",
+        "displayName" : "ConnectionBuilder.shardingKey(ShardingKey)",
+        "matchKey" : "shardingKey(ShardingKey)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ConnectionBuilder",
+        "methodName" : "superShardingKey",
+        "parameterTypes" : [ "ShardingKey" ],
+        "returnType" : "ConnectionBuilder",
+        "jdbcVersion" : "V4_3",
+        "displayName" : "ConnectionBuilder.superShardingKey(ShardingKey)",
+        "matchKey" : "superShardingKey(ShardingKey)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ConnectionBuilder",
+        "methodName" : "user",
+        "parameterTypes" : [ "String" ],
+        "returnType" : "ConnectionBuilder",
+        "jdbcVersion" : "V4_3",
+        "displayName" : "ConnectionBuilder.user(String)",
+        "matchKey" : "user(String)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    } ],
+    "total" : 5,
+    "implemented" : 0,
+    "stub" : 0,
+    "notFound" : 5,
+    "coveragePercent" : 0.0
+  }, {
+    "interfaceName" : "java.sql.ShardingKeyBuilder",
+    "implementingClass" : null,
+    "methods" : [ {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ShardingKeyBuilder",
+        "methodName" : "build",
+        "parameterTypes" : [ ],
+        "returnType" : "ShardingKey",
+        "jdbcVersion" : "V4_3",
+        "displayName" : "ShardingKeyBuilder.build()",
+        "matchKey" : "build()"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    }, {
+      "specMethod" : {
+        "interfaceName" : "java.sql.ShardingKeyBuilder",
+        "methodName" : "subkey",
+        "parameterTypes" : [ "Object", "SQLType" ],
+        "returnType" : "ShardingKeyBuilder",
+        "jdbcVersion" : "V4_3",
+        "displayName" : "ShardingKeyBuilder.subkey(Object, SQLType)",
+        "matchKey" : "subkey(Object,SQLType)"
+      },
+      "status" : "NOT_FOUND",
+      "implementingClass" : null,
+      "sourceLocation" : null
+    } ],
+    "total" : 2,
+    "implemented" : 0,
+    "stub" : 0,
+    "notFound" : 2,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.SQLInput",
     "implementingClass" : null,
@@ -9548,1336 +11609,6 @@
     "notFound" : 28,
     "coveragePercent" : 0.0
   }, {
-    "interfaceName" : "java.sql.Array",
-    "implementingClass" : null,
-    "methods" : [ {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Array",
-        "methodName" : "getArray",
-        "parameterTypes" : [ ],
-        "returnType" : "Object",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Array.getArray()",
-        "matchKey" : "getArray()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Array",
-        "methodName" : "getArray",
-        "parameterTypes" : [ "Map" ],
-        "returnType" : "Object",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Array.getArray(Map)",
-        "matchKey" : "getArray(Map)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Array",
-        "methodName" : "getArray",
-        "parameterTypes" : [ "long", "int" ],
-        "returnType" : "Object",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Array.getArray(long, int)",
-        "matchKey" : "getArray(long,int)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Array",
-        "methodName" : "getArray",
-        "parameterTypes" : [ "long", "int", "Map" ],
-        "returnType" : "Object",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Array.getArray(long, int, Map)",
-        "matchKey" : "getArray(long,int,Map)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Array",
-        "methodName" : "getBaseType",
-        "parameterTypes" : [ ],
-        "returnType" : "int",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Array.getBaseType()",
-        "matchKey" : "getBaseType()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Array",
-        "methodName" : "getBaseTypeName",
-        "parameterTypes" : [ ],
-        "returnType" : "String",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Array.getBaseTypeName()",
-        "matchKey" : "getBaseTypeName()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Array",
-        "methodName" : "getResultSet",
-        "parameterTypes" : [ ],
-        "returnType" : "ResultSet",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Array.getResultSet()",
-        "matchKey" : "getResultSet()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Array",
-        "methodName" : "getResultSet",
-        "parameterTypes" : [ "Map" ],
-        "returnType" : "ResultSet",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Array.getResultSet(Map)",
-        "matchKey" : "getResultSet(Map)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Array",
-        "methodName" : "getResultSet",
-        "parameterTypes" : [ "long", "int" ],
-        "returnType" : "ResultSet",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Array.getResultSet(long, int)",
-        "matchKey" : "getResultSet(long,int)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Array",
-        "methodName" : "getResultSet",
-        "parameterTypes" : [ "long", "int", "Map" ],
-        "returnType" : "ResultSet",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Array.getResultSet(long, int, Map)",
-        "matchKey" : "getResultSet(long,int,Map)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Array",
-        "methodName" : "free",
-        "parameterTypes" : [ ],
-        "returnType" : "void",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "Array.free()",
-        "matchKey" : "free()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Array",
-        "methodName" : "close",
-        "parameterTypes" : [ ],
-        "returnType" : "void",
-        "jdbcVersion" : "V4_5",
-        "displayName" : "Array.close()",
-        "matchKey" : "close()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    } ],
-    "total" : 12,
-    "implemented" : 0,
-    "stub" : 0,
-    "notFound" : 12,
-    "coveragePercent" : 0.0
-  }, {
-    "interfaceName" : "java.sql.Struct",
-    "implementingClass" : null,
-    "methods" : [ {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Struct",
-        "methodName" : "getAttributes",
-        "parameterTypes" : [ ],
-        "returnType" : "Object[]",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Struct.getAttributes()",
-        "matchKey" : "getAttributes()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Struct",
-        "methodName" : "getAttributes",
-        "parameterTypes" : [ "Map" ],
-        "returnType" : "Object[]",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Struct.getAttributes(Map)",
-        "matchKey" : "getAttributes(Map)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Struct",
-        "methodName" : "getSQLTypeName",
-        "parameterTypes" : [ ],
-        "returnType" : "String",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Struct.getSQLTypeName()",
-        "matchKey" : "getSQLTypeName()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    } ],
-    "total" : 3,
-    "implemented" : 0,
-    "stub" : 0,
-    "notFound" : 3,
-    "coveragePercent" : 0.0
-  }, {
-    "interfaceName" : "java.sql.Ref",
-    "implementingClass" : null,
-    "methods" : [ {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Ref",
-        "methodName" : "getBaseTypeName",
-        "parameterTypes" : [ ],
-        "returnType" : "String",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Ref.getBaseTypeName()",
-        "matchKey" : "getBaseTypeName()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Ref",
-        "methodName" : "getObject",
-        "parameterTypes" : [ ],
-        "returnType" : "Object",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "Ref.getObject()",
-        "matchKey" : "getObject()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Ref",
-        "methodName" : "getObject",
-        "parameterTypes" : [ "Map" ],
-        "returnType" : "Object",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "Ref.getObject(Map)",
-        "matchKey" : "getObject(Map)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Ref",
-        "methodName" : "setObject",
-        "parameterTypes" : [ "Object" ],
-        "returnType" : "void",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "Ref.setObject(Object)",
-        "matchKey" : "setObject(Object)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    } ],
-    "total" : 4,
-    "implemented" : 0,
-    "stub" : 0,
-    "notFound" : 4,
-    "coveragePercent" : 0.0
-  }, {
-    "interfaceName" : "java.sql.Blob",
-    "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
-    "methods" : [ {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Blob",
-        "methodName" : "getBinaryStream",
-        "parameterTypes" : [ ],
-        "returnType" : "InputStream",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Blob.getBinaryStream()",
-        "matchKey" : "getBinaryStream()"
-      },
-      "status" : "DELEGATES",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Blob",
-        "methodName" : "getBytes",
-        "parameterTypes" : [ "long", "int" ],
-        "returnType" : "byte[]",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Blob.getBytes(long, int)",
-        "matchKey" : "getBytes(long,int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Blob",
-        "methodName" : "length",
-        "parameterTypes" : [ ],
-        "returnType" : "long",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Blob.length()",
-        "matchKey" : "length()"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Blob",
-        "methodName" : "position",
-        "parameterTypes" : [ "byte[]", "long" ],
-        "returnType" : "long",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Blob.position(byte[], long)",
-        "matchKey" : "position(byte[],long)"
-      },
-      "status" : "THROWS_UNSUPPORTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Blob",
-        "methodName" : "position",
-        "parameterTypes" : [ "Blob", "long" ],
-        "returnType" : "long",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Blob.position(Blob, long)",
-        "matchKey" : "position(Blob,long)"
-      },
-      "status" : "THROWS_UNSUPPORTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Blob",
-        "methodName" : "setBinaryStream",
-        "parameterTypes" : [ "long" ],
-        "returnType" : "OutputStream",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "Blob.setBinaryStream(long)",
-        "matchKey" : "setBinaryStream(long)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Blob",
-        "methodName" : "setBytes",
-        "parameterTypes" : [ "long", "byte[]" ],
-        "returnType" : "int",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "Blob.setBytes(long, byte[])",
-        "matchKey" : "setBytes(long,byte[])"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Blob",
-        "methodName" : "setBytes",
-        "parameterTypes" : [ "long", "byte[]", "int", "int" ],
-        "returnType" : "int",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "Blob.setBytes(long, byte[], int, int)",
-        "matchKey" : "setBytes(long,byte[],int,int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Blob",
-        "methodName" : "truncate",
-        "parameterTypes" : [ "long" ],
-        "returnType" : "void",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "Blob.truncate(long)",
-        "matchKey" : "truncate(long)"
-      },
-      "status" : "THROWS_UNSUPPORTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Blob",
-        "methodName" : "free",
-        "parameterTypes" : [ ],
-        "returnType" : "void",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "Blob.free()",
-        "matchKey" : "free()"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Blob",
-        "methodName" : "getBinaryStream",
-        "parameterTypes" : [ "long", "long" ],
-        "returnType" : "InputStream",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "Blob.getBinaryStream(long, long)",
-        "matchKey" : "getBinaryStream(long,long)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Blob",
-        "methodName" : "close",
-        "parameterTypes" : [ ],
-        "returnType" : "void",
-        "jdbcVersion" : "V4_5",
-        "displayName" : "Blob.close()",
-        "matchKey" : "close()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
-      "sourceLocation" : null
-    } ],
-    "total" : 12,
-    "implemented" : 8,
-    "stub" : 3,
-    "notFound" : 1,
-    "coveragePercent" : 66.66666666666666
-  }, {
-    "interfaceName" : "java.sql.Clob",
-    "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
-    "methods" : [ {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Clob",
-        "methodName" : "getAsciiStream",
-        "parameterTypes" : [ ],
-        "returnType" : "InputStream",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Clob.getAsciiStream()",
-        "matchKey" : "getAsciiStream()"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Clob",
-        "methodName" : "getCharacterStream",
-        "parameterTypes" : [ ],
-        "returnType" : "Reader",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Clob.getCharacterStream()",
-        "matchKey" : "getCharacterStream()"
-      },
-      "status" : "DELEGATES",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Clob",
-        "methodName" : "getSubString",
-        "parameterTypes" : [ "long", "int" ],
-        "returnType" : "String",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Clob.getSubString(long, int)",
-        "matchKey" : "getSubString(long,int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Clob",
-        "methodName" : "length",
-        "parameterTypes" : [ ],
-        "returnType" : "long",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Clob.length()",
-        "matchKey" : "length()"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Clob",
-        "methodName" : "position",
-        "parameterTypes" : [ "String", "long" ],
-        "returnType" : "long",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Clob.position(String, long)",
-        "matchKey" : "position(String,long)"
-      },
-      "status" : "THROWS_UNSUPPORTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Clob",
-        "methodName" : "position",
-        "parameterTypes" : [ "Clob", "long" ],
-        "returnType" : "long",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "Clob.position(Clob, long)",
-        "matchKey" : "position(Clob,long)"
-      },
-      "status" : "THROWS_UNSUPPORTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Clob",
-        "methodName" : "setAsciiStream",
-        "parameterTypes" : [ "long" ],
-        "returnType" : "OutputStream",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "Clob.setAsciiStream(long)",
-        "matchKey" : "setAsciiStream(long)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Clob",
-        "methodName" : "setCharacterStream",
-        "parameterTypes" : [ "long" ],
-        "returnType" : "Writer",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "Clob.setCharacterStream(long)",
-        "matchKey" : "setCharacterStream(long)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Clob",
-        "methodName" : "setString",
-        "parameterTypes" : [ "long", "String" ],
-        "returnType" : "int",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "Clob.setString(long, String)",
-        "matchKey" : "setString(long,String)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Clob",
-        "methodName" : "setString",
-        "parameterTypes" : [ "long", "String", "int", "int" ],
-        "returnType" : "int",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "Clob.setString(long, String, int, int)",
-        "matchKey" : "setString(long,String,int,int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Clob",
-        "methodName" : "truncate",
-        "parameterTypes" : [ "long" ],
-        "returnType" : "void",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "Clob.truncate(long)",
-        "matchKey" : "truncate(long)"
-      },
-      "status" : "THROWS_UNSUPPORTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Clob",
-        "methodName" : "free",
-        "parameterTypes" : [ ],
-        "returnType" : "void",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "Clob.free()",
-        "matchKey" : "free()"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Clob",
-        "methodName" : "getCharacterStream",
-        "parameterTypes" : [ "long", "long" ],
-        "returnType" : "Reader",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "Clob.getCharacterStream(long, long)",
-        "matchKey" : "getCharacterStream(long,long)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Clob",
-        "methodName" : "close",
-        "parameterTypes" : [ ],
-        "returnType" : "void",
-        "jdbcVersion" : "V4_5",
-        "displayName" : "Clob.close()",
-        "matchKey" : "close()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDClob",
-      "sourceLocation" : null
-    } ],
-    "total" : 14,
-    "implemented" : 10,
-    "stub" : 3,
-    "notFound" : 1,
-    "coveragePercent" : 71.42857142857143
-  }, {
-    "interfaceName" : "java.sql.Savepoint",
-    "implementingClass" : null,
-    "methods" : [ {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Savepoint",
-        "methodName" : "getSavepointId",
-        "parameterTypes" : [ ],
-        "returnType" : "int",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "Savepoint.getSavepointId()",
-        "matchKey" : "getSavepointId()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Savepoint",
-        "methodName" : "getSavepointName",
-        "parameterTypes" : [ ],
-        "returnType" : "String",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "Savepoint.getSavepointName()",
-        "matchKey" : "getSavepointName()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    } ],
-    "total" : 2,
-    "implemented" : 0,
-    "stub" : 0,
-    "notFound" : 2,
-    "coveragePercent" : 0.0
-  }, {
-    "interfaceName" : "java.sql.ParameterMetaData",
-    "implementingClass" : null,
-    "methods" : [ {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ParameterMetaData",
-        "methodName" : "getParameterClassName",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "String",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "ParameterMetaData.getParameterClassName(int)",
-        "matchKey" : "getParameterClassName(int)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ParameterMetaData",
-        "methodName" : "getParameterCount",
-        "parameterTypes" : [ ],
-        "returnType" : "int",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "ParameterMetaData.getParameterCount()",
-        "matchKey" : "getParameterCount()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ParameterMetaData",
-        "methodName" : "getParameterMode",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "int",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "ParameterMetaData.getParameterMode(int)",
-        "matchKey" : "getParameterMode(int)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ParameterMetaData",
-        "methodName" : "getParameterType",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "int",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "ParameterMetaData.getParameterType(int)",
-        "matchKey" : "getParameterType(int)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ParameterMetaData",
-        "methodName" : "getParameterTypeName",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "String",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "ParameterMetaData.getParameterTypeName(int)",
-        "matchKey" : "getParameterTypeName(int)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ParameterMetaData",
-        "methodName" : "getPrecision",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "int",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "ParameterMetaData.getPrecision(int)",
-        "matchKey" : "getPrecision(int)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ParameterMetaData",
-        "methodName" : "getScale",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "int",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "ParameterMetaData.getScale(int)",
-        "matchKey" : "getScale(int)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ParameterMetaData",
-        "methodName" : "isNullable",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "int",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "ParameterMetaData.isNullable(int)",
-        "matchKey" : "isNullable(int)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ParameterMetaData",
-        "methodName" : "isSigned",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "boolean",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "ParameterMetaData.isSigned(int)",
-        "matchKey" : "isSigned(int)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    } ],
-    "total" : 9,
-    "implemented" : 0,
-    "stub" : 0,
-    "notFound" : 9,
-    "coveragePercent" : 0.0
-  }, {
-    "interfaceName" : "java.sql.ResultSetMetaData",
-    "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-    "methods" : [ {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ResultSetMetaData",
-        "methodName" : "getCatalogName",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "String",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "ResultSetMetaData.getCatalogName(int)",
-        "matchKey" : "getCatalogName(int)"
-      },
-      "status" : "RETURNS_DEFAULT",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ResultSetMetaData",
-        "methodName" : "getColumnCount",
-        "parameterTypes" : [ ],
-        "returnType" : "int",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "ResultSetMetaData.getColumnCount()",
-        "matchKey" : "getColumnCount()"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ResultSetMetaData",
-        "methodName" : "getColumnDisplaySize",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "int",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "ResultSetMetaData.getColumnDisplaySize(int)",
-        "matchKey" : "getColumnDisplaySize(int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ResultSetMetaData",
-        "methodName" : "getColumnLabel",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "String",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "ResultSetMetaData.getColumnLabel(int)",
-        "matchKey" : "getColumnLabel(int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ResultSetMetaData",
-        "methodName" : "getColumnName",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "String",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "ResultSetMetaData.getColumnName(int)",
-        "matchKey" : "getColumnName(int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ResultSetMetaData",
-        "methodName" : "getColumnType",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "int",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "ResultSetMetaData.getColumnType(int)",
-        "matchKey" : "getColumnType(int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ResultSetMetaData",
-        "methodName" : "getColumnTypeName",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "String",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "ResultSetMetaData.getColumnTypeName(int)",
-        "matchKey" : "getColumnTypeName(int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ResultSetMetaData",
-        "methodName" : "getPrecision",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "int",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "ResultSetMetaData.getPrecision(int)",
-        "matchKey" : "getPrecision(int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ResultSetMetaData",
-        "methodName" : "getScale",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "int",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "ResultSetMetaData.getScale(int)",
-        "matchKey" : "getScale(int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ResultSetMetaData",
-        "methodName" : "getSchemaName",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "String",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "ResultSetMetaData.getSchemaName(int)",
-        "matchKey" : "getSchemaName(int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ResultSetMetaData",
-        "methodName" : "getTableName",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "String",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "ResultSetMetaData.getTableName(int)",
-        "matchKey" : "getTableName(int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ResultSetMetaData",
-        "methodName" : "isAutoIncrement",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "boolean",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "ResultSetMetaData.isAutoIncrement(int)",
-        "matchKey" : "isAutoIncrement(int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ResultSetMetaData",
-        "methodName" : "isCaseSensitive",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "boolean",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "ResultSetMetaData.isCaseSensitive(int)",
-        "matchKey" : "isCaseSensitive(int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ResultSetMetaData",
-        "methodName" : "isCurrency",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "boolean",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "ResultSetMetaData.isCurrency(int)",
-        "matchKey" : "isCurrency(int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ResultSetMetaData",
-        "methodName" : "isDefinitelyWritable",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "boolean",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "ResultSetMetaData.isDefinitelyWritable(int)",
-        "matchKey" : "isDefinitelyWritable(int)"
-      },
-      "status" : "RETURNS_DEFAULT",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ResultSetMetaData",
-        "methodName" : "isNullable",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "int",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "ResultSetMetaData.isNullable(int)",
-        "matchKey" : "isNullable(int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ResultSetMetaData",
-        "methodName" : "isReadOnly",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "boolean",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "ResultSetMetaData.isReadOnly(int)",
-        "matchKey" : "isReadOnly(int)"
-      },
-      "status" : "RETURNS_DEFAULT",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ResultSetMetaData",
-        "methodName" : "isSearchable",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "boolean",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "ResultSetMetaData.isSearchable(int)",
-        "matchKey" : "isSearchable(int)"
-      },
-      "status" : "RETURNS_DEFAULT",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ResultSetMetaData",
-        "methodName" : "isSigned",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "boolean",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "ResultSetMetaData.isSigned(int)",
-        "matchKey" : "isSigned(int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ResultSetMetaData",
-        "methodName" : "isWritable",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "boolean",
-        "jdbcVersion" : "V1_0",
-        "displayName" : "ResultSetMetaData.isWritable(int)",
-        "matchKey" : "isWritable(int)"
-      },
-      "status" : "RETURNS_DEFAULT",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ResultSetMetaData",
-        "methodName" : "getColumnClassName",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "String",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "ResultSetMetaData.getColumnClassName(int)",
-        "matchKey" : "getColumnClassName(int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
-      "sourceLocation" : null
-    } ],
-    "total" : 21,
-    "implemented" : 16,
-    "stub" : 5,
-    "notFound" : 0,
-    "coveragePercent" : 76.19047619047619
-  }, {
-    "interfaceName" : "java.sql.SQLXML",
-    "implementingClass" : null,
-    "methods" : [ {
-      "specMethod" : {
-        "interfaceName" : "java.sql.SQLXML",
-        "methodName" : "free",
-        "parameterTypes" : [ ],
-        "returnType" : "void",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "SQLXML.free()",
-        "matchKey" : "free()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.SQLXML",
-        "methodName" : "getBinaryStream",
-        "parameterTypes" : [ ],
-        "returnType" : "InputStream",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "SQLXML.getBinaryStream()",
-        "matchKey" : "getBinaryStream()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.SQLXML",
-        "methodName" : "getCharacterStream",
-        "parameterTypes" : [ ],
-        "returnType" : "Reader",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "SQLXML.getCharacterStream()",
-        "matchKey" : "getCharacterStream()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.SQLXML",
-        "methodName" : "getSource",
-        "parameterTypes" : [ "Class" ],
-        "returnType" : "T",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "SQLXML.getSource(Class)",
-        "matchKey" : "getSource(Class)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.SQLXML",
-        "methodName" : "getString",
-        "parameterTypes" : [ ],
-        "returnType" : "String",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "SQLXML.getString()",
-        "matchKey" : "getString()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.SQLXML",
-        "methodName" : "setBinaryStream",
-        "parameterTypes" : [ ],
-        "returnType" : "OutputStream",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "SQLXML.setBinaryStream()",
-        "matchKey" : "setBinaryStream()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.SQLXML",
-        "methodName" : "setCharacterStream",
-        "parameterTypes" : [ ],
-        "returnType" : "Writer",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "SQLXML.setCharacterStream()",
-        "matchKey" : "setCharacterStream()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.SQLXML",
-        "methodName" : "setResult",
-        "parameterTypes" : [ "Class" ],
-        "returnType" : "T",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "SQLXML.setResult(Class)",
-        "matchKey" : "setResult(Class)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.SQLXML",
-        "methodName" : "setString",
-        "parameterTypes" : [ "String" ],
-        "returnType" : "void",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "SQLXML.setString(String)",
-        "matchKey" : "setString(String)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.SQLXML",
-        "methodName" : "close",
-        "parameterTypes" : [ ],
-        "returnType" : "void",
-        "jdbcVersion" : "V4_5",
-        "displayName" : "SQLXML.close()",
-        "matchKey" : "close()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    } ],
-    "total" : 10,
-    "implemented" : 0,
-    "stub" : 0,
-    "notFound" : 10,
-    "coveragePercent" : 0.0
-  }, {
-    "interfaceName" : "java.sql.RowId",
-    "implementingClass" : null,
-    "methods" : [ {
-      "specMethod" : {
-        "interfaceName" : "java.sql.RowId",
-        "methodName" : "equals",
-        "parameterTypes" : [ "Object" ],
-        "returnType" : "boolean",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "RowId.equals(Object)",
-        "matchKey" : "equals(Object)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.RowId",
-        "methodName" : "getBytes",
-        "parameterTypes" : [ ],
-        "returnType" : "byte[]",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "RowId.getBytes()",
-        "matchKey" : "getBytes()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.RowId",
-        "methodName" : "hashCode",
-        "parameterTypes" : [ ],
-        "returnType" : "int",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "RowId.hashCode()",
-        "matchKey" : "hashCode()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.RowId",
-        "methodName" : "toString",
-        "parameterTypes" : [ ],
-        "returnType" : "String",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "RowId.toString()",
-        "matchKey" : "toString()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    } ],
-    "total" : 4,
-    "implemented" : 0,
-    "stub" : 0,
-    "notFound" : 4,
-    "coveragePercent" : 0.0
-  }, {
-    "interfaceName" : "java.sql.Wrapper",
-    "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetWithoutQuery",
-    "methods" : [ {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Wrapper",
-        "methodName" : "isWrapperFor",
-        "parameterTypes" : [ "Class" ],
-        "returnType" : "boolean",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "Wrapper.isWrapperFor(Class)",
-        "matchKey" : "isWrapperFor(Class)"
-      },
-      "status" : "THROWS_UNSUPPORTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetWithoutQuery",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.Wrapper",
-        "methodName" : "unwrap",
-        "parameterTypes" : [ "Class" ],
-        "returnType" : "T",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "Wrapper.unwrap(Class)",
-        "matchKey" : "unwrap(Class)"
-      },
-      "status" : "THROWS_UNSUPPORTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetWithoutQuery",
-      "sourceLocation" : null
-    } ],
-    "total" : 2,
-    "implemented" : 0,
-    "stub" : 2,
-    "notFound" : 0,
-    "coveragePercent" : 0.0
-  }, {
-    "interfaceName" : "java.sql.DriverAction",
-    "implementingClass" : null,
-    "methods" : [ {
-      "specMethod" : {
-        "interfaceName" : "java.sql.DriverAction",
-        "methodName" : "deregister",
-        "parameterTypes" : [ ],
-        "returnType" : "void",
-        "jdbcVersion" : "V4_2",
-        "displayName" : "DriverAction.deregister()",
-        "matchKey" : "deregister()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    } ],
-    "total" : 1,
-    "implemented" : 0,
-    "stub" : 0,
-    "notFound" : 1,
-    "coveragePercent" : 0.0
-  }, {
     "interfaceName" : "java.sql.SQLType",
     "implementingClass" : null,
     "methods" : [ {
@@ -10926,757 +11657,26 @@
     "notFound" : 3,
     "coveragePercent" : 0.0
   }, {
-    "interfaceName" : "java.sql.ConnectionBuilder",
+    "interfaceName" : "java.sql.DriverAction",
     "implementingClass" : null,
     "methods" : [ {
       "specMethod" : {
-        "interfaceName" : "java.sql.ConnectionBuilder",
-        "methodName" : "build",
+        "interfaceName" : "java.sql.DriverAction",
+        "methodName" : "deregister",
         "parameterTypes" : [ ],
-        "returnType" : "Connection",
-        "jdbcVersion" : "V4_3",
-        "displayName" : "ConnectionBuilder.build()",
-        "matchKey" : "build()"
+        "returnType" : "void",
+        "jdbcVersion" : "V4_2",
+        "displayName" : "DriverAction.deregister()",
+        "matchKey" : "deregister()"
       },
       "status" : "NOT_FOUND",
       "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ConnectionBuilder",
-        "methodName" : "password",
-        "parameterTypes" : [ "String" ],
-        "returnType" : "ConnectionBuilder",
-        "jdbcVersion" : "V4_3",
-        "displayName" : "ConnectionBuilder.password(String)",
-        "matchKey" : "password(String)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ConnectionBuilder",
-        "methodName" : "shardingKey",
-        "parameterTypes" : [ "ShardingKey" ],
-        "returnType" : "ConnectionBuilder",
-        "jdbcVersion" : "V4_3",
-        "displayName" : "ConnectionBuilder.shardingKey(ShardingKey)",
-        "matchKey" : "shardingKey(ShardingKey)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ConnectionBuilder",
-        "methodName" : "superShardingKey",
-        "parameterTypes" : [ "ShardingKey" ],
-        "returnType" : "ConnectionBuilder",
-        "jdbcVersion" : "V4_3",
-        "displayName" : "ConnectionBuilder.superShardingKey(ShardingKey)",
-        "matchKey" : "superShardingKey(ShardingKey)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ConnectionBuilder",
-        "methodName" : "user",
-        "parameterTypes" : [ "String" ],
-        "returnType" : "ConnectionBuilder",
-        "jdbcVersion" : "V4_3",
-        "displayName" : "ConnectionBuilder.user(String)",
-        "matchKey" : "user(String)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    } ],
-    "total" : 5,
-    "implemented" : 0,
-    "stub" : 0,
-    "notFound" : 5,
-    "coveragePercent" : 0.0
-  }, {
-    "interfaceName" : "java.sql.ShardingKeyBuilder",
-    "implementingClass" : null,
-    "methods" : [ {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ShardingKeyBuilder",
-        "methodName" : "build",
-        "parameterTypes" : [ ],
-        "returnType" : "ShardingKey",
-        "jdbcVersion" : "V4_3",
-        "displayName" : "ShardingKeyBuilder.build()",
-        "matchKey" : "build()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "java.sql.ShardingKeyBuilder",
-        "methodName" : "subkey",
-        "parameterTypes" : [ "Object", "SQLType" ],
-        "returnType" : "ShardingKeyBuilder",
-        "jdbcVersion" : "V4_3",
-        "displayName" : "ShardingKeyBuilder.subkey(Object, SQLType)",
-        "matchKey" : "subkey(Object,SQLType)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    } ],
-    "total" : 2,
-    "implemented" : 0,
-    "stub" : 0,
-    "notFound" : 2,
-    "coveragePercent" : 0.0
-  }, {
-    "interfaceName" : "javax.sql.CommonDataSource",
-    "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
-    "methods" : [ {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.CommonDataSource",
-        "methodName" : "getLogWriter",
-        "parameterTypes" : [ ],
-        "returnType" : "PrintWriter",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "CommonDataSource.getLogWriter()",
-        "matchKey" : "getLogWriter()"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.CommonDataSource",
-        "methodName" : "getLoginTimeout",
-        "parameterTypes" : [ ],
-        "returnType" : "int",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "CommonDataSource.getLoginTimeout()",
-        "matchKey" : "getLoginTimeout()"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.CommonDataSource",
-        "methodName" : "setLogWriter",
-        "parameterTypes" : [ "PrintWriter" ],
-        "returnType" : "void",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "CommonDataSource.setLogWriter(PrintWriter)",
-        "matchKey" : "setLogWriter(PrintWriter)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.CommonDataSource",
-        "methodName" : "setLoginTimeout",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "void",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "CommonDataSource.setLoginTimeout(int)",
-        "matchKey" : "setLoginTimeout(int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.CommonDataSource",
-        "methodName" : "getParentLogger",
-        "parameterTypes" : [ ],
-        "returnType" : "Logger",
-        "jdbcVersion" : "V4_1",
-        "displayName" : "CommonDataSource.getParentLogger()",
-        "matchKey" : "getParentLogger()"
-      },
-      "status" : "THROWS_UNSUPPORTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.CommonDataSource",
-        "methodName" : "createShardingKeyBuilder",
-        "parameterTypes" : [ ],
-        "returnType" : "ShardingKeyBuilder",
-        "jdbcVersion" : "V4_3",
-        "displayName" : "CommonDataSource.createShardingKeyBuilder()",
-        "matchKey" : "createShardingKeyBuilder()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
-      "sourceLocation" : null
-    } ],
-    "total" : 6,
-    "implemented" : 4,
-    "stub" : 1,
-    "notFound" : 1,
-    "coveragePercent" : 66.66666666666666
-  }, {
-    "interfaceName" : "javax.sql.DataSource",
-    "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
-    "methods" : [ {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.DataSource",
-        "methodName" : "getConnection",
-        "parameterTypes" : [ ],
-        "returnType" : "Connection",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "DataSource.getConnection()",
-        "matchKey" : "getConnection()"
-      },
-      "status" : "DELEGATES",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.DataSource",
-        "methodName" : "getConnection",
-        "parameterTypes" : [ "String", "String" ],
-        "returnType" : "Connection",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "DataSource.getConnection(String, String)",
-        "matchKey" : "getConnection(String,String)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.DataSource",
-        "methodName" : "getLogWriter",
-        "parameterTypes" : [ ],
-        "returnType" : "PrintWriter",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "DataSource.getLogWriter()",
-        "matchKey" : "getLogWriter()"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.DataSource",
-        "methodName" : "getLoginTimeout",
-        "parameterTypes" : [ ],
-        "returnType" : "int",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "DataSource.getLoginTimeout()",
-        "matchKey" : "getLoginTimeout()"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.DataSource",
-        "methodName" : "setLogWriter",
-        "parameterTypes" : [ "PrintWriter" ],
-        "returnType" : "void",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "DataSource.setLogWriter(PrintWriter)",
-        "matchKey" : "setLogWriter(PrintWriter)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.DataSource",
-        "methodName" : "setLoginTimeout",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "void",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "DataSource.setLoginTimeout(int)",
-        "matchKey" : "setLoginTimeout(int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.DataSource",
-        "methodName" : "createConnectionBuilder",
-        "parameterTypes" : [ ],
-        "returnType" : "ConnectionBuilder",
-        "jdbcVersion" : "V4_3",
-        "displayName" : "DataSource.createConnectionBuilder()",
-        "matchKey" : "createConnectionBuilder()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDDataSource",
-      "sourceLocation" : null
-    } ],
-    "total" : 7,
-    "implemented" : 6,
-    "stub" : 0,
-    "notFound" : 1,
-    "coveragePercent" : 85.71428571428571
-  }, {
-    "interfaceName" : "javax.sql.ConnectionPoolDataSource",
-    "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnectionPoolDataSource",
-    "methods" : [ {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.ConnectionPoolDataSource",
-        "methodName" : "getLogWriter",
-        "parameterTypes" : [ ],
-        "returnType" : "PrintWriter",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "ConnectionPoolDataSource.getLogWriter()",
-        "matchKey" : "getLogWriter()"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnectionPoolDataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.ConnectionPoolDataSource",
-        "methodName" : "getLoginTimeout",
-        "parameterTypes" : [ ],
-        "returnType" : "int",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "ConnectionPoolDataSource.getLoginTimeout()",
-        "matchKey" : "getLoginTimeout()"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnectionPoolDataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.ConnectionPoolDataSource",
-        "methodName" : "getPooledConnection",
-        "parameterTypes" : [ ],
-        "returnType" : "PooledConnection",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "ConnectionPoolDataSource.getPooledConnection()",
-        "matchKey" : "getPooledConnection()"
-      },
-      "status" : "DELEGATES",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnectionPoolDataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.ConnectionPoolDataSource",
-        "methodName" : "getPooledConnection",
-        "parameterTypes" : [ "String", "String" ],
-        "returnType" : "PooledConnection",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "ConnectionPoolDataSource.getPooledConnection(String, String)",
-        "matchKey" : "getPooledConnection(String,String)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnectionPoolDataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.ConnectionPoolDataSource",
-        "methodName" : "setLogWriter",
-        "parameterTypes" : [ "PrintWriter" ],
-        "returnType" : "void",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "ConnectionPoolDataSource.setLogWriter(PrintWriter)",
-        "matchKey" : "setLogWriter(PrintWriter)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnectionPoolDataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.ConnectionPoolDataSource",
-        "methodName" : "setLoginTimeout",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "void",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "ConnectionPoolDataSource.setLoginTimeout(int)",
-        "matchKey" : "setLoginTimeout(int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnectionPoolDataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.ConnectionPoolDataSource",
-        "methodName" : "createPooledConnectionBuilder",
-        "parameterTypes" : [ ],
-        "returnType" : "PooledConnectionBuilder",
-        "jdbcVersion" : "V4_3",
-        "displayName" : "ConnectionPoolDataSource.createPooledConnectionBuilder()",
-        "matchKey" : "createPooledConnectionBuilder()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnectionPoolDataSource",
-      "sourceLocation" : null
-    } ],
-    "total" : 7,
-    "implemented" : 6,
-    "stub" : 0,
-    "notFound" : 1,
-    "coveragePercent" : 85.71428571428571
-  }, {
-    "interfaceName" : "javax.sql.PooledConnection",
-    "implementingClass" : "cubrid.jdbc.driver.CUBRIDPooledConnection",
-    "methods" : [ {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.PooledConnection",
-        "methodName" : "addConnectionEventListener",
-        "parameterTypes" : [ "ConnectionEventListener" ],
-        "returnType" : "void",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "PooledConnection.addConnectionEventListener(ConnectionEventListener)",
-        "matchKey" : "addConnectionEventListener(ConnectionEventListener)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDPooledConnection",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.PooledConnection",
-        "methodName" : "removeConnectionEventListener",
-        "parameterTypes" : [ "ConnectionEventListener" ],
-        "returnType" : "void",
-        "jdbcVersion" : "V2_0",
-        "displayName" : "PooledConnection.removeConnectionEventListener(ConnectionEventListener)",
-        "matchKey" : "removeConnectionEventListener(ConnectionEventListener)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDPooledConnection",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.PooledConnection",
-        "methodName" : "close",
-        "parameterTypes" : [ ],
-        "returnType" : "void",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "PooledConnection.close()",
-        "matchKey" : "close()"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDPooledConnection",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.PooledConnection",
-        "methodName" : "getConnection",
-        "parameterTypes" : [ ],
-        "returnType" : "Connection",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "PooledConnection.getConnection()",
-        "matchKey" : "getConnection()"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDPooledConnection",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.PooledConnection",
-        "methodName" : "addStatementEventListener",
-        "parameterTypes" : [ "StatementEventListener" ],
-        "returnType" : "void",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "PooledConnection.addStatementEventListener(StatementEventListener)",
-        "matchKey" : "addStatementEventListener(StatementEventListener)"
-      },
-      "status" : "THROWS_UNSUPPORTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDPooledConnection",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.PooledConnection",
-        "methodName" : "removeStatementEventListener",
-        "parameterTypes" : [ "StatementEventListener" ],
-        "returnType" : "void",
-        "jdbcVersion" : "V4_0",
-        "displayName" : "PooledConnection.removeStatementEventListener(StatementEventListener)",
-        "matchKey" : "removeStatementEventListener(StatementEventListener)"
-      },
-      "status" : "THROWS_UNSUPPORTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDPooledConnection",
-      "sourceLocation" : null
-    } ],
-    "total" : 6,
-    "implemented" : 4,
-    "stub" : 2,
-    "notFound" : 0,
-    "coveragePercent" : 66.66666666666666
-  }, {
-    "interfaceName" : "javax.sql.XAConnection",
-    "implementingClass" : "cubrid.jdbc.driver.CUBRIDXAConnection",
-    "methods" : [ {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.XAConnection",
-        "methodName" : "getXAResource",
-        "parameterTypes" : [ ],
-        "returnType" : "XAResource",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "XAConnection.getXAResource()",
-        "matchKey" : "getXAResource()"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDXAConnection",
       "sourceLocation" : null
     } ],
     "total" : 1,
-    "implemented" : 1,
-    "stub" : 0,
-    "notFound" : 0,
-    "coveragePercent" : 100.0
-  }, {
-    "interfaceName" : "javax.sql.XADataSource",
-    "implementingClass" : "cubrid.jdbc.driver.CUBRIDXADataSource",
-    "methods" : [ {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.XADataSource",
-        "methodName" : "getLogWriter",
-        "parameterTypes" : [ ],
-        "returnType" : "PrintWriter",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "XADataSource.getLogWriter()",
-        "matchKey" : "getLogWriter()"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDXADataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.XADataSource",
-        "methodName" : "getLoginTimeout",
-        "parameterTypes" : [ ],
-        "returnType" : "int",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "XADataSource.getLoginTimeout()",
-        "matchKey" : "getLoginTimeout()"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDXADataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.XADataSource",
-        "methodName" : "getXAConnection",
-        "parameterTypes" : [ ],
-        "returnType" : "XAConnection",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "XADataSource.getXAConnection()",
-        "matchKey" : "getXAConnection()"
-      },
-      "status" : "DELEGATES",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDXADataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.XADataSource",
-        "methodName" : "getXAConnection",
-        "parameterTypes" : [ "String", "String" ],
-        "returnType" : "XAConnection",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "XADataSource.getXAConnection(String, String)",
-        "matchKey" : "getXAConnection(String,String)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDXADataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.XADataSource",
-        "methodName" : "setLogWriter",
-        "parameterTypes" : [ "PrintWriter" ],
-        "returnType" : "void",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "XADataSource.setLogWriter(PrintWriter)",
-        "matchKey" : "setLogWriter(PrintWriter)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDXADataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.XADataSource",
-        "methodName" : "setLoginTimeout",
-        "parameterTypes" : [ "int" ],
-        "returnType" : "void",
-        "jdbcVersion" : "V3_0",
-        "displayName" : "XADataSource.setLoginTimeout(int)",
-        "matchKey" : "setLoginTimeout(int)"
-      },
-      "status" : "FULLY_IMPLEMENTED",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDXADataSource",
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.XADataSource",
-        "methodName" : "createXAConnectionBuilder",
-        "parameterTypes" : [ ],
-        "returnType" : "XAConnectionBuilder",
-        "jdbcVersion" : "V4_3",
-        "displayName" : "XADataSource.createXAConnectionBuilder()",
-        "matchKey" : "createXAConnectionBuilder()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : "cubrid.jdbc.driver.CUBRIDXADataSource",
-      "sourceLocation" : null
-    } ],
-    "total" : 7,
-    "implemented" : 6,
+    "implemented" : 0,
     "stub" : 0,
     "notFound" : 1,
-    "coveragePercent" : 85.71428571428571
-  }, {
-    "interfaceName" : "javax.sql.PooledConnectionBuilder",
-    "implementingClass" : null,
-    "methods" : [ {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.PooledConnectionBuilder",
-        "methodName" : "build",
-        "parameterTypes" : [ ],
-        "returnType" : "PooledConnection",
-        "jdbcVersion" : "V4_3",
-        "displayName" : "PooledConnectionBuilder.build()",
-        "matchKey" : "build()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.PooledConnectionBuilder",
-        "methodName" : "password",
-        "parameterTypes" : [ "String" ],
-        "returnType" : "PooledConnectionBuilder",
-        "jdbcVersion" : "V4_3",
-        "displayName" : "PooledConnectionBuilder.password(String)",
-        "matchKey" : "password(String)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.PooledConnectionBuilder",
-        "methodName" : "shardingKey",
-        "parameterTypes" : [ "ShardingKey" ],
-        "returnType" : "PooledConnectionBuilder",
-        "jdbcVersion" : "V4_3",
-        "displayName" : "PooledConnectionBuilder.shardingKey(ShardingKey)",
-        "matchKey" : "shardingKey(ShardingKey)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.PooledConnectionBuilder",
-        "methodName" : "superShardingKey",
-        "parameterTypes" : [ "ShardingKey" ],
-        "returnType" : "PooledConnectionBuilder",
-        "jdbcVersion" : "V4_3",
-        "displayName" : "PooledConnectionBuilder.superShardingKey(ShardingKey)",
-        "matchKey" : "superShardingKey(ShardingKey)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.PooledConnectionBuilder",
-        "methodName" : "user",
-        "parameterTypes" : [ "String" ],
-        "returnType" : "PooledConnectionBuilder",
-        "jdbcVersion" : "V4_3",
-        "displayName" : "PooledConnectionBuilder.user(String)",
-        "matchKey" : "user(String)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    } ],
-    "total" : 5,
-    "implemented" : 0,
-    "stub" : 0,
-    "notFound" : 5,
-    "coveragePercent" : 0.0
-  }, {
-    "interfaceName" : "javax.sql.XAConnectionBuilder",
-    "implementingClass" : null,
-    "methods" : [ {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.XAConnectionBuilder",
-        "methodName" : "build",
-        "parameterTypes" : [ ],
-        "returnType" : "XAConnection",
-        "jdbcVersion" : "V4_3",
-        "displayName" : "XAConnectionBuilder.build()",
-        "matchKey" : "build()"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.XAConnectionBuilder",
-        "methodName" : "password",
-        "parameterTypes" : [ "String" ],
-        "returnType" : "XAConnectionBuilder",
-        "jdbcVersion" : "V4_3",
-        "displayName" : "XAConnectionBuilder.password(String)",
-        "matchKey" : "password(String)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.XAConnectionBuilder",
-        "methodName" : "shardingKey",
-        "parameterTypes" : [ "ShardingKey" ],
-        "returnType" : "XAConnectionBuilder",
-        "jdbcVersion" : "V4_3",
-        "displayName" : "XAConnectionBuilder.shardingKey(ShardingKey)",
-        "matchKey" : "shardingKey(ShardingKey)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.XAConnectionBuilder",
-        "methodName" : "superShardingKey",
-        "parameterTypes" : [ "ShardingKey" ],
-        "returnType" : "XAConnectionBuilder",
-        "jdbcVersion" : "V4_3",
-        "displayName" : "XAConnectionBuilder.superShardingKey(ShardingKey)",
-        "matchKey" : "superShardingKey(ShardingKey)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    }, {
-      "specMethod" : {
-        "interfaceName" : "javax.sql.XAConnectionBuilder",
-        "methodName" : "user",
-        "parameterTypes" : [ "String" ],
-        "returnType" : "XAConnectionBuilder",
-        "jdbcVersion" : "V4_3",
-        "displayName" : "XAConnectionBuilder.user(String)",
-        "matchKey" : "user(String)"
-      },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
-      "sourceLocation" : null
-    } ],
-    "total" : 5,
-    "implemented" : 0,
-    "stub" : 0,
-    "notFound" : 5,
     "coveragePercent" : 0.0
   }, {
     "interfaceName" : "javax.transaction.xa.XAResource",
@@ -11867,14 +11867,40 @@
     "coveragePercent" : 100.0
   } ],
   "profileUsed" : "cubrid",
-  "specVersion" : "spec-1",
+  "specVersion" : "spec-2",
   "toolVersion" : "2.0.0",
   "sourceCommit" : "e4947d1a4aafe93239542405d28567c59adca0ea",
-  "totalMethods" : 889,
-  "totalImplemented" : 362,
+  "totalMethods" : 816,
+  "totalImplemented" : 349,
   "totalStub" : 360,
-  "totalNotFound" : 167,
-  "overallCoveragePercent" : 40.719910011248594,
+  "totalNotFound" : 107,
+  "overallCoveragePercent" : 42.76960784313725,
+  "groupBreakdown" : {
+    "MAIN" : {
+      "group" : "MAIN",
+      "total" : 816,
+      "implemented" : 349,
+      "stub" : 360,
+      "notFound" : 107,
+      "coveragePercent" : 42.76960784313725
+    },
+    "PERIPHERAL" : {
+      "group" : "PERIPHERAL",
+      "total" : 60,
+      "implemented" : 0,
+      "stub" : 0,
+      "notFound" : 60,
+      "coveragePercent" : 0.0
+    },
+    "XA" : {
+      "group" : "XA",
+      "total" : 13,
+      "implemented" : 13,
+      "stub" : 0,
+      "notFound" : 0,
+      "coveragePercent" : 100.0
+    }
+  },
   "versionBreakdown" : {
     "V1_0" : {
       "total" : 281,
@@ -11884,25 +11910,25 @@
       "coveragePercent" : 53.02491103202846
     },
     "V2_0" : {
-      "total" : 210,
+      "total" : 166,
       "implemented" : 127,
       "stub" : 25,
-      "notFound" : 58,
-      "coveragePercent" : 60.476190476190474
+      "notFound" : 14,
+      "coveragePercent" : 76.50602409638554
     },
     "V3_0" : {
-      "total" : 159,
-      "implemented" : 68,
+      "total" : 144,
+      "implemented" : 55,
       "stub" : 75,
-      "notFound" : 16,
-      "coveragePercent" : 42.76729559748428
+      "notFound" : 14,
+      "coveragePercent" : 38.19444444444444
     },
     "V4_0" : {
-      "total" : 153,
+      "total" : 145,
       "implemented" : 18,
       "stub" : 113,
-      "notFound" : 22,
-      "coveragePercent" : 11.76470588235294
+      "notFound" : 14,
+      "coveragePercent" : 12.413793103448276
     },
     "V4_1" : {
       "total" : 15,
@@ -11912,10 +11938,10 @@
       "coveragePercent" : 0.0
     },
     "V4_2" : {
-      "total" : 31,
+      "total" : 25,
       "implemented" : 0,
       "stub" : 0,
-      "notFound" : 31,
+      "notFound" : 25,
       "coveragePercent" : 0.0
     },
     "V4_3" : {
@@ -11934,12 +11960,12 @@
     }
   },
   "statusDistribution" : {
+    "Fully Implemented" : 312,
     "Returns Default" : 140,
-    "Fully Implemented" : 325,
-    "Delegates" : 35,
     "Throws Unsupported" : 220,
+    "Delegates" : 35,
     "Partial" : 2,
-    "Not Found" : 167
+    "Not Found" : 107
   },
   "cumulativeCoverage" : [ {
     "version" : "V1_0",
@@ -11948,38 +11974,38 @@
     "coveragePercent" : 53.02491103202846
   }, {
     "version" : "V2_0",
-    "total" : 491,
+    "total" : 447,
     "implemented" : 276,
-    "coveragePercent" : 56.211812627291245
+    "coveragePercent" : 61.74496644295302
   }, {
     "version" : "V3_0",
-    "total" : 650,
-    "implemented" : 344,
-    "coveragePercent" : 52.92307692307693
+    "total" : 591,
+    "implemented" : 331,
+    "coveragePercent" : 56.0067681895093
   }, {
     "version" : "V4_0",
-    "total" : 803,
-    "implemented" : 362,
-    "coveragePercent" : 45.08094645080946
+    "total" : 736,
+    "implemented" : 349,
+    "coveragePercent" : 47.41847826086957
   }, {
     "version" : "V4_1",
-    "total" : 818,
-    "implemented" : 362,
-    "coveragePercent" : 44.25427872860636
+    "total" : 751,
+    "implemented" : 349,
+    "coveragePercent" : 46.47137150466045
   }, {
     "version" : "V4_2",
-    "total" : 849,
-    "implemented" : 362,
-    "coveragePercent" : 42.638398115429915
+    "total" : 776,
+    "implemented" : 349,
+    "coveragePercent" : 44.97422680412371
   }, {
     "version" : "V4_3",
-    "total" : 881,
-    "implemented" : 362,
-    "coveragePercent" : 41.08967082860386
+    "total" : 808,
+    "implemented" : 349,
+    "coveragePercent" : 43.193069306930695
   }, {
     "version" : "V4_5",
-    "total" : 889,
-    "implemented" : 362,
-    "coveragePercent" : 40.719910011248594
+    "total" : 816,
+    "implemented" : 349,
+    "coveragePercent" : 42.76960784313725
   } ]
 }
