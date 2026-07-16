@@ -1,7 +1,7 @@
 {
   "driverName" : "Microsoft SQL Server JDBC",
   "sourcePath" : "/home/runner/work/jdbc-coverage/jdbc-coverage/drivers/mssql-jdbc/src/main/java",
-  "analyzedAt" : "2026-07-15T21:04:39.611649612Z",
+  "analyzedAt" : "2026-07-16T21:05:27.455203277Z",
   "interfaces" : [ {
     "interfaceName" : "java.sql.Driver",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerDriver",
@@ -97,11 +97,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerDriver",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 100.0,
     "total" : 7,
     "implemented" : 7,
     "stub" : 0,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 100.0
   }, {
     "interfaceName" : "java.sql.Connection",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerConnection43",
@@ -912,11 +912,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerConnection43",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 91.93548387096774,
     "total" : 62,
     "implemented" : 57,
     "stub" : 1,
-    "notFound" : 4
+    "notFound" : 4,
+    "coveragePercent" : 91.93548387096774
   }, {
     "interfaceName" : "java.sql.Statement",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerStatement",
@@ -1623,11 +1623,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerStatement",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 92.5925925925926,
     "total" : 54,
     "implemented" : 50,
     "stub" : 0,
-    "notFound" : 4
+    "notFound" : 4,
+    "coveragePercent" : 92.5925925925926
   }, {
     "interfaceName" : "java.sql.PreparedStatement",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement",
@@ -2386,11 +2386,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 91.37931034482759,
     "total" : 58,
     "implemented" : 53,
     "stub" : 5,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 91.37931034482759
   }, {
     "interfaceName" : "java.sql.CallableStatement",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerCallableStatement",
@@ -3968,11 +3968,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerCallableStatement",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 99.17355371900827,
     "total" : 121,
     "implemented" : 120,
     "stub" : 1,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 99.17355371900827
   }, {
     "interfaceName" : "java.sql.ResultSet",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerResultSet",
@@ -6486,11 +6486,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerResultSet",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 96.89119170984456,
     "total" : 193,
     "implemented" : 187,
     "stub" : 6,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 96.89119170984456
   }, {
     "interfaceName" : "java.sql.DatabaseMetaData",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerDatabaseMetaData",
@@ -8796,11 +8796,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerDatabaseMetaData",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 33.89830508474576,
     "total" : 177,
     "implemented" : 60,
     "stub" : 117,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 33.89830508474576
   }, {
     "interfaceName" : "java.sql.ResultSetMetaData",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerResultSetMetaData",
@@ -9078,11 +9078,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerResultSetMetaData",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 100.0,
     "total" : 21,
     "implemented" : 21,
     "stub" : 0,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 100.0
   }, {
     "interfaceName" : "java.sql.ParameterMetaData",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerParameterMetaData",
@@ -9204,11 +9204,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerParameterMetaData",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 100.0,
     "total" : 9,
     "implemented" : 9,
     "stub" : 0,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 100.0
   }, {
     "interfaceName" : "java.sql.Savepoint",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerSavepoint",
@@ -9239,11 +9239,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerSavepoint",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 100.0,
     "total" : 2,
     "implemented" : 2,
     "stub" : 0,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 100.0
   }, {
     "interfaceName" : "java.sql.Blob",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerBlob",
@@ -9404,11 +9404,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerBlob",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 91.66666666666666,
     "total" : 12,
     "implemented" : 11,
     "stub" : 0,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 91.66666666666666
   }, {
     "interfaceName" : "java.sql.Clob",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerClob",
@@ -9595,11 +9595,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerClob",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 92.85714285714286,
     "total" : 14,
     "implemented" : 13,
     "stub" : 0,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 92.85714285714286
   }, {
     "interfaceName" : "java.sql.Array",
     "implementingClass" : null,
@@ -9760,11 +9760,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 12,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 12
+    "notFound" : 12,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.Struct",
     "implementingClass" : null,
@@ -9808,11 +9808,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 3,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 3
+    "notFound" : 3,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.Ref",
     "implementingClass" : null,
@@ -9869,11 +9869,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 4,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 4
+    "notFound" : 4,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.RowId",
     "implementingClass" : null,
@@ -9930,11 +9930,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 4,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 4
+    "notFound" : 4,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.SQLXML",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerSQLXML",
@@ -10069,11 +10069,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerSQLXML",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 90.0,
     "total" : 10,
     "implemented" : 9,
     "stub" : 0,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 90.0
   }, {
     "interfaceName" : "java.sql.Wrapper",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerResultSet",
@@ -10104,11 +10104,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerResultSet",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 100.0,
     "total" : 2,
     "implemented" : 2,
     "stub" : 0,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 100.0
   }, {
     "interfaceName" : "javax.sql.CommonDataSource",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerXADataSource",
@@ -10191,11 +10191,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerXADataSource",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 83.33333333333334,
     "total" : 6,
     "implemented" : 5,
     "stub" : 0,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 83.33333333333334
   }, {
     "interfaceName" : "javax.sql.DataSource",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerDataSource",
@@ -10291,11 +10291,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerDataSource",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 85.71428571428571,
     "total" : 7,
     "implemented" : 6,
     "stub" : 0,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 85.71428571428571
   }, {
     "interfaceName" : "javax.sql.ConnectionPoolDataSource",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerConnectionPoolDataSource",
@@ -10391,11 +10391,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerConnectionPoolDataSource",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 85.71428571428571,
     "total" : 7,
     "implemented" : 6,
     "stub" : 0,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 85.71428571428571
   }, {
     "interfaceName" : "javax.sql.XADataSource",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerXADataSource",
@@ -10491,11 +10491,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerXADataSource",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 85.71428571428571,
     "total" : 7,
     "implemented" : 6,
     "stub" : 0,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 85.71428571428571
   }, {
     "interfaceName" : "javax.sql.PooledConnection",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerPooledConnection",
@@ -10578,11 +10578,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerPooledConnection",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 66.66666666666666,
     "total" : 6,
     "implemented" : 4,
     "stub" : 2,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 66.66666666666666
   }, {
     "interfaceName" : "javax.sql.XAConnection",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerXAConnection",
@@ -10600,11 +10600,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerXAConnection",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 100.0,
     "total" : 1,
     "implemented" : 1,
     "stub" : 0,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 100.0
   }, {
     "interfaceName" : "javax.sql.PooledConnectionBuilder",
     "implementingClass" : null,
@@ -10674,11 +10674,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 5,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 5
+    "notFound" : 5,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "javax.sql.XAConnectionBuilder",
     "implementingClass" : null,
@@ -10748,11 +10748,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 5,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 5
+    "notFound" : 5,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.ConnectionBuilder",
     "implementingClass" : null,
@@ -10822,11 +10822,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 5,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 5
+    "notFound" : 5,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.ShardingKeyBuilder",
     "implementingClass" : null,
@@ -10857,11 +10857,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 2,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 2
+    "notFound" : 2,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.SQLInput",
     "implementingClass" : null,
@@ -11230,11 +11230,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 28,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 28
+    "notFound" : 28,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.SQLOutput",
     "implementingClass" : null,
@@ -11603,11 +11603,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 28,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 28
+    "notFound" : 28,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.SQLType",
     "implementingClass" : null,
@@ -11651,11 +11651,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 3,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 3
+    "notFound" : 3,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.DriverAction",
     "implementingClass" : null,
@@ -11673,11 +11673,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 1,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "javax.transaction.xa.XAResource",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerXAResource",
@@ -11812,11 +11812,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerXAResource",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 100.0,
     "total" : 10,
     "implemented" : 10,
     "stub" : 0,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 100.0
   }, {
     "interfaceName" : "javax.transaction.xa.Xid",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.XidImpl",
@@ -11860,11 +11860,11 @@
       "implementingClass" : "com.microsoft.sqlserver.jdbc.XidImpl",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 100.0,
     "total" : 3,
     "implemented" : 3,
     "stub" : 0,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 100.0
   } ],
   "profileUsed" : "mssql",
   "specVersion" : "spec-2",

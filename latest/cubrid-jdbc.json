@@ -1,7 +1,7 @@
 {
   "driverName" : "CUBRID JDBC",
   "sourcePath" : "/home/runner/work/jdbc-coverage/jdbc-coverage/drivers/cubrid-jdbc/src/jdbc",
-  "analyzedAt" : "2026-07-15T21:04:05.808913504Z",
+  "analyzedAt" : "2026-07-16T21:04:53.907912003Z",
   "interfaces" : [ {
     "interfaceName" : "java.sql.Driver",
     "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
