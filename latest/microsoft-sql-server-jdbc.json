@@ -1,7 +1,7 @@
 {
   "driverName" : "Microsoft SQL Server JDBC",
   "sourcePath" : "/home/runner/work/jdbc-coverage/jdbc-coverage/drivers/mssql-jdbc/src/main/java",
-  "analyzedAt" : "2026-07-27T21:15:23.157172753Z",
+  "analyzedAt" : "2026-07-28T21:12:22.802826867Z",
   "interfaces" : [ {
     "interfaceName" : "java.sql.Driver",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerDriver",
@@ -11869,7 +11869,7 @@
   "profileUsed" : "mssql",
   "specVersion" : "spec-2",
   "toolVersion" : "2.0.0",
-  "sourceCommit" : "da79fd3ae2e7f303d0ddaa68219146361ee4943d",
+  "sourceCommit" : "9c292132173b68c4052365e7bd71bb79eaced479",
   "totalMethods" : 816,
   "totalImplemented" : 629,
   "totalStub" : 132,

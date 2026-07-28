@@ -1,7 +1,7 @@
 {
   "driverName" : "CUBRID JDBC",
   "sourcePath" : "/home/runner/work/jdbc-coverage/jdbc-coverage/drivers/cubrid-jdbc/src/jdbc",
-  "analyzedAt" : "2026-07-27T21:14:50.376012060Z",
+  "analyzedAt" : "2026-07-28T21:11:49.595167019Z",
   "interfaces" : [ {
     "interfaceName" : "java.sql.Driver",
     "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
@@ -427,7 +427,7 @@
         "displayName" : "Connection.createStatement(int, int, int)",
         "matchKey" : "createStatement(int,int,int)"
       },
-      "status" : "PARTIAL",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnection",
       "sourceLocation" : null
     }, {
@@ -505,7 +505,7 @@
         "displayName" : "Connection.prepareStatement(String, int, int, int)",
         "matchKey" : "prepareStatement(String,int,int,int)"
       },
-      "status" : "PARTIAL",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnection",
       "sourceLocation" : null
     }, {
@@ -531,7 +531,7 @@
         "displayName" : "Connection.rollback(Savepoint)",
         "matchKey" : "rollback(Savepoint)"
       },
-      "status" : "THROWS_UNSUPPORTED",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnection",
       "sourceLocation" : null
     }, {
@@ -557,7 +557,7 @@
         "displayName" : "Connection.setSavepoint()",
         "matchKey" : "setSavepoint()"
       },
-      "status" : "THROWS_UNSUPPORTED",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnection",
       "sourceLocation" : null
     }, {
@@ -570,7 +570,7 @@
         "displayName" : "Connection.setSavepoint(String)",
         "matchKey" : "setSavepoint(String)"
       },
-      "status" : "THROWS_UNSUPPORTED",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnection",
       "sourceLocation" : null
     }, {
@@ -913,10 +913,10 @@
       "sourceLocation" : null
     } ],
     "total" : 62,
-    "implemented" : 26,
-    "stub" : 26,
+    "implemented" : 29,
+    "stub" : 23,
     "notFound" : 10,
-    "coveragePercent" : 41.935483870967744
+    "coveragePercent" : 46.774193548387096
   }, {
     "interfaceName" : "java.sql.Statement",
     "implementingClass" : "cubrid.jdbc.driver.CUBRIDStatement",
@@ -8623,7 +8623,7 @@
         "displayName" : "DatabaseMetaData.supportsSavepoints()",
         "matchKey" : "supportsSavepoints()"
       },
-      "status" : "RETURNS_DEFAULT",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDDatabaseMetaData",
       "sourceLocation" : null
     }, {
@@ -8797,10 +8797,10 @@
       "sourceLocation" : null
     } ],
     "total" : 177,
-    "implemented" : 43,
-    "stub" : 131,
+    "implemented" : 44,
+    "stub" : 130,
     "notFound" : 3,
-    "coveragePercent" : 24.293785310734464
+    "coveragePercent" : 24.858757062146893
   }, {
     "interfaceName" : "java.sql.ResultSetMetaData",
     "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSetMetaData",
@@ -9211,7 +9211,7 @@
     "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.Savepoint",
-    "implementingClass" : null,
+    "implementingClass" : "cubrid.jdbc.driver.CUBRIDSavepoint",
     "methods" : [ {
       "specMethod" : {
         "interfaceName" : "java.sql.Savepoint",
@@ -9222,8 +9222,8 @@
         "displayName" : "Savepoint.getSavepointId()",
         "matchKey" : "getSavepointId()"
       },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDSavepoint",
       "sourceLocation" : null
     }, {
       "specMethod" : {
@@ -9235,15 +9235,15 @@
         "displayName" : "Savepoint.getSavepointName()",
         "matchKey" : "getSavepointName()"
       },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "cubrid.jdbc.driver.CUBRIDSavepoint",
       "sourceLocation" : null
     } ],
     "total" : 2,
-    "implemented" : 0,
+    "implemented" : 2,
     "stub" : 0,
-    "notFound" : 2,
-    "coveragePercent" : 0.0
+    "notFound" : 0,
+    "coveragePercent" : 100.0
   }, {
     "interfaceName" : "java.sql.Blob",
     "implementingClass" : "cubrid.jdbc.driver.CUBRIDBlob",
@@ -11869,20 +11869,20 @@
   "profileUsed" : "cubrid",
   "specVersion" : "spec-2",
   "toolVersion" : "2.0.0",
-  "sourceCommit" : "41afc2a33b8ee2ae6f39ef6bd1a7e5091f705102",
+  "sourceCommit" : "67728e495133a8a37e4155a1ed7ae5ade594cdb4",
   "totalMethods" : 816,
-  "totalImplemented" : 349,
-  "totalStub" : 360,
-  "totalNotFound" : 107,
-  "overallCoveragePercent" : 42.76960784313725,
+  "totalImplemented" : 355,
+  "totalStub" : 356,
+  "totalNotFound" : 105,
+  "overallCoveragePercent" : 43.504901960784316,
   "groupBreakdown" : {
     "MAIN" : {
       "group" : "MAIN",
       "total" : 816,
-      "implemented" : 349,
-      "stub" : 360,
-      "notFound" : 107,
-      "coveragePercent" : 42.76960784313725
+      "implemented" : 355,
+      "stub" : 356,
+      "notFound" : 105,
+      "coveragePercent" : 43.504901960784316
     },
     "PERIPHERAL" : {
       "group" : "PERIPHERAL",
@@ -11918,10 +11918,10 @@
     },
     "V3_0" : {
       "total" : 144,
-      "implemented" : 55,
-      "stub" : 75,
-      "notFound" : 14,
-      "coveragePercent" : 38.19444444444444
+      "implemented" : 61,
+      "stub" : 71,
+      "notFound" : 12,
+      "coveragePercent" : 42.36111111111111
     },
     "V4_0" : {
       "total" : 145,
@@ -11960,12 +11960,11 @@
     }
   },
   "statusDistribution" : {
-    "Fully Implemented" : 312,
-    "Returns Default" : 140,
-    "Throws Unsupported" : 220,
+    "Fully Implemented" : 320,
+    "Returns Default" : 139,
+    "Throws Unsupported" : 217,
     "Delegates" : 35,
-    "Partial" : 2,
-    "Not Found" : 107
+    "Not Found" : 105
   },
   "cumulativeCoverage" : [ {
     "version" : "V1_0",
@@ -11980,32 +11979,32 @@
   }, {
     "version" : "V3_0",
     "total" : 591,
-    "implemented" : 331,
-    "coveragePercent" : 56.0067681895093
+    "implemented" : 337,
+    "coveragePercent" : 57.021996615905245
   }, {
     "version" : "V4_0",
     "total" : 736,
-    "implemented" : 349,
-    "coveragePercent" : 47.41847826086957
+    "implemented" : 355,
+    "coveragePercent" : 48.233695652173914
   }, {
     "version" : "V4_1",
     "total" : 751,
-    "implemented" : 349,
-    "coveragePercent" : 46.47137150466045
+    "implemented" : 355,
+    "coveragePercent" : 47.270306258322236
   }, {
     "version" : "V4_2",
     "total" : 776,
-    "implemented" : 349,
-    "coveragePercent" : 44.97422680412371
+    "implemented" : 355,
+    "coveragePercent" : 45.74742268041237
   }, {
     "version" : "V4_3",
     "total" : 808,
-    "implemented" : 349,
-    "coveragePercent" : 43.193069306930695
+    "implemented" : 355,
+    "coveragePercent" : 43.93564356435643
   }, {
     "version" : "V4_5",
     "total" : 816,
-    "implemented" : 349,
-    "coveragePercent" : 42.76960784313725
+    "implemented" : 355,
+    "coveragePercent" : 43.504901960784316
   } ]
 }
