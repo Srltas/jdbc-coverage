@@ -1,7 +1,7 @@
 {
   "driverName" : "MariaDB Connector/J",
   "sourcePath" : "/home/runner/work/jdbc-coverage/jdbc-coverage/drivers/mariadb-connector-j/src/main/java",
-  "analyzedAt" : "2026-07-28T21:12:14.898408378Z",
+  "analyzedAt" : "2026-07-29T21:00:41.147232688Z",
   "interfaces" : [ {
     "interfaceName" : "java.sql.Driver",
     "implementingClass" : "org.mariadb.jdbc.Driver",
@@ -1606,7 +1606,7 @@
         "displayName" : "Statement.enquoteNCharLiteral(String)",
         "matchKey" : "enquoteNCharLiteral(String)"
       },
-      "status" : "FULLY_IMPLEMENTED",
+      "status" : "DELEGATES",
       "implementingClass" : "org.mariadb.jdbc.Statement",
       "sourceLocation" : null
     }, {
@@ -10209,7 +10209,7 @@
         "displayName" : "DataSource.getConnection()",
         "matchKey" : "getConnection()"
       },
-      "status" : "FULLY_IMPLEMENTED",
+      "status" : "DELEGATES",
       "implementingClass" : "org.mariadb.jdbc.MariaDbPoolDataSource",
       "sourceLocation" : null
     }, {
@@ -10222,7 +10222,7 @@
         "displayName" : "DataSource.getConnection(String, String)",
         "matchKey" : "getConnection(String,String)"
       },
-      "status" : "FULLY_IMPLEMENTED",
+      "status" : "DELEGATES",
       "implementingClass" : "org.mariadb.jdbc.MariaDbPoolDataSource",
       "sourceLocation" : null
     }, {
@@ -10335,7 +10335,7 @@
         "displayName" : "ConnectionPoolDataSource.getPooledConnection()",
         "matchKey" : "getPooledConnection()"
       },
-      "status" : "FULLY_IMPLEMENTED",
+      "status" : "DELEGATES",
       "implementingClass" : "org.mariadb.jdbc.MariaDbPoolDataSource",
       "sourceLocation" : null
     }, {
@@ -10348,7 +10348,7 @@
         "displayName" : "ConnectionPoolDataSource.getPooledConnection(String, String)",
         "matchKey" : "getPooledConnection(String,String)"
       },
-      "status" : "FULLY_IMPLEMENTED",
+      "status" : "DELEGATES",
       "implementingClass" : "org.mariadb.jdbc.MariaDbPoolDataSource",
       "sourceLocation" : null
     }, {
@@ -10435,7 +10435,7 @@
         "displayName" : "XADataSource.getXAConnection()",
         "matchKey" : "getXAConnection()"
       },
-      "status" : "FULLY_IMPLEMENTED",
+      "status" : "DELEGATES",
       "implementingClass" : "org.mariadb.jdbc.MariaDbPoolDataSource",
       "sourceLocation" : null
     }, {
@@ -10448,7 +10448,7 @@
         "displayName" : "XADataSource.getXAConnection(String, String)",
         "matchKey" : "getXAConnection(String,String)"
       },
-      "status" : "FULLY_IMPLEMENTED",
+      "status" : "DELEGATES",
       "implementingClass" : "org.mariadb.jdbc.MariaDbPoolDataSource",
       "sourceLocation" : null
     }, {
@@ -11869,7 +11869,7 @@
   "profileUsed" : "mariadb",
   "specVersion" : "spec-2",
   "toolVersion" : "2.0.0",
-  "sourceCommit" : "c9377bc8659c5547834fc18507824bacd10464a0",
+  "sourceCommit" : "6164678e83aa9d203939d5bec73bd4571cbec8a2",
   "totalMethods" : 816,
   "totalImplemented" : 591,
   "totalStub" : 169,
@@ -11960,8 +11960,8 @@
     }
   },
   "statusDistribution" : {
-    "Delegates" : 117,
-    "Fully Implemented" : 473,
+    "Delegates" : 124,
+    "Fully Implemented" : 466,
     "Returns Default" : 134,
     "Throws Unsupported" : 35,
     "Not Found" : 56,
