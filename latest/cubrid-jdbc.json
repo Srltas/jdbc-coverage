@@ -1,7 +1,7 @@
 {
   "driverName" : "CUBRID JDBC",
   "sourcePath" : "/home/runner/work/jdbc-coverage/jdbc-coverage/drivers/cubrid-jdbc/src/jdbc",
-  "analyzedAt" : "2026-07-30T21:15:08.227328437Z",
+  "analyzedAt" : "2026-07-31T21:09:57.171333314Z",
   "interfaces" : [ {
     "interfaceName" : "java.sql.Driver",
     "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
@@ -2369,7 +2369,7 @@
         "displayName" : "PreparedStatement.setObject(int, Object, SQLType)",
         "matchKey" : "setObject(int,Object,SQLType)"
       },
-      "status" : "NOT_FOUND",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDPreparedStatement",
       "sourceLocation" : null
     }, {
@@ -2382,15 +2382,15 @@
         "displayName" : "PreparedStatement.setObject(int, Object, SQLType, int)",
         "matchKey" : "setObject(int,Object,SQLType,int)"
       },
-      "status" : "NOT_FOUND",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDPreparedStatement",
       "sourceLocation" : null
     } ],
     "total" : 58,
-    "implemented" : 36,
+    "implemented" : 38,
     "stub" : 19,
-    "notFound" : 3,
-    "coveragePercent" : 62.06896551724138
+    "notFound" : 1,
+    "coveragePercent" : 65.51724137931035
   }, {
     "interfaceName" : "java.sql.CallableStatement",
     "implementingClass" : "cubrid.jdbc.driver.CUBRIDCallableStatement",
@@ -3873,7 +3873,7 @@
         "displayName" : "CallableStatement.registerOutParameter(int, SQLType)",
         "matchKey" : "registerOutParameter(int,SQLType)"
       },
-      "status" : "NOT_FOUND",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDCallableStatement",
       "sourceLocation" : null
     }, {
@@ -3899,7 +3899,7 @@
         "displayName" : "CallableStatement.registerOutParameter(int, SQLType, int)",
         "matchKey" : "registerOutParameter(int,SQLType,int)"
       },
-      "status" : "NOT_FOUND",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDCallableStatement",
       "sourceLocation" : null
     }, {
@@ -3912,7 +3912,7 @@
         "displayName" : "CallableStatement.registerOutParameter(int, SQLType, String)",
         "matchKey" : "registerOutParameter(int,SQLType,String)"
       },
-      "status" : "NOT_FOUND",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDCallableStatement",
       "sourceLocation" : null
     }, {
@@ -3969,10 +3969,10 @@
       "sourceLocation" : null
     } ],
     "total" : 121,
-    "implemented" : 23,
+    "implemented" : 26,
     "stub" : 90,
-    "notFound" : 8,
-    "coveragePercent" : 19.00826446280992
+    "notFound" : 5,
+    "coveragePercent" : 21.487603305785125
   }, {
     "interfaceName" : "java.sql.ResultSet",
     "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSet",
@@ -6443,7 +6443,7 @@
         "displayName" : "ResultSet.updateObject(int, Object, SQLType)",
         "matchKey" : "updateObject(int,Object,SQLType)"
       },
-      "status" : "NOT_FOUND",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSet",
       "sourceLocation" : null
     }, {
@@ -6456,7 +6456,7 @@
         "displayName" : "ResultSet.updateObject(String, Object, SQLType)",
         "matchKey" : "updateObject(String,Object,SQLType)"
       },
-      "status" : "NOT_FOUND",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSet",
       "sourceLocation" : null
     }, {
@@ -6469,7 +6469,7 @@
         "displayName" : "ResultSet.updateObject(int, Object, SQLType, int)",
         "matchKey" : "updateObject(int,Object,SQLType,int)"
       },
-      "status" : "NOT_FOUND",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSet",
       "sourceLocation" : null
     }, {
@@ -6482,15 +6482,15 @@
         "displayName" : "ResultSet.updateObject(String, Object, SQLType, int)",
         "matchKey" : "updateObject(String,Object,SQLType,int)"
       },
-      "status" : "NOT_FOUND",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSet",
       "sourceLocation" : null
     } ],
     "total" : 193,
-    "implemented" : 122,
+    "implemented" : 126,
     "stub" : 67,
-    "notFound" : 4,
-    "coveragePercent" : 63.212435233160626
+    "notFound" : 0,
+    "coveragePercent" : 65.28497409326425
   }, {
     "interfaceName" : "java.sql.DatabaseMetaData",
     "implementingClass" : "cubrid.jdbc.driver.CUBRIDDatabaseMetaData",
@@ -11869,20 +11869,20 @@
   "profileUsed" : "cubrid",
   "specVersion" : "spec-2",
   "toolVersion" : "2.0.0",
-  "sourceCommit" : "67728e495133a8a37e4155a1ed7ae5ade594cdb4",
+  "sourceCommit" : "a2320d1799eab5f2d81307d8f9c9ad384f51dde8",
   "totalMethods" : 816,
-  "totalImplemented" : 355,
+  "totalImplemented" : 364,
   "totalStub" : 356,
-  "totalNotFound" : 105,
-  "overallCoveragePercent" : 43.504901960784316,
+  "totalNotFound" : 96,
+  "overallCoveragePercent" : 44.6078431372549,
   "groupBreakdown" : {
     "MAIN" : {
       "group" : "MAIN",
       "total" : 816,
-      "implemented" : 355,
+      "implemented" : 364,
       "stub" : 356,
-      "notFound" : 105,
-      "coveragePercent" : 43.504901960784316
+      "notFound" : 96,
+      "coveragePercent" : 44.6078431372549
     },
     "PERIPHERAL" : {
       "group" : "PERIPHERAL",
@@ -11939,10 +11939,10 @@
     },
     "V4_2" : {
       "total" : 25,
-      "implemented" : 0,
+      "implemented" : 9,
       "stub" : 0,
-      "notFound" : 25,
-      "coveragePercent" : 0.0
+      "notFound" : 16,
+      "coveragePercent" : 36.0
     },
     "V4_3" : {
       "total" : 32,
@@ -11960,11 +11960,11 @@
     }
   },
   "statusDistribution" : {
-    "Fully Implemented" : 320,
+    "Fully Implemented" : 329,
     "Returns Default" : 139,
     "Throws Unsupported" : 217,
     "Delegates" : 35,
-    "Not Found" : 105
+    "Not Found" : 96
   },
   "cumulativeCoverage" : [ {
     "version" : "V1_0",
@@ -11994,17 +11994,17 @@
   }, {
     "version" : "V4_2",
     "total" : 776,
-    "implemented" : 355,
-    "coveragePercent" : 45.74742268041237
+    "implemented" : 364,
+    "coveragePercent" : 46.90721649484536
   }, {
     "version" : "V4_3",
     "total" : 808,
-    "implemented" : 355,
-    "coveragePercent" : 43.93564356435643
+    "implemented" : 364,
+    "coveragePercent" : 45.04950495049505
   }, {
     "version" : "V4_5",
     "total" : 816,
-    "implemented" : 355,
-    "coveragePercent" : 43.504901960784316
+    "implemented" : 364,
+    "coveragePercent" : 44.6078431372549
   } ]
 }
