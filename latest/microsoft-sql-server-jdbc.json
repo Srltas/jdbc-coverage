@@ -1,7 +1,7 @@
 {
   "driverName" : "Microsoft SQL Server JDBC",
   "sourcePath" : "/home/runner/work/jdbc-coverage/jdbc-coverage/drivers/mssql-jdbc/src/main/java",
-  "analyzedAt" : "2026-08-01T20:58:27.951184221Z",
+  "analyzedAt" : "2026-08-02T21:00:13.208244336Z",
   "interfaces" : [ {
     "interfaceName" : "java.sql.Driver",
     "implementingClass" : "com.microsoft.sqlserver.jdbc.SQLServerDriver",
