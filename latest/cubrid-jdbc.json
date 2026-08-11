@@ -1,7 +1,7 @@
 {
   "driverName" : "CUBRID JDBC",
   "sourcePath" : "/home/runner/work/jdbc-coverage/jdbc-coverage/drivers/cubrid-jdbc/src/jdbc",
-  "analyzedAt" : "2026-08-10T20:47:01.996397399Z",
+  "analyzedAt" : "2026-08-11T20:51:00.145412136Z",
   "interfaces" : [ {
     "interfaceName" : "java.sql.Driver",
     "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
@@ -11869,7 +11869,7 @@
   "profileUsed" : "cubrid",
   "specVersion" : "spec-2",
   "toolVersion" : "2.0.0",
-  "sourceCommit" : "a2320d1799eab5f2d81307d8f9c9ad384f51dde8",
+  "sourceCommit" : "2a9ca81c10b1cb65d3edc8d8faf41368246a3cae",
   "totalMethods" : 816,
   "totalImplemented" : 364,
   "totalStub" : 356,
