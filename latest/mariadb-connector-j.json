@@ -1,7 +1,7 @@
 {
   "driverName" : "MariaDB Connector/J",
   "sourcePath" : "/home/runner/work/jdbc-coverage/jdbc-coverage/drivers/mariadb-connector-j/src/main/java",
-  "analyzedAt" : "2026-08-26T22:55:04.033568793Z",
+  "analyzedAt" : "2026-08-28T04:07:09.903433058Z",
   "interfaces" : [ {
     "interfaceName" : "java.sql.Driver",
     "implementingClass" : "org.mariadb.jdbc.Driver",
@@ -97,11 +97,11 @@
       "implementingClass" : "org.mariadb.jdbc.Driver",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 71.42857142857143,
     "total" : 7,
     "implemented" : 5,
     "stub" : 2,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 71.42857142857143
   }, {
     "interfaceName" : "java.sql.Connection",
     "implementingClass" : "org.mariadb.jdbc.Connection",
@@ -912,11 +912,11 @@
       "implementingClass" : "org.mariadb.jdbc.Connection",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 77.41935483870968,
     "total" : 62,
     "implemented" : 48,
     "stub" : 4,
-    "notFound" : 10
+    "notFound" : 10,
+    "coveragePercent" : 77.41935483870968
   }, {
     "interfaceName" : "java.sql.Statement",
     "implementingClass" : "org.mariadb.jdbc.Statement",
@@ -1623,11 +1623,11 @@
       "implementingClass" : "org.mariadb.jdbc.Statement",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 87.03703703703704,
     "total" : 54,
     "implemented" : 47,
     "stub" : 6,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 87.03703703703704
   }, {
     "interfaceName" : "java.sql.PreparedStatement",
     "implementingClass" : "org.mariadb.jdbc.ServerPreparedStatement",
@@ -2386,11 +2386,11 @@
       "implementingClass" : "org.mariadb.jdbc.ServerPreparedStatement",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 94.82758620689656,
     "total" : 58,
     "implemented" : 55,
     "stub" : 3,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 94.82758620689656
   }, {
     "interfaceName" : "java.sql.CallableStatement",
     "implementingClass" : "org.mariadb.jdbc.FunctionStatement",
@@ -3968,11 +3968,11 @@
       "implementingClass" : "org.mariadb.jdbc.FunctionStatement",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 91.73553719008265,
     "total" : 121,
     "implemented" : 111,
     "stub" : 10,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 91.73553719008265
   }, {
     "interfaceName" : "java.sql.ResultSet",
     "implementingClass" : "org.mariadb.jdbc.client.result.UpdatableResult",
@@ -6486,11 +6486,11 @@
       "implementingClass" : "org.mariadb.jdbc.client.result.UpdatableResult",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 92.74611398963731,
     "total" : 193,
     "implemented" : 179,
     "stub" : 14,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 92.74611398963731
   }, {
     "interfaceName" : "java.sql.DatabaseMetaData",
     "implementingClass" : "org.mariadb.jdbc.DatabaseMetaData",
@@ -8796,11 +8796,11 @@
       "implementingClass" : "org.mariadb.jdbc.DatabaseMetaData",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 35.59322033898305,
     "total" : 177,
     "implemented" : 63,
     "stub" : 112,
-    "notFound" : 2
+    "notFound" : 2,
+    "coveragePercent" : 35.59322033898305
   }, {
     "interfaceName" : "java.sql.ResultSetMetaData",
     "implementingClass" : "org.mariadb.jdbc.client.result.ResultSetMetaData",
@@ -9078,11 +9078,11 @@
       "implementingClass" : "org.mariadb.jdbc.client.result.ResultSetMetaData",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 85.71428571428571,
     "total" : 21,
     "implemented" : 18,
     "stub" : 3,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 85.71428571428571
   }, {
     "interfaceName" : "java.sql.ParameterMetaData",
     "implementingClass" : "org.mariadb.jdbc.CallableParameterMetaData",
@@ -9204,11 +9204,11 @@
       "implementingClass" : "org.mariadb.jdbc.CallableParameterMetaData",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 100.0,
     "total" : 9,
     "implemented" : 9,
     "stub" : 0,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 100.0
   }, {
     "interfaceName" : "java.sql.Savepoint",
     "implementingClass" : "org.mariadb.jdbc.MariaDbSavepoint",
@@ -9239,11 +9239,11 @@
       "implementingClass" : "org.mariadb.jdbc.MariaDbSavepoint",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 100.0,
     "total" : 2,
     "implemented" : 2,
     "stub" : 0,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 100.0
   }, {
     "interfaceName" : "java.sql.Blob",
     "implementingClass" : "org.mariadb.jdbc.MariaDbBlob",
@@ -9404,11 +9404,11 @@
       "implementingClass" : "org.mariadb.jdbc.MariaDbBlob",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 100.0,
     "total" : 12,
     "implemented" : 12,
     "stub" : 0,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 100.0
   }, {
     "interfaceName" : "java.sql.Clob",
     "implementingClass" : "org.mariadb.jdbc.MariaDbClob",
@@ -9595,11 +9595,11 @@
       "implementingClass" : "org.mariadb.jdbc.MariaDbClob",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 100.0,
     "total" : 14,
     "implemented" : 14,
     "stub" : 0,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 100.0
   }, {
     "interfaceName" : "java.sql.Array",
     "implementingClass" : "org.mariadb.jdbc.plugin.array.FloatArray",
@@ -9760,11 +9760,11 @@
       "implementingClass" : "org.mariadb.jdbc.plugin.array.FloatArray",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 41.66666666666667,
     "total" : 12,
     "implemented" : 5,
     "stub" : 6,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 41.66666666666667
   }, {
     "interfaceName" : "java.sql.Struct",
     "implementingClass" : null,
@@ -9808,11 +9808,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 3,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 3
+    "notFound" : 3,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.Ref",
     "implementingClass" : null,
@@ -9869,11 +9869,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 4,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 4
+    "notFound" : 4,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.RowId",
     "implementingClass" : null,
@@ -9930,11 +9930,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 4,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 4
+    "notFound" : 4,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.SQLXML",
     "implementingClass" : null,
@@ -10069,11 +10069,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 10,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 10
+    "notFound" : 10,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.Wrapper",
     "implementingClass" : "org.mariadb.jdbc.DatabaseMetaData",
@@ -10104,11 +10104,11 @@
       "implementingClass" : "org.mariadb.jdbc.DatabaseMetaData",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 100.0,
     "total" : 2,
     "implemented" : 2,
     "stub" : 0,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 100.0
   }, {
     "interfaceName" : "javax.sql.CommonDataSource",
     "implementingClass" : "org.mariadb.jdbc.MariaDbPoolDataSource",
@@ -10191,11 +10191,11 @@
       "implementingClass" : "org.mariadb.jdbc.MariaDbPoolDataSource",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 33.33333333333333,
     "total" : 6,
     "implemented" : 2,
     "stub" : 3,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 33.33333333333333
   }, {
     "interfaceName" : "javax.sql.DataSource",
     "implementingClass" : "org.mariadb.jdbc.MariaDbPoolDataSource",
@@ -10291,11 +10291,11 @@
       "implementingClass" : "org.mariadb.jdbc.MariaDbPoolDataSource",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 57.14285714285714,
     "total" : 7,
     "implemented" : 4,
     "stub" : 2,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 57.14285714285714
   }, {
     "interfaceName" : "javax.sql.ConnectionPoolDataSource",
     "implementingClass" : "org.mariadb.jdbc.MariaDbPoolDataSource",
@@ -10391,11 +10391,11 @@
       "implementingClass" : "org.mariadb.jdbc.MariaDbPoolDataSource",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 57.14285714285714,
     "total" : 7,
     "implemented" : 4,
     "stub" : 2,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 57.14285714285714
   }, {
     "interfaceName" : "javax.sql.XADataSource",
     "implementingClass" : "org.mariadb.jdbc.MariaDbPoolDataSource",
@@ -10491,11 +10491,11 @@
       "implementingClass" : "org.mariadb.jdbc.MariaDbPoolDataSource",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 57.14285714285714,
     "total" : 7,
     "implemented" : 4,
     "stub" : 2,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 57.14285714285714
   }, {
     "interfaceName" : "javax.sql.PooledConnection",
     "implementingClass" : "org.mariadb.jdbc.pool.MariaDbInnerPoolConnection",
@@ -10578,11 +10578,11 @@
       "implementingClass" : "org.mariadb.jdbc.pool.MariaDbInnerPoolConnection",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 100.0,
     "total" : 6,
     "implemented" : 6,
     "stub" : 0,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 100.0
   }, {
     "interfaceName" : "javax.sql.XAConnection",
     "implementingClass" : "org.mariadb.jdbc.MariaDbPoolConnection",
@@ -10600,11 +10600,11 @@
       "implementingClass" : "org.mariadb.jdbc.MariaDbPoolConnection",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 100.0,
     "total" : 1,
     "implemented" : 1,
     "stub" : 0,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 100.0
   }, {
     "interfaceName" : "javax.sql.PooledConnectionBuilder",
     "implementingClass" : null,
@@ -10674,11 +10674,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 5,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 5
+    "notFound" : 5,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "javax.sql.XAConnectionBuilder",
     "implementingClass" : null,
@@ -10748,11 +10748,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 5,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 5
+    "notFound" : 5,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.ConnectionBuilder",
     "implementingClass" : null,
@@ -10822,11 +10822,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 5,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 5
+    "notFound" : 5,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.ShardingKeyBuilder",
     "implementingClass" : null,
@@ -10857,11 +10857,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 2,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 2
+    "notFound" : 2,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.SQLInput",
     "implementingClass" : null,
@@ -11230,11 +11230,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 28,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 28
+    "notFound" : 28,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.SQLOutput",
     "implementingClass" : null,
@@ -11603,11 +11603,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 28,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 28
+    "notFound" : 28,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.SQLType",
     "implementingClass" : null,
@@ -11651,11 +11651,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 3,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 3
+    "notFound" : 3,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.DriverAction",
     "implementingClass" : null,
@@ -11673,11 +11673,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 1,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "javax.transaction.xa.XAResource",
     "implementingClass" : "org.mariadb.jdbc.MariaDbXAResource",
@@ -11812,11 +11812,11 @@
       "implementingClass" : "org.mariadb.jdbc.MariaDbXAResource",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 70.0,
     "total" : 10,
     "implemented" : 7,
     "stub" : 3,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 70.0
   }, {
     "interfaceName" : "javax.transaction.xa.Xid",
     "implementingClass" : "org.mariadb.jdbc.MariaDbXid",
@@ -11860,11 +11860,11 @@
       "implementingClass" : "org.mariadb.jdbc.MariaDbXid",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 100.0,
     "total" : 3,
     "implemented" : 3,
     "stub" : 0,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 100.0
   } ],
   "profileUsed" : "mariadb",
   "specVersion" : "spec-2",
