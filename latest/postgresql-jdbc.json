@@ -1,7 +1,7 @@
 {
   "driverName" : "PostgreSQL JDBC",
   "sourcePath" : "/home/runner/work/jdbc-coverage/jdbc-coverage/drivers/pgjdbc/pgjdbc/src/main/java",
-  "analyzedAt" : "2026-08-30T22:32:03.946064407Z",
+  "analyzedAt" : "2026-08-31T23:40:25.119050736Z",
   "interfaces" : [ {
     "interfaceName" : "java.sql.Driver",
     "implementingClass" : "org.postgresql.Driver",
