@@ -1,7 +1,7 @@
 {
   "driverName" : "PostgreSQL JDBC",
   "sourcePath" : "/home/runner/work/jdbc-coverage/jdbc-coverage/drivers/pgjdbc/pgjdbc/src/main/java",
-  "analyzedAt" : "2026-09-03T22:25:12.805174453Z",
+  "analyzedAt" : "2026-09-04T22:14:25.555741616Z",
   "interfaces" : [ {
     "interfaceName" : "java.sql.Driver",
     "implementingClass" : "org.postgresql.Driver",
@@ -97,11 +97,11 @@
       "implementingClass" : "org.postgresql.Driver",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 85.71428571428571,
     "total" : 7,
     "implemented" : 6,
     "stub" : 1,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 85.71428571428571
   }, {
     "interfaceName" : "java.sql.Connection",
     "implementingClass" : "org.postgresql.jdbc.PgConnection",
@@ -912,11 +912,11 @@
       "implementingClass" : "org.postgresql.jdbc.PgConnection",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 75.80645161290323,
     "total" : 62,
     "implemented" : 47,
     "stub" : 5,
-    "notFound" : 10
+    "notFound" : 10,
+    "coveragePercent" : 75.80645161290323
   }, {
     "interfaceName" : "java.sql.Statement",
     "implementingClass" : "org.postgresql.jdbc.PgStatement",
@@ -1623,11 +1623,11 @@
       "implementingClass" : "org.postgresql.jdbc.PgStatement",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 87.03703703703704,
     "total" : 54,
     "implemented" : 47,
     "stub" : 3,
-    "notFound" : 4
+    "notFound" : 4,
+    "coveragePercent" : 87.03703703703704
   }, {
     "interfaceName" : "java.sql.PreparedStatement",
     "implementingClass" : "org.postgresql.jdbc.PgPreparedStatement",
@@ -2386,11 +2386,11 @@
       "implementingClass" : "org.postgresql.jdbc.PgPreparedStatement",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 72.41379310344827,
     "total" : 58,
     "implemented" : 42,
     "stub" : 16,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 72.41379310344827
   }, {
     "interfaceName" : "java.sql.CallableStatement",
     "implementingClass" : "org.postgresql.jdbc.PgCallableStatement",
@@ -3968,11 +3968,11 @@
       "implementingClass" : "org.postgresql.jdbc.PgCallableStatement",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 21.487603305785125,
     "total" : 121,
     "implemented" : 26,
     "stub" : 95,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 21.487603305785125
   }, {
     "interfaceName" : "java.sql.ResultSet",
     "implementingClass" : "org.postgresql.jdbc.PgResultSet",
@@ -6486,11 +6486,11 @@
       "implementingClass" : "org.postgresql.jdbc.PgResultSet",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 80.31088082901555,
     "total" : 193,
     "implemented" : 155,
     "stub" : 38,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 80.31088082901555
   }, {
     "interfaceName" : "java.sql.DatabaseMetaData",
     "implementingClass" : "org.postgresql.jdbc.PgDatabaseMetaData",
@@ -8796,11 +8796,11 @@
       "implementingClass" : "org.postgresql.jdbc.PgDatabaseMetaData",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 30.508474576271187,
     "total" : 177,
     "implemented" : 54,
     "stub" : 122,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 30.508474576271187
   }, {
     "interfaceName" : "java.sql.ResultSetMetaData",
     "implementingClass" : "org.postgresql.jdbc.PgResultSetMetaData",
@@ -9078,11 +9078,11 @@
       "implementingClass" : "org.postgresql.jdbc.PgResultSetMetaData",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 76.19047619047619,
     "total" : 21,
     "implemented" : 16,
     "stub" : 5,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 76.19047619047619
   }, {
     "interfaceName" : "java.sql.ParameterMetaData",
     "implementingClass" : "org.postgresql.jdbc.PgParameterMetaData",
@@ -9204,11 +9204,11 @@
       "implementingClass" : "org.postgresql.jdbc.PgParameterMetaData",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 77.77777777777779,
     "total" : 9,
     "implemented" : 7,
     "stub" : 2,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 77.77777777777779
   }, {
     "interfaceName" : "java.sql.Savepoint",
     "implementingClass" : "org.postgresql.jdbc.PSQLSavepoint",
@@ -9239,11 +9239,11 @@
       "implementingClass" : "org.postgresql.jdbc.PSQLSavepoint",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 100.0,
     "total" : 2,
     "implemented" : 2,
     "stub" : 0,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 100.0
   }, {
     "interfaceName" : "java.sql.Blob",
     "implementingClass" : "org.postgresql.jdbc.PgBlob",
@@ -9404,11 +9404,11 @@
       "implementingClass" : "org.postgresql.jdbc.PgBlob",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 91.66666666666666,
     "total" : 12,
     "implemented" : 11,
     "stub" : 0,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 91.66666666666666
   }, {
     "interfaceName" : "java.sql.Clob",
     "implementingClass" : "org.postgresql.jdbc.PgClob",
@@ -9595,11 +9595,11 @@
       "implementingClass" : "org.postgresql.jdbc.PgClob",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 92.85714285714286,
     "total" : 14,
     "implemented" : 13,
     "stub" : 0,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 92.85714285714286
   }, {
     "interfaceName" : "java.sql.Array",
     "implementingClass" : "org.postgresql.jdbc.PgArray",
@@ -9760,11 +9760,11 @@
       "implementingClass" : "org.postgresql.jdbc.PgArray",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 91.66666666666666,
     "total" : 12,
     "implemented" : 11,
     "stub" : 0,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 91.66666666666666
   }, {
     "interfaceName" : "java.sql.Struct",
     "implementingClass" : null,
@@ -9808,11 +9808,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 3,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 3
+    "notFound" : 3,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.Ref",
     "implementingClass" : null,
@@ -9869,11 +9869,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 4,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 4
+    "notFound" : 4,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.RowId",
     "implementingClass" : null,
@@ -9930,11 +9930,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 4,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 4
+    "notFound" : 4,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.SQLXML",
     "implementingClass" : "org.postgresql.jdbc.PgSQLXML",
@@ -10069,11 +10069,11 @@
       "implementingClass" : "org.postgresql.jdbc.PgSQLXML",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 90.0,
     "total" : 10,
     "implemented" : 9,
     "stub" : 0,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 90.0
   }, {
     "interfaceName" : "java.sql.Wrapper",
     "implementingClass" : "org.postgresql.jdbc.PgResultSet",
@@ -10104,11 +10104,11 @@
       "implementingClass" : "org.postgresql.jdbc.PgResultSet",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 100.0,
     "total" : 2,
     "implemented" : 2,
     "stub" : 0,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 100.0
   }, {
     "interfaceName" : "javax.sql.CommonDataSource",
     "implementingClass" : "org.postgresql.xa.PGXADataSource",
@@ -10191,11 +10191,11 @@
       "implementingClass" : "org.postgresql.xa.PGXADataSource",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 50.0,
     "total" : 6,
     "implemented" : 3,
     "stub" : 2,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 50.0
   }, {
     "interfaceName" : "javax.sql.DataSource",
     "implementingClass" : "org.postgresql.ds.PGSimpleDataSource",
@@ -10291,11 +10291,11 @@
       "implementingClass" : "org.postgresql.ds.PGSimpleDataSource",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 57.14285714285714,
     "total" : 7,
     "implemented" : 4,
     "stub" : 2,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 57.14285714285714
   }, {
     "interfaceName" : "javax.sql.ConnectionPoolDataSource",
     "implementingClass" : "org.postgresql.ds.PGConnectionPoolDataSource",
@@ -10391,11 +10391,11 @@
       "implementingClass" : "org.postgresql.ds.PGConnectionPoolDataSource",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 57.14285714285714,
     "total" : 7,
     "implemented" : 4,
     "stub" : 2,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 57.14285714285714
   }, {
     "interfaceName" : "javax.sql.XADataSource",
     "implementingClass" : "org.postgresql.xa.PGXADataSource",
@@ -10491,11 +10491,11 @@
       "implementingClass" : "org.postgresql.xa.PGXADataSource",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 57.14285714285714,
     "total" : 7,
     "implemented" : 4,
     "stub" : 2,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 57.14285714285714
   }, {
     "interfaceName" : "javax.sql.PooledConnection",
     "implementingClass" : "org.postgresql.ds.PGPooledConnection",
@@ -10578,11 +10578,11 @@
       "implementingClass" : "org.postgresql.ds.PGPooledConnection",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 66.66666666666666,
     "total" : 6,
     "implemented" : 4,
     "stub" : 2,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 66.66666666666666
   }, {
     "interfaceName" : "javax.sql.XAConnection",
     "implementingClass" : "org.postgresql.xa.PGXAConnection",
@@ -10600,11 +10600,11 @@
       "implementingClass" : "org.postgresql.xa.PGXAConnection",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 100.0,
     "total" : 1,
     "implemented" : 1,
     "stub" : 0,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 100.0
   }, {
     "interfaceName" : "javax.sql.PooledConnectionBuilder",
     "implementingClass" : null,
@@ -10674,11 +10674,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 5,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 5
+    "notFound" : 5,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "javax.sql.XAConnectionBuilder",
     "implementingClass" : null,
@@ -10748,11 +10748,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 5,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 5
+    "notFound" : 5,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.ConnectionBuilder",
     "implementingClass" : null,
@@ -10822,11 +10822,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 5,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 5
+    "notFound" : 5,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.ShardingKeyBuilder",
     "implementingClass" : null,
@@ -10857,11 +10857,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 2,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 2
+    "notFound" : 2,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.SQLInput",
     "implementingClass" : null,
@@ -11230,11 +11230,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 28,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 28
+    "notFound" : 28,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.SQLOutput",
     "implementingClass" : null,
@@ -11603,11 +11603,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 28,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 28
+    "notFound" : 28,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.SQLType",
     "implementingClass" : null,
@@ -11651,11 +11651,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 3,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 3
+    "notFound" : 3,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.DriverAction",
     "implementingClass" : null,
@@ -11673,11 +11673,11 @@
       "implementingClass" : null,
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 0.0,
     "total" : 1,
     "implemented" : 0,
     "stub" : 0,
-    "notFound" : 1
+    "notFound" : 1,
+    "coveragePercent" : 0.0
   }, {
     "interfaceName" : "javax.transaction.xa.XAResource",
     "implementingClass" : "org.postgresql.xa.PGXAConnection",
@@ -11812,11 +11812,11 @@
       "implementingClass" : "org.postgresql.xa.PGXAConnection",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 70.0,
     "total" : 10,
     "implemented" : 7,
     "stub" : 3,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 70.0
   }, {
     "interfaceName" : "javax.transaction.xa.Xid",
     "implementingClass" : "org.postgresql.xa.RecoveredXid",
@@ -11860,11 +11860,11 @@
       "implementingClass" : "org.postgresql.xa.RecoveredXid",
       "sourceLocation" : null
     } ],
-    "coveragePercent" : 100.0,
     "total" : 3,
     "implemented" : 3,
     "stub" : 0,
-    "notFound" : 0
+    "notFound" : 0,
+    "coveragePercent" : 100.0
   } ],
   "profileUsed" : "pgjdbc",
   "specVersion" : "spec-2",
