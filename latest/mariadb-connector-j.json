@@ -1,7 +1,7 @@
 {
   "driverName" : "MariaDB Connector/J",
   "sourcePath" : "/home/runner/work/jdbc-coverage/jdbc-coverage/drivers/mariadb-connector-j/src/main/java",
-  "analyzedAt" : "2026-09-08T22:28:50.284782906Z",
+  "analyzedAt" : "2026-09-09T22:22:45.408415833Z",
   "interfaces" : [ {
     "interfaceName" : "java.sql.Driver",
     "implementingClass" : "org.mariadb.jdbc.Driver",
@@ -11869,7 +11869,7 @@
   "profileUsed" : "mariadb",
   "specVersion" : "spec-2",
   "toolVersion" : "2.0.0",
-  "sourceCommit" : "6164678e83aa9d203939d5bec73bd4571cbec8a2",
+  "sourceCommit" : "db933f98b8e297f138e78ed9f2ed3aab6bae1ca1",
   "totalMethods" : 816,
   "totalImplemented" : 591,
   "totalStub" : 169,
