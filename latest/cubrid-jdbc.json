@@ -1,7 +1,7 @@
 {
   "driverName" : "CUBRID JDBC",
   "sourcePath" : "/home/runner/work/jdbc-coverage/jdbc-coverage/drivers/cubrid-jdbc/src/jdbc",
-  "analyzedAt" : "2026-09-09T22:22:17.241220823Z",
+  "analyzedAt" : "2026-09-10T22:21:17.853080472Z",
   "interfaces" : [ {
     "interfaceName" : "java.sql.Driver",
     "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
@@ -3847,7 +3847,7 @@
         "displayName" : "CallableStatement.getObject(int, Class)",
         "matchKey" : "getObject(int,Class)"
       },
-      "status" : "THROWS_UNSUPPORTED",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDCallableStatement",
       "sourceLocation" : null
     }, {
@@ -3969,10 +3969,10 @@
       "sourceLocation" : null
     } ],
     "total" : 121,
-    "implemented" : 26,
-    "stub" : 90,
+    "implemented" : 27,
+    "stub" : 89,
     "notFound" : 5,
-    "coveragePercent" : 21.487603305785125
+    "coveragePercent" : 22.31404958677686
   }, {
     "interfaceName" : "java.sql.ResultSet",
     "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSet",
@@ -6417,7 +6417,7 @@
         "displayName" : "ResultSet.getObject(int, Class)",
         "matchKey" : "getObject(int,Class)"
       },
-      "status" : "THROWS_UNSUPPORTED",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSet",
       "sourceLocation" : null
     }, {
@@ -6430,7 +6430,7 @@
         "displayName" : "ResultSet.getObject(String, Class)",
         "matchKey" : "getObject(String,Class)"
       },
-      "status" : "THROWS_UNSUPPORTED",
+      "status" : "DELEGATES",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSet",
       "sourceLocation" : null
     }, {
@@ -6487,10 +6487,10 @@
       "sourceLocation" : null
     } ],
     "total" : 193,
-    "implemented" : 126,
-    "stub" : 67,
+    "implemented" : 128,
+    "stub" : 65,
     "notFound" : 0,
-    "coveragePercent" : 65.28497409326425
+    "coveragePercent" : 66.32124352331607
   }, {
     "interfaceName" : "java.sql.DatabaseMetaData",
     "implementingClass" : "cubrid.jdbc.driver.CUBRIDDatabaseMetaData",
@@ -11869,20 +11869,20 @@
   "profileUsed" : "cubrid",
   "specVersion" : "spec-2",
   "toolVersion" : "2.0.0",
-  "sourceCommit" : "936df5f97a540ff92b1e623d5bab4fa94fe073b3",
+  "sourceCommit" : "20aeb347b4d82ae74d89fe263141b044b52eb5b9",
   "totalMethods" : 816,
-  "totalImplemented" : 366,
-  "totalStub" : 354,
+  "totalImplemented" : 369,
+  "totalStub" : 351,
   "totalNotFound" : 96,
-  "overallCoveragePercent" : 44.85294117647059,
+  "overallCoveragePercent" : 45.220588235294116,
   "groupBreakdown" : {
     "MAIN" : {
       "group" : "MAIN",
       "total" : 816,
-      "implemented" : 366,
-      "stub" : 354,
+      "implemented" : 369,
+      "stub" : 351,
       "notFound" : 96,
-      "coveragePercent" : 44.85294117647059
+      "coveragePercent" : 45.220588235294116
     },
     "PERIPHERAL" : {
       "group" : "PERIPHERAL",
@@ -11932,10 +11932,10 @@
     },
     "V4_1" : {
       "total" : 15,
-      "implemented" : 0,
-      "stub" : 15,
+      "implemented" : 3,
+      "stub" : 12,
       "notFound" : 0,
-      "coveragePercent" : 0.0
+      "coveragePercent" : 20.0
     },
     "V4_2" : {
       "total" : 25,
@@ -11960,10 +11960,10 @@
     }
   },
   "statusDistribution" : {
-    "Fully Implemented" : 331,
+    "Fully Implemented" : 333,
     "Returns Default" : 139,
-    "Throws Unsupported" : 215,
-    "Delegates" : 35,
+    "Throws Unsupported" : 212,
+    "Delegates" : 36,
     "Not Found" : 96
   },
   "cumulativeCoverage" : [ {
@@ -11989,22 +11989,22 @@
   }, {
     "version" : "V4_1",
     "total" : 751,
-    "implemented" : 357,
-    "coveragePercent" : 47.53661784287617
+    "implemented" : 360,
+    "coveragePercent" : 47.93608521970706
   }, {
     "version" : "V4_2",
     "total" : 776,
-    "implemented" : 366,
-    "coveragePercent" : 47.16494845360825
+    "implemented" : 369,
+    "coveragePercent" : 47.551546391752574
   }, {
     "version" : "V4_3",
     "total" : 808,
-    "implemented" : 366,
-    "coveragePercent" : 45.2970297029703
+    "implemented" : 369,
+    "coveragePercent" : 45.66831683168317
   }, {
     "version" : "V4_5",
     "total" : 816,
-    "implemented" : 366,
-    "coveragePercent" : 44.85294117647059
+    "implemented" : 369,
+    "coveragePercent" : 45.220588235294116
   } ]
 }
