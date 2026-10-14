@@ -1,7 +1,7 @@
 {
   "driverName" : "CUBRID JDBC",
   "sourcePath" : "/home/runner/work/jdbc-coverage/jdbc-coverage/drivers/cubrid-jdbc/src/jdbc",
-  "analyzedAt" : "2026-10-13T23:39:53.923609746Z",
+  "analyzedAt" : "2026-10-14T23:03:56.288501427Z",
   "interfaces" : [ {
     "interfaceName" : "java.sql.Driver",
     "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
@@ -4753,7 +4753,7 @@
         "displayName" : "ResultSet.getDate(int, Calendar)",
         "matchKey" : "getDate(int,Calendar)"
       },
-      "status" : "DELEGATES",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSet",
       "sourceLocation" : null
     }, {
@@ -4883,7 +4883,7 @@
         "displayName" : "ResultSet.getTime(int, Calendar)",
         "matchKey" : "getTime(int,Calendar)"
       },
-      "status" : "DELEGATES",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSet",
       "sourceLocation" : null
     }, {
@@ -4909,7 +4909,7 @@
         "displayName" : "ResultSet.getTimestamp(int, Calendar)",
         "matchKey" : "getTimestamp(int,Calendar)"
       },
-      "status" : "DELEGATES",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDResultSet",
       "sourceLocation" : null
     }, {
@@ -11869,7 +11869,7 @@
   "profileUsed" : "cubrid",
   "specVersion" : "spec-2",
   "toolVersion" : "2.0.0",
-  "sourceCommit" : "8a01f99de9c246aced1d11d942a4b2ae9cc62363",
+  "sourceCommit" : "57d2c75d73ee820c26ac049b7ba758f5e646519a",
   "totalMethods" : 816,
   "totalImplemented" : 369,
   "totalStub" : 351,
@@ -11960,10 +11960,10 @@
     }
   },
   "statusDistribution" : {
-    "Fully Implemented" : 333,
+    "Fully Implemented" : 336,
     "Returns Default" : 139,
     "Throws Unsupported" : 212,
-    "Delegates" : 36,
+    "Delegates" : 33,
     "Not Found" : 96
   },
   "cumulativeCoverage" : [ {
