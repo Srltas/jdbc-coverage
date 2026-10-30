@@ -1,5 +1,6 @@
 package com.jdbccoverage.parser
 
+import com.github.javaparser.ParserConfiguration.LanguageLevel
 import com.github.javaparser.StaticJavaParser
 import com.github.javaparser.ast.CompilationUnit
 import com.github.javaparser.symbolsolver.JavaSymbolSolver
@@ -72,7 +73,11 @@ class SourceParser(private val sourcePaths: List<Path>) {
         }
 
         val symbolSolver = JavaSymbolSolver(typeSolver)
-        StaticJavaParser.getParserConfiguration().setSymbolResolver(symbolSolver)
+        // Same level JavaParserTypeSolver parses with; the default (Java 11)
+        // rejects records and instanceof patterns.
+        StaticJavaParser.getParserConfiguration()
+            .setLanguageLevel(LanguageLevel.BLEEDING_EDGE)
+            .setSymbolResolver(symbolSolver)
     }
 
     /**
