@@ -1,7 +1,7 @@
 {
   "driverName" : "MySQL Connector/J",
   "sourcePath" : "/home/runner/work/jdbc-coverage/jdbc-coverage/drivers/mysql-connector-j",
-  "analyzedAt" : "2026-10-15T22:57:49.541648164Z",
+  "analyzedAt" : "2026-10-31T23:11:41.850925140Z",
   "interfaces" : [ {
     "interfaceName" : "java.sql.Driver",
     "implementingClass" : "com.mysql.cj.jdbc.Driver",
@@ -11869,7 +11869,7 @@
   "profileUsed" : "mysql",
   "specVersion" : "spec-2",
   "toolVersion" : "2.0.0",
-  "sourceCommit" : "559f62df01d4f618440da174ff45ba87f7b3b2a8",
+  "sourceCommit" : "fac9201148ebe3f84a5754cb86ebbacaf1cdce7f",
   "totalMethods" : 816,
   "totalImplemented" : 619,
   "totalStub" : 136,

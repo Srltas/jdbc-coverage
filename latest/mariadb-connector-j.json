@@ -1,7 +1,7 @@
 {
   "driverName" : "MariaDB Connector/J",
   "sourcePath" : "/home/runner/work/jdbc-coverage/jdbc-coverage/drivers/mariadb-connector-j/src/main/java",
-  "analyzedAt" : "2026-10-15T22:57:52.977024870Z",
+  "analyzedAt" : "2026-10-31T23:11:46.616678715Z",
   "interfaces" : [ {
     "interfaceName" : "java.sql.Driver",
     "implementingClass" : "org.mariadb.jdbc.Driver",
@@ -635,7 +635,7 @@
         "displayName" : "Connection.createSQLXML()",
         "matchKey" : "createSQLXML()"
       },
-      "status" : "THROWS_UNSUPPORTED",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "org.mariadb.jdbc.Connection",
       "sourceLocation" : null
     }, {
@@ -913,10 +913,10 @@
       "sourceLocation" : null
     } ],
     "total" : 62,
-    "implemented" : 48,
-    "stub" : 4,
+    "implemented" : 49,
+    "stub" : 3,
     "notFound" : 10,
-    "coveragePercent" : 77.41935483870968
+    "coveragePercent" : 79.03225806451613
   }, {
     "interfaceName" : "java.sql.Statement",
     "implementingClass" : "org.mariadb.jdbc.Statement",
@@ -2343,7 +2343,7 @@
         "displayName" : "PreparedStatement.setSQLXML(int, SQLXML)",
         "matchKey" : "setSQLXML(int,SQLXML)"
       },
-      "status" : "THROWS_UNSUPPORTED",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "org.mariadb.jdbc.ServerPreparedStatement",
       "sourceLocation" : null
     }, {
@@ -2387,10 +2387,10 @@
       "sourceLocation" : null
     } ],
     "total" : 58,
-    "implemented" : 55,
-    "stub" : 3,
+    "implemented" : 56,
+    "stub" : 2,
     "notFound" : 0,
-    "coveragePercent" : 94.82758620689656
+    "coveragePercent" : 96.55172413793103
   }, {
     "interfaceName" : "java.sql.CallableStatement",
     "implementingClass" : "org.mariadb.jdbc.FunctionStatement",
@@ -3561,7 +3561,7 @@
         "displayName" : "CallableStatement.getSQLXML(int)",
         "matchKey" : "getSQLXML(int)"
       },
-      "status" : "THROWS_UNSUPPORTED",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "org.mariadb.jdbc.FunctionStatement",
       "sourceLocation" : null
     }, {
@@ -3574,7 +3574,7 @@
         "displayName" : "CallableStatement.getSQLXML(String)",
         "matchKey" : "getSQLXML(String)"
       },
-      "status" : "THROWS_UNSUPPORTED",
+      "status" : "DELEGATES",
       "implementingClass" : "org.mariadb.jdbc.FunctionStatement",
       "sourceLocation" : null
     }, {
@@ -3834,7 +3834,7 @@
         "displayName" : "CallableStatement.setSQLXML(String, SQLXML)",
         "matchKey" : "setSQLXML(String,SQLXML)"
       },
-      "status" : "THROWS_UNSUPPORTED",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "org.mariadb.jdbc.FunctionStatement",
       "sourceLocation" : null
     }, {
@@ -3969,10 +3969,10 @@
       "sourceLocation" : null
     } ],
     "total" : 121,
-    "implemented" : 111,
-    "stub" : 10,
+    "implemented" : 114,
+    "stub" : 7,
     "notFound" : 0,
-    "coveragePercent" : 91.73553719008265
+    "coveragePercent" : 94.21487603305785
   }, {
     "interfaceName" : "java.sql.ResultSet",
     "implementingClass" : "org.mariadb.jdbc.client.result.UpdatableResult",
@@ -5910,7 +5910,7 @@
         "displayName" : "ResultSet.getSQLXML(int)",
         "matchKey" : "getSQLXML(int)"
       },
-      "status" : "THROWS_UNSUPPORTED",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "org.mariadb.jdbc.client.result.UpdatableResult",
       "sourceLocation" : null
     }, {
@@ -5923,7 +5923,7 @@
         "displayName" : "ResultSet.getSQLXML(String)",
         "matchKey" : "getSQLXML(String)"
       },
-      "status" : "THROWS_UNSUPPORTED",
+      "status" : "DELEGATES",
       "implementingClass" : "org.mariadb.jdbc.client.result.UpdatableResult",
       "sourceLocation" : null
     }, {
@@ -6391,7 +6391,7 @@
         "displayName" : "ResultSet.updateSQLXML(int, SQLXML)",
         "matchKey" : "updateSQLXML(int,SQLXML)"
       },
-      "status" : "THROWS_UNSUPPORTED",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "org.mariadb.jdbc.client.result.UpdatableResult",
       "sourceLocation" : null
     }, {
@@ -6404,7 +6404,7 @@
         "displayName" : "ResultSet.updateSQLXML(String, SQLXML)",
         "matchKey" : "updateSQLXML(String,SQLXML)"
       },
-      "status" : "THROWS_UNSUPPORTED",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "org.mariadb.jdbc.client.result.UpdatableResult",
       "sourceLocation" : null
     }, {
@@ -6487,10 +6487,10 @@
       "sourceLocation" : null
     } ],
     "total" : 193,
-    "implemented" : 179,
-    "stub" : 14,
+    "implemented" : 183,
+    "stub" : 10,
     "notFound" : 0,
-    "coveragePercent" : 92.74611398963731
+    "coveragePercent" : 94.81865284974094
   }, {
     "interfaceName" : "java.sql.DatabaseMetaData",
     "implementingClass" : "org.mariadb.jdbc.DatabaseMetaData",
@@ -8753,7 +8753,7 @@
         "displayName" : "DatabaseMetaData.getPseudoColumns(String, String, String, String)",
         "matchKey" : "getPseudoColumns(String,String,String,String)"
       },
-      "status" : "DELEGATES",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "org.mariadb.jdbc.DatabaseMetaData",
       "sourceLocation" : null
     }, {
@@ -9937,7 +9937,7 @@
     "coveragePercent" : 0.0
   }, {
     "interfaceName" : "java.sql.SQLXML",
-    "implementingClass" : null,
+    "implementingClass" : "org.mariadb.jdbc.MariaDbSqlXml",
     "methods" : [ {
       "specMethod" : {
         "interfaceName" : "java.sql.SQLXML",
@@ -9948,8 +9948,8 @@
         "displayName" : "SQLXML.free()",
         "matchKey" : "free()"
       },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "org.mariadb.jdbc.MariaDbSqlXml",
       "sourceLocation" : null
     }, {
       "specMethod" : {
@@ -9961,8 +9961,8 @@
         "displayName" : "SQLXML.getBinaryStream()",
         "matchKey" : "getBinaryStream()"
       },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "org.mariadb.jdbc.MariaDbSqlXml",
       "sourceLocation" : null
     }, {
       "specMethod" : {
@@ -9974,8 +9974,8 @@
         "displayName" : "SQLXML.getCharacterStream()",
         "matchKey" : "getCharacterStream()"
       },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "org.mariadb.jdbc.MariaDbSqlXml",
       "sourceLocation" : null
     }, {
       "specMethod" : {
@@ -9987,8 +9987,8 @@
         "displayName" : "SQLXML.getSource(Class)",
         "matchKey" : "getSource(Class)"
       },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "org.mariadb.jdbc.MariaDbSqlXml",
       "sourceLocation" : null
     }, {
       "specMethod" : {
@@ -10000,8 +10000,8 @@
         "displayName" : "SQLXML.getString()",
         "matchKey" : "getString()"
       },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "org.mariadb.jdbc.MariaDbSqlXml",
       "sourceLocation" : null
     }, {
       "specMethod" : {
@@ -10013,8 +10013,8 @@
         "displayName" : "SQLXML.setBinaryStream()",
         "matchKey" : "setBinaryStream()"
       },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "org.mariadb.jdbc.MariaDbSqlXml",
       "sourceLocation" : null
     }, {
       "specMethod" : {
@@ -10026,8 +10026,8 @@
         "displayName" : "SQLXML.setCharacterStream()",
         "matchKey" : "setCharacterStream()"
       },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "org.mariadb.jdbc.MariaDbSqlXml",
       "sourceLocation" : null
     }, {
       "specMethod" : {
@@ -10039,8 +10039,8 @@
         "displayName" : "SQLXML.setResult(Class)",
         "matchKey" : "setResult(Class)"
       },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "org.mariadb.jdbc.MariaDbSqlXml",
       "sourceLocation" : null
     }, {
       "specMethod" : {
@@ -10052,8 +10052,8 @@
         "displayName" : "SQLXML.setString(String)",
         "matchKey" : "setString(String)"
       },
-      "status" : "NOT_FOUND",
-      "implementingClass" : null,
+      "status" : "FULLY_IMPLEMENTED",
+      "implementingClass" : "org.mariadb.jdbc.MariaDbSqlXml",
       "sourceLocation" : null
     }, {
       "specMethod" : {
@@ -10066,14 +10066,14 @@
         "matchKey" : "close()"
       },
       "status" : "NOT_FOUND",
-      "implementingClass" : null,
+      "implementingClass" : "org.mariadb.jdbc.MariaDbSqlXml",
       "sourceLocation" : null
     } ],
     "total" : 10,
-    "implemented" : 0,
+    "implemented" : 9,
     "stub" : 0,
-    "notFound" : 10,
-    "coveragePercent" : 0.0
+    "notFound" : 1,
+    "coveragePercent" : 90.0
   }, {
     "interfaceName" : "java.sql.Wrapper",
     "implementingClass" : "org.mariadb.jdbc.DatabaseMetaData",
@@ -11869,20 +11869,20 @@
   "profileUsed" : "mariadb",
   "specVersion" : "spec-2",
   "toolVersion" : "2.0.0",
-  "sourceCommit" : "db933f98b8e297f138e78ed9f2ed3aab6bae1ca1",
+  "sourceCommit" : "52164c41c361dcee2513e258bfaa8c546c103ae5",
   "totalMethods" : 816,
-  "totalImplemented" : 591,
-  "totalStub" : 169,
-  "totalNotFound" : 56,
-  "overallCoveragePercent" : 72.42647058823529,
+  "totalImplemented" : 609,
+  "totalStub" : 160,
+  "totalNotFound" : 47,
+  "overallCoveragePercent" : 74.63235294117648,
   "groupBreakdown" : {
     "MAIN" : {
       "group" : "MAIN",
       "total" : 816,
-      "implemented" : 591,
-      "stub" : 169,
-      "notFound" : 56,
-      "coveragePercent" : 72.42647058823529
+      "implemented" : 609,
+      "stub" : 160,
+      "notFound" : 47,
+      "coveragePercent" : 74.63235294117648
     },
     "PERIPHERAL" : {
       "group" : "PERIPHERAL",
@@ -11925,10 +11925,10 @@
     },
     "V4_0" : {
       "total" : 145,
-      "implemented" : 107,
-      "stub" : 25,
-      "notFound" : 13,
-      "coveragePercent" : 73.79310344827587
+      "implemented" : 125,
+      "stub" : 16,
+      "notFound" : 4,
+      "coveragePercent" : 86.20689655172413
     },
     "V4_1" : {
       "total" : 15,
@@ -11960,11 +11960,11 @@
     }
   },
   "statusDistribution" : {
-    "Delegates" : 124,
-    "Fully Implemented" : 466,
+    "Delegates" : 125,
+    "Fully Implemented" : 483,
     "Returns Default" : 134,
-    "Throws Unsupported" : 35,
-    "Not Found" : 56,
+    "Throws Unsupported" : 26,
+    "Not Found" : 47,
     "Partial" : 1
   },
   "cumulativeCoverage" : [ {
@@ -11985,27 +11985,27 @@
   }, {
     "version" : "V4_0",
     "total" : 736,
-    "implemented" : 551,
-    "coveragePercent" : 74.86413043478261
+    "implemented" : 569,
+    "coveragePercent" : 77.30978260869566
   }, {
     "version" : "V4_1",
     "total" : 751,
-    "implemented" : 563,
-    "coveragePercent" : 74.96671105193076
+    "implemented" : 581,
+    "coveragePercent" : 77.3635153129161
   }, {
     "version" : "V4_2",
     "total" : 776,
-    "implemented" : 586,
-    "coveragePercent" : 75.51546391752578
+    "implemented" : 604,
+    "coveragePercent" : 77.83505154639175
   }, {
     "version" : "V4_3",
     "total" : 808,
-    "implemented" : 589,
-    "coveragePercent" : 72.89603960396039
+    "implemented" : 607,
+    "coveragePercent" : 75.12376237623762
   }, {
     "version" : "V4_5",
     "total" : 816,
-    "implemented" : 591,
-    "coveragePercent" : 72.42647058823529
+    "implemented" : 609,
+    "coveragePercent" : 74.63235294117648
   } ]
 }
