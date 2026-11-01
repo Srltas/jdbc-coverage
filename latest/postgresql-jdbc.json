@@ -1,7 +1,7 @@
 {
   "driverName" : "PostgreSQL JDBC",
   "sourcePath" : "/home/runner/work/jdbc-coverage/jdbc-coverage/drivers/pgjdbc/pgjdbc/src/main/java",
-  "analyzedAt" : "2026-10-31T23:11:30.181352315Z",
+  "analyzedAt" : "2026-11-01T23:25:56.814174078Z",
   "interfaces" : [ {
     "interfaceName" : "java.sql.Driver",
     "implementingClass" : "org.postgresql.Driver",
@@ -11869,7 +11869,7 @@
   "profileUsed" : "pgjdbc",
   "specVersion" : "spec-2",
   "toolVersion" : "2.0.0",
-  "sourceCommit" : "a3fad9d6bd7e3372be0c97035d13363db671355f",
+  "sourceCommit" : "f2a48a2abf3d23bfd4139c556b9938aa96792792",
   "totalMethods" : 816,
   "totalImplemented" : 468,
   "totalStub" : 297,
