@@ -1,7 +1,7 @@
 {
   "driverName" : "MariaDB Connector/J",
   "sourcePath" : "/home/runner/work/jdbc-coverage/jdbc-coverage/drivers/mariadb-connector-j/src/main/java",
-  "analyzedAt" : "2026-11-06T00:54:47.091193622Z",
+  "analyzedAt" : "2026-11-07T00:00:25.384250802Z",
   "interfaces" : [ {
     "interfaceName" : "java.sql.Driver",
     "implementingClass" : "org.mariadb.jdbc.Driver",
