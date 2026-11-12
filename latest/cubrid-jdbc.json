@@ -1,7 +1,7 @@
 {
   "driverName" : "CUBRID JDBC",
   "sourcePath" : "/home/runner/work/jdbc-coverage/jdbc-coverage/drivers/cubrid-jdbc/src/jdbc",
-  "analyzedAt" : "2026-11-11T00:28:30.380479949Z",
+  "analyzedAt" : "2026-11-12T01:50:46.726091802Z",
   "interfaces" : [ {
     "interfaceName" : "java.sql.Driver",
     "implementingClass" : "cubrid.jdbc.driver.CUBRIDDriver",
@@ -232,7 +232,7 @@
         "displayName" : "Connection.isClosed()",
         "matchKey" : "isClosed()"
       },
-      "status" : "FULLY_IMPLEMENTED",
+      "status" : "DELEGATES",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnection",
       "sourceLocation" : null
     }, {
@@ -739,7 +739,7 @@
         "displayName" : "Connection.getNetworkTimeout()",
         "matchKey" : "getNetworkTimeout()"
       },
-      "status" : "THROWS_UNSUPPORTED",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnection",
       "sourceLocation" : null
     }, {
@@ -765,7 +765,7 @@
         "displayName" : "Connection.setNetworkTimeout(Executor, int)",
         "matchKey" : "setNetworkTimeout(Executor,int)"
       },
-      "status" : "THROWS_UNSUPPORTED",
+      "status" : "FULLY_IMPLEMENTED",
       "implementingClass" : "cubrid.jdbc.driver.CUBRIDConnection",
       "sourceLocation" : null
     }, {
@@ -913,10 +913,10 @@
       "sourceLocation" : null
     } ],
     "total" : 62,
-    "implemented" : 29,
-    "stub" : 23,
+    "implemented" : 31,
+    "stub" : 21,
     "notFound" : 10,
-    "coveragePercent" : 46.774193548387096
+    "coveragePercent" : 50.0
   }, {
     "interfaceName" : "java.sql.Statement",
     "implementingClass" : "cubrid.jdbc.driver.CUBRIDStatement",
@@ -11869,20 +11869,20 @@
   "profileUsed" : "cubrid",
   "specVersion" : "spec-2",
   "toolVersion" : "2.0.0",
-  "sourceCommit" : "18d5254624de50a215d8f13ba6a39d73fb00e7a2",
+  "sourceCommit" : "679a77481ff894c8f46ab3b92a8ad6c588da8501",
   "totalMethods" : 816,
-  "totalImplemented" : 378,
-  "totalStub" : 342,
+  "totalImplemented" : 380,
+  "totalStub" : 340,
   "totalNotFound" : 96,
-  "overallCoveragePercent" : 46.32352941176471,
+  "overallCoveragePercent" : 46.568627450980394,
   "groupBreakdown" : {
     "MAIN" : {
       "group" : "MAIN",
       "total" : 816,
-      "implemented" : 378,
-      "stub" : 342,
+      "implemented" : 380,
+      "stub" : 340,
       "notFound" : 96,
-      "coveragePercent" : 46.32352941176471
+      "coveragePercent" : 46.568627450980394
     },
     "PERIPHERAL" : {
       "group" : "PERIPHERAL",
@@ -11932,10 +11932,10 @@
     },
     "V4_1" : {
       "total" : 15,
-      "implemented" : 3,
-      "stub" : 12,
+      "implemented" : 5,
+      "stub" : 10,
       "notFound" : 0,
-      "coveragePercent" : 20.0
+      "coveragePercent" : 33.33333333333333
     },
     "V4_2" : {
       "total" : 25,
@@ -11960,10 +11960,10 @@
     }
   },
   "statusDistribution" : {
-    "Fully Implemented" : 344,
+    "Fully Implemented" : 345,
     "Returns Default" : 131,
-    "Throws Unsupported" : 211,
-    "Delegates" : 34,
+    "Throws Unsupported" : 209,
+    "Delegates" : 35,
     "Not Found" : 96
   },
   "cumulativeCoverage" : [ {
@@ -11989,22 +11989,22 @@
   }, {
     "version" : "V4_1",
     "total" : 751,
-    "implemented" : 369,
-    "coveragePercent" : 49.134487350199734
+    "implemented" : 371,
+    "coveragePercent" : 49.40079893475366
   }, {
     "version" : "V4_2",
     "total" : 776,
-    "implemented" : 378,
-    "coveragePercent" : 48.71134020618557
+    "implemented" : 380,
+    "coveragePercent" : 48.96907216494845
   }, {
     "version" : "V4_3",
     "total" : 808,
-    "implemented" : 378,
-    "coveragePercent" : 46.78217821782179
+    "implemented" : 380,
+    "coveragePercent" : 47.02970297029702
   }, {
     "version" : "V4_5",
     "total" : 816,
-    "implemented" : 378,
-    "coveragePercent" : 46.32352941176471
+    "implemented" : 380,
+    "coveragePercent" : 46.568627450980394
   } ]
 }
